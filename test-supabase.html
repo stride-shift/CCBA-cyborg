@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supabase Test</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Supabase Connection Test</h1>
+    <div id="status">Testing...</div>
+    <button onclick="testConnection()">Test Connection</button>
+    <button onclick="testAuth()">Test Auth</button>
+    <div id="results"></div>
+
+    <script>
+        const supabaseUrl = 'https://lraquxxdgyijafncczmr.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxyYXF1eHhkZ3lpamFmbmNjem1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxODI4NzQsImV4cCI6MjA2Mzc1ODg3NH0.zuGoHDdb3uy8-yMbrD0rWGNXVrgmy2gz65Pa4icnaiI'
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
+        
+        async function testConnection() {
+            try {
+                const { data, error } = await supabase
+                    .from('challenges')
+                    .select('*')
+                    .limit(1)
+                
+                if (error) {
+                    document.getElementById('results').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`
+                } else {
+                    document.getElementById('results').innerHTML = `<p style="color: green;">Connection successful! Found ${data.length} challenges</p>`
+                }
+            } catch (err) {
+                document.getElementById('results').innerHTML = `<p style="color: red;">Connection failed: ${err.message}</p>`
+            }
+        }
+        
+        async function testAuth() {
+            try {
+                const { data: { user } } = await supabase.auth.getUser()
+                if (user) {
+                    document.getElementById('results').innerHTML = `<p style="color: green;">Authenticated as: ${user.email}</p>`
+                } else {
+                    document.getElementById('results').innerHTML = `<p style="color: orange;">Not authenticated</p>`
+                }
+            } catch (err) {
+                document.getElementById('results').innerHTML = `<p style="color: red;">Auth test failed: ${err.message}</p>`
+            }
+        }
+        
+        // Test on load
+        testConnection()
+    </script>
+</body>
+</html> 
