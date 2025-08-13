@@ -147,6 +147,9 @@ function Layout({ children }) {
             <div className="hidden md:flex items-center gap-8 relative z-10">
               <Link to="/" className="text-white hover:text-gray-200 transition-colors">Home</Link>
               <Link to="/challenges" className="text-white hover:text-gray-200 transition-colors">Challenges</Link>
+              {user && (
+                <Link to="/leaderboard" className="text-white hover:text-gray-200 transition-colors">Leaderboard</Link>
+              )}
               {/* <Link to="/about" className="text-white hover:text-gray-200 transition-colors">About</Link> */}
               {isAdmin() && (
                 <Link 

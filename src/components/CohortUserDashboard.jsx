@@ -25,14 +25,22 @@ function CohortUserDashboard() {
   const loadCohorts = async () => {
     try {
       setLoading(true)
+      // Use the new safe function that respects admin assignments
       const { data, error } = await supabase
-        .from('cohorts')
-        .select('id, name, organization_name')
-        .eq('is_active', true)
-        .order('name')
+        .rpc('get_safe_accessible_cohorts')
 
       if (error) throw error
-      setCohorts(data || [])
+      
+      // Filter to only active cohorts and map to expected format
+      const activeCohorts = (data || [])
+        .filter(cohort => cohort.is_active)
+        .map(cohort => ({
+          id: cohort.id,
+          name: cohort.name,
+          organization_name: cohort.organization_name
+        }))
+      
+      setCohorts(activeCohorts)
     } catch (err) {
       console.error('Error loading cohorts:', err)
       setError('Failed to load cohorts')
@@ -125,14 +133,20 @@ function CohortUserDashboard() {
         const authUser = authUsers?.find(au => au.id === user.user_id)
         const challengeCount = challengeStats?.filter(c => c.user_id === user.user_id).length || 0
         const reflectionCount = reflectionStats?.filter(r => r.user_id === user.user_id).length || 0
-        const completedDays = dayStats?.filter(d => 
+        
+        // Count challenge days completed (both challenges done, reflection optional)
+        const challengeDaysCompleted = dayStats?.filter(d => 
           d.user_id === user.user_id && 
-          d.both_challenges_completed && 
-          d.reflection_submitted
+          d.both_challenges_completed
+          // Note: reflection_submitted is NOT required for day completion
         ).length || 0
+        
         const preSurveyCompleted = preSurveyStats?.some(s => s.user_id === user.user_id) || false
         const postSurveyCompleted = postSurveyStats?.some(s => s.user_id === user.user_id) || false
         const totalSurveys = (preSurveyCompleted ? 1 : 0) + (postSurveyCompleted ? 1 : 0)
+        
+        // Total days completed = challenge days + survey completions
+        const completedDays = challengeDaysCompleted + totalSurveys
 
         return {
           ...user,

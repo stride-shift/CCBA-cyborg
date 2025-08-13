@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { supabase } from '../lib/supabase'
 import CohortManagement from './CohortManagement'
+import BulkUserUpload from './BulkUserUpload'
 import { useFormPersistence, useModalPersistence, useAdminUIState } from '../hooks/useAdminStatePersistence'
 
 // Simple inline challenge management component
@@ -492,13 +493,20 @@ function SuperAdminManagement() {
     assign_cohorts: []
   })
 
-  // Persisted modal state
+  // Persisted modal state (survives page refresh and navigation)
   const { 
     isOpen: showUserModal, 
-    editingItem: editingUser, 
+    editingItem: editingUser,
     openModal: openPersistedModal, 
     closeModal: closePersistedModal 
   } = useModalPersistence('user_management')
+
+  // Persisted bulk upload modal state
+  const { 
+    isOpen: showBulkUpload, 
+    openModal: openBulkUploadModal, 
+    closeModal: closeBulkUploadModal 
+  } = useModalPersistence('bulk_upload')
 
   // Non-persisted state (reloaded data)
   const [cohorts, setCohorts] = useState([])
@@ -517,7 +525,7 @@ function SuperAdminManagement() {
 
   // Prevent body scroll when modal is open
   useEffect(() => {
-    if (showUserModal) {
+    if (showUserModal || showBulkUpload) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'unset'
@@ -527,7 +535,7 @@ function SuperAdminManagement() {
     return () => {
       document.body.style.overflow = 'unset'
     }
-  }, [showUserModal])
+  }, [showUserModal, showBulkUpload])
 
   const loadCohorts = async () => {
     try {
@@ -980,7 +988,18 @@ function SuperAdminManagement() {
                   </svg>
                 </div>
                 
-                {/* Add User Button */}
+                {/* Add User Buttons */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => openBulkUploadModal()}
+                    className="px-4 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-white/30"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    Bulk Upload
+                  </button>
+                  
                 <button
                   onClick={() => openUserModal()}
                   className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-white/30"
@@ -990,6 +1009,7 @@ function SuperAdminManagement() {
                   </svg>
                   Add User
                 </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1011,12 +1031,23 @@ function SuperAdminManagement() {
                   }
                 </p>
                 {!userSearchTerm && (
+                  <div className="flex gap-3 justify-center">
+                    <button
+                      onClick={() => openBulkUploadModal()}
+                      className="px-4 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium border border-white/30 flex items-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      Bulk Upload
+                    </button>
                   <button
                     onClick={() => openUserModal()}
                     className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium border border-white/30"
                   >
                     Create First User
                   </button>
+                  </div>
                 )}
               </div>
             ) : (
@@ -1374,6 +1405,17 @@ function SuperAdminManagement() {
             </form>
       </Modal>
 
+      {/* Bulk User Upload Modal */}
+      <Modal isOpen={showBulkUpload} onClose={closeBulkUploadModal}>
+        <BulkUserUpload 
+          cohorts={cohorts}
+          onComplete={() => {
+            loadUsers()
+            loadAdminAssignments()
+          }}
+          onClose={closeBulkUploadModal}
+        />
+      </Modal>
 
     </div>
   )

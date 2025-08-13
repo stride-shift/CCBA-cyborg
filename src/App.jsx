@@ -7,6 +7,7 @@ import AboutPage from './pages/AboutPage'
 import ProductsPage from './pages/ProductsPage'
 import HabitDetailPage from './pages/HabitDetailPage'
 import ChallengePageWithFlip from './pages/ChallengePageWithFlip'
+import LeaderboardPage from './pages/LeaderboardPage'
 import AdminPage from './pages/AdminPage'
 import NewAdminPage from './pages/NewAdminPage'
 import AdminDebugPage from './pages/AdminDebugPage'
@@ -68,6 +69,13 @@ function App() {
         <Route path="/challenges" element={
           <ProtectedRoute>
             <ProductsPage />
+          </ProtectedRoute>
+        } />
+        
+        {/* Leaderboard route - protected */}
+        <Route path="/leaderboard" element={
+          <ProtectedRoute>
+            <LeaderboardPage />
           </ProtectedRoute>
         } />
         

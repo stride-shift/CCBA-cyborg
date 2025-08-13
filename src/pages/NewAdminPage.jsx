@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useUserProfile } from '../hooks/useUserProfile'
 import { useAdminState } from '../contexts/AdminStateContext'
+import { useAdminUIState } from '../hooks/useAdminStatePersistence'
 import { Navigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import SimpleCohortViewer from '../components/SimpleCohortViewer'
 import DashboardMetrics from '../components/DashboardMetrics'
 import SuperAdminManagement from '../components/SuperAdminManagement'
 import CohortDetailView from '../components/CohortDetailView'
+import CohortDataExporter from '../components/CohortDataExporter'
 import { supabase } from '../lib/supabase'
 
 // Modal component for cohort detail view (same as in CohortManagement)
@@ -43,6 +45,11 @@ function CohortModal({ isOpen, onClose, children }) {
 function NewAdminPage() {
   const { profile, loading: profileLoading, isAdmin, isSuperAdmin } = useUserProfile()
   const { currentTab, setCurrentTab } = useAdminState()
+  const { 
+    searchTerm, 
+    setSearchTerm 
+  } = useAdminUIState('cohort_listing')
+  
   const [data, setData] = useState({
     cohorts: [],
     loading: false,
@@ -86,7 +93,7 @@ function NewAdminPage() {
 
   // Load basic data when tab changes or profile changes
   useEffect(() => {
-    if (currentTab === 'cohorts' && profile) {
+    if ((currentTab === 'cohorts' || currentTab === 'export') && profile) {
       loadCohorts()
     }
   }, [currentTab, profile])
@@ -159,6 +166,17 @@ function NewAdminPage() {
     }
   }
 
+  // Filter cohorts based on search term
+  const filteredCohorts = data.cohorts.filter(cohort => {
+    if (!searchTerm) return true
+    const searchLower = searchTerm.toLowerCase()
+    return (
+      cohort.name?.toLowerCase().includes(searchLower) ||
+      cohort.organization_name?.toLowerCase().includes(searchLower) ||
+      cohort.description?.toLowerCase().includes(searchLower)
+    )
+  })
+
   // Check authentication - only after delay and profile loading is complete
   if (authCheckDelay || profileLoading) {
     return (
@@ -222,6 +240,16 @@ function NewAdminPage() {
             >
               Cohort Users
             </button>
+            <button
+              onClick={() => setCurrentTab('export')}
+              className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                currentTab === 'export'
+                  ? 'bg-white/30 text-white'
+                  : 'bg-white/10 text-white/70 hover:bg-white/20'
+              }`}
+            >
+              Export Data
+            </button>
             {isSuperAdmin() && (
               <button
                 onClick={() => setCurrentTab('super-admin')}
@@ -255,14 +283,39 @@ function NewAdminPage() {
 
         {currentTab === 'cohorts' && (
           <div className="glassmorphism rounded-2xl p-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Cohorts Overview</h2>
-              <button 
-                onClick={loadCohorts}
-                className="px-4 py-2 bg-white/20 rounded-lg text-black hover:bg-white/30 transition-all"
-              >
-                Refresh
-              </button>
+            {/* Header with search and refresh button */}
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-2">Cohorts Overview</h2>
+                <p className="text-white/70">View and manage your assigned cohorts</p>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-3">
+                {/* Search */}
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search cohorts by name, organization, or description..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full sm:w-80 px-4 py-3 pl-12 rounded-xl bg-white/90 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  />
+                  <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                
+                {/* Refresh Button */}
+                <button 
+                  onClick={loadCohorts}
+                  className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-white/30"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Refresh
+                </button>
+              </div>
             </div>
 
             {data.loading ? (
@@ -273,13 +326,23 @@ function NewAdminPage() {
               <div className="text-center py-8">
                 <div className="text-red-300">Error: {data.error}</div>
               </div>
-            ) : data.cohorts.length === 0 ? (
+            ) : filteredCohorts.length === 0 ? (
               <div className="text-center py-8">
-                <div className="text-white/70">No cohorts found</div>
+                <div className="text-white/70">
+                  {searchTerm ? `No cohorts found matching "${searchTerm}"` : 'No cohorts found'}
+                </div>
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm('')}
+                    className="mt-4 px-4 py-2 bg-white/20 rounded-lg text-white hover:bg-white/30 transition-all"
+                  >
+                    Clear search
+                  </button>
+                )}
               </div>
             ) : (
               <div className="space-y-4">
-                {data.cohorts.map(cohort => (
+                {filteredCohorts.map(cohort => (
                   <div key={cohort.id} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                       <div className="flex-1">
@@ -318,6 +381,40 @@ function NewAdminPage() {
                         </button>
                       </div>
                     </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {currentTab === 'export' && (
+          <div className="glassmorphism rounded-2xl p-8">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">Export Cohort Data</h2>
+              <p className="text-white/70">Download CSV files for any cohort's data</p>
+            </div>
+
+            {data.loading ? (
+              <div className="text-center py-8">
+                <div className="text-white">Loading cohorts...</div>
+              </div>
+            ) : data.error ? (
+              <div className="text-center py-8">
+                <div className="text-red-300">Error: {data.error}</div>
+              </div>
+            ) : filteredCohorts.length === 0 ? (
+              <div className="text-center py-8">
+                <div className="text-white/70">No cohorts available for export</div>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {filteredCohorts.map(cohort => (
+                  <div key={cohort.id}>
+                    <CohortDataExporter 
+                      cohortId={cohort.id}
+                      cohortName={cohort.name}
+                    />
                   </div>
                 ))}
               </div>

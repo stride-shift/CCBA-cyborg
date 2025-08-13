@@ -1,6 +1,7 @@
 import Layout from '../components/Layout'
 import CohortAnalytics from '../components/CohortAnalytics'
 import CohortUserDashboard from '../components/CohortUserDashboard'
+import CohortDataExporter from '../components/CohortDataExporter'
 import { useState, useEffect } from 'react'
 import { useUserProfile } from '../hooks/useUserProfile'
 import { Navigate } from 'react-router-dom'
@@ -194,11 +195,40 @@ export default function AdminPage() {
               >
                 User Dashboard
               </button>
+              <button 
+                onClick={() => setCohortView('export')}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  cohortView === 'export' 
+                    ? 'glassmorphism text-white' 
+                    : 'bg-white/10 text-white/70 hover:bg-white/20'
+                }`}
+              >
+                Export Data
+              </button>
             </div>
 
             {/* Cohort Content */}
             {cohortView === 'overview' && <CohortAnalytics />}
             {cohortView === 'users' && <CohortUserDashboard />}
+            {cohortView === 'export' && (
+              <div className="space-y-6">
+                {/* LIBERTY Cohort Export */}
+                <CohortDataExporter 
+                  cohortId="8e57a0a2-b9d6-4ae0-b7a9-9eb1c7785474"
+                  cohortName="LIBERTY-ALL-202507-C1"
+                />
+                
+                {/* Add more cohorts here as needed */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    Add More Cohorts
+                  </h3>
+                  <p className="text-white/70">
+                    Additional cohort exporters can be added here as new cohorts are created.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

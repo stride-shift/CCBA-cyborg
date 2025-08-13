@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { useAuth } from '../hooks/useAuth'
+import { useNavigationPersistence } from '../hooks/useNavigationPersistence'
 import { supabase } from '../lib/supabase'
 
 function ProductsPage() {
   const { user } = useAuth()
   const location = useLocation()
+  useNavigationPersistence() // Track navigation state
   const [completedDays, setCompletedDays] = useState(new Set())
   const [isAdditionalChallengesOpen, setIsAdditionalChallengesOpen] = useState(false)
   const [introVideo, setIntroVideo] = useState(null)
@@ -87,31 +89,42 @@ function ProductsPage() {
     fetchIntroVideo()
   }, [user])
 
-  // Refresh completed days when returning to the page
+  // Refresh completed days when returning to the page (but with debouncing to prevent excessive calls)
   useEffect(() => {
+    let focusTimeout
+    
     const handleFocus = () => {
       if (user) {
-        console.log('Page focused - refreshing completed days')
+        // Debounce focus events to prevent rapid refetching
+        clearTimeout(focusTimeout)
+        focusTimeout = setTimeout(() => {
+          console.log('Page focused - refreshing completed days (debounced)')
         fetchCompletedDays()
+        }, 1000) // Wait 1 second before refetching
       }
     }
 
     // Listen for when the window/tab comes back into focus
     window.addEventListener('focus', handleFocus)
     
-    // Also refresh when the component mounts (in case user navigated back)
-    if (user) {
-      fetchCompletedDays()
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      clearTimeout(focusTimeout)
     }
-
-    return () => window.removeEventListener('focus', handleFocus)
   }, [user])
 
-  // Refresh data when navigating to this page
+  // Refresh data when navigating to this page (only once per navigation)
   useEffect(() => {
-    if (user && ['/challenges', '/products', '/habits'].includes(location.pathname)) {
+    const currentPath = location.pathname
+    const previousPath = sessionStorage.getItem('previousPath')
+    
+    if (user && ['/challenges', '/products', '/habits'].includes(currentPath)) {
+      // Only refresh if we actually navigated to this page (not just a re-render)
+      if (previousPath !== currentPath) {
       console.log('🏠 Navigated to challenges/products page - refreshing data')
       fetchCompletedDays()
+        sessionStorage.setItem('previousPath', currentPath)
+      }
     }
   }, [location.pathname, user])
 

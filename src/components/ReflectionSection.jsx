@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 
@@ -8,23 +8,40 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [existingReflection, setExistingReflection] = useState('')
+  const [isDraftSaved, setIsDraftSaved] = useState(false)
+  const [lastSavedDraft, setLastSavedDraft] = useState('')
+  const autoSaveTimeoutRef = useRef(null)
+  const hasLoadedExistingRef = useRef(false)
 
-  useEffect(() => {
-    // Reset state when day changes
-    setReflection('')
-    setIsSubmitted(false)
-    setExistingReflection('')
-    
-    if (challengeId && user) {
-      fetchExistingReflection()
+  // Create a stable draft key based on user and challenge
+  const getDraftKey = useCallback(() => {
+    if (!user?.id || !challengeId) return null
+    return `reflection-draft-${user.id}-${challengeId}`
+  }, [user?.id, challengeId])
+
+  // Auto-save draft functionality
+  const saveDraft = useCallback(async (text) => {
+    const draftKey = getDraftKey()
+    if (!draftKey || !text.trim()) return
+
+    try {
+      localStorage.setItem(draftKey, text)
+      setLastSavedDraft(text)
+      setIsDraftSaved(true)
+      
+      // Clear the "draft saved" indicator after 2 seconds
+      setTimeout(() => setIsDraftSaved(false), 2000)
+    } catch (error) {
+      console.error('Error saving draft:', error)
     }
-  }, [dayNumber, challengeId, user])
+  }, [getDraftKey])
 
-  const fetchExistingReflection = async () => {
-    if (!user || !challengeId) return
+  // Load existing reflection or draft
+  const loadExistingContent = useCallback(async () => {
+    if (!user?.id || !challengeId || hasLoadedExistingRef.current) return
     
     try {
-      // Fetch existing reflection from Supabase
+      // First, try to fetch submitted reflection from database
       const { data, error } = await supabase
         .from('user_reflections')
         .select('reflection_text')
@@ -32,31 +49,93 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
         .eq('challenge_id', challengeId)
         .single()
 
-      if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
-        console.error('Error fetching existing reflection:', error)
-        // Fallback to localStorage
-        const saved = localStorage.getItem(`day-${dayNumber}-reflection`)
-        if (saved) {
-          setExistingReflection(saved)
-          setReflection(saved)
-          setIsSubmitted(true)
-        }
-      } else if (data) {
+      if (data && !error) {
+        // Found submitted reflection
         setExistingReflection(data.reflection_text)
         setReflection(data.reflection_text)
         setIsSubmitted(true)
+        hasLoadedExistingRef.current = true
+        return
       }
+
+      // No submitted reflection, check for draft
+      const draftKey = getDraftKey()
+      if (draftKey) {
+        const savedDraft = localStorage.getItem(draftKey)
+        if (savedDraft) {
+          setReflection(savedDraft)
+          setLastSavedDraft(savedDraft)
+          console.log('📝 Loaded draft reflection for day', dayNumber)
+        }
+      }
+      
+      hasLoadedExistingRef.current = true
     } catch (error) {
-      console.error('Error connecting to Supabase:', error)
-      // Fallback to localStorage
-      const saved = localStorage.getItem(`day-${dayNumber}-reflection`)
-      if (saved) {
-        setExistingReflection(saved)
-        setReflection(saved)
-        setIsSubmitted(true)
+      console.error('Error loading reflection content:', error)
+      // Fallback to localStorage draft
+      const draftKey = getDraftKey()
+      if (draftKey) {
+        const savedDraft = localStorage.getItem(draftKey)
+        if (savedDraft) {
+          setReflection(savedDraft)
+          setLastSavedDraft(savedDraft)
+        }
+      }
+      hasLoadedExistingRef.current = true
+    }
+  }, [user?.id, challengeId, getDraftKey, dayNumber])
+
+  // Only reset state when the actual day changes (not when challengeId changes due to refetching)
+  useEffect(() => {
+    // Reset the loaded flag when day actually changes
+    hasLoadedExistingRef.current = false
+    
+    // Only reset state if this is genuinely a different day
+    const currentDay = parseInt(dayNumber)
+    const previousDay = hasLoadedExistingRef.previousDay
+    
+    if (previousDay && previousDay !== currentDay) {
+      setReflection('')
+      setIsSubmitted(false)
+      setExistingReflection('')
+      setIsDraftSaved(false)
+      setLastSavedDraft('')
+    }
+    
+    hasLoadedExistingRef.previousDay = currentDay
+    
+    // Load content for this day/challenge
+    if (challengeId && user) {
+      loadExistingContent()
+    }
+  }, [dayNumber, challengeId, user, loadExistingContent])
+
+  // Handle reflection text changes with auto-save
+  const handleReflectionChange = useCallback((newText) => {
+    setReflection(newText)
+    
+    // Clear existing timeout
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current)
+    }
+    
+    // Only auto-save if text is different from last saved and not empty
+    if (newText !== lastSavedDraft && newText.trim()) {
+      // Debounce auto-save by 2 seconds
+      autoSaveTimeoutRef.current = setTimeout(() => {
+        saveDraft(newText)
+      }, 2000)
+    }
+  }, [lastSavedDraft, saveDraft])
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current)
       }
     }
-  }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -115,11 +194,18 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
       // Update day completion status
       await updateDayCompletion(user.id)
       
-      // Fallback to localStorage
+      // Clean up draft since reflection is now submitted
+      const draftKey = getDraftKey()
+      if (draftKey) {
+        localStorage.removeItem(draftKey)
+      }
+      
+      // Fallback to localStorage for legacy support
       localStorage.setItem(`day-${dayNumber}-reflection`, reflection.trim())
       
       setIsSubmitted(true)
       setExistingReflection(reflection)
+      setIsDraftSaved(false) // Clear draft saved indicator
     } catch (error) {
       console.error('Error saving reflection:', error)
       alert('Failed to save reflection. Please try again.')
@@ -233,13 +319,23 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
                 <textarea
                   id="reflection"
                   value={reflection}
-                  onChange={(e) => setReflection(e.target.value)}
+                  onChange={(e) => handleReflectionChange(e.target.value)}
                   placeholder="What did you discover today? How did these challenges change your perspective? What will you do differently going forward?"
                   className="w-full h-48 px-6 py-4 glassmorphism rounded-xl text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-transparent resize-none transition-all border border-white/30"
                   required
                 />
                 <div className="flex justify-between items-center mt-2">
+                  <div className="flex items-center gap-2">
                   <span className="text-gray-800 text-sm" style={{ textShadow: 'none' }}>Take your time to reflect thoughtfully</span>
+                    {isDraftSaved && (
+                      <div className="flex items-center gap-1 text-green-600 text-xs">
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        Draft saved
+                      </div>
+                    )}
+                  </div>
                   <span className="text-gray-800 text-sm" style={{ textShadow: 'none' }}>
                     {reflection.trim().split(/\s+/).filter(word => word.length > 0).length} words
                   </span>

@@ -179,13 +179,21 @@ export function useUserProfile() {
 
   const getAllCohorts = async () => {
     try {
+      // Use the new safe function that respects admin assignments
       const { data, error } = await supabase
-        .from('cohorts')
-        .select('*')
-        .order('start_date', { ascending: false })
+        .rpc('get_safe_accessible_cohorts')
 
       if (error) throw error
-      return data
+      
+      // Sort by start_date descending (newest first)
+      const sortedData = (data || []).sort((a, b) => {
+        if (!a.start_date && !b.start_date) return 0
+        if (!a.start_date) return 1
+        if (!b.start_date) return -1
+        return new Date(b.start_date) - new Date(a.start_date)
+      })
+      
+      return sortedData
     } catch (err) {
       console.error('Error fetching cohorts:', err)
       setError(err.message)

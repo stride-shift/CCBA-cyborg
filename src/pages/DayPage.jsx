@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
+import { useNavigationPersistence } from '../hooks/useNavigationPersistence'
 import YouTubeVideo from '../components/YouTubeVideo'
 import ChallengeCard from '../components/ChallengeCard'
 import ReflectionSection from '../components/ReflectionSection'
@@ -10,6 +11,7 @@ import Layout from '../components/Layout'
 function DayPage() {
   const { user } = useAuth()
   const { dayNumber } = useParams()
+  const { getLastKnownLocation } = useNavigationPersistence()
   const [challengeData, setChallengeData] = useState(null)
   const [completedChallenges, setCompletedChallenges] = useState(new Set())
   const [loading, setLoading] = useState(true)
@@ -603,7 +605,6 @@ function DayPage() {
           <div ref={reflectionSectionRef} className="mb-12">
             <div className="glassmorphism rounded-2xl p-8">
               <ReflectionSection
-                key={`reflection-${dayNumber}-${challengeData?.id}`}
                 dayNumber={dayNumber}
                 question={challengeData?.reflection_question}
                 challengeId={challengeData?.id}
