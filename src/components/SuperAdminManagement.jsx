@@ -4,6 +4,8 @@ import { supabase } from '../lib/supabase'
 import CohortManagement from './CohortManagement'
 import BulkUserUpload from './BulkUserUpload'
 import { useFormPersistence, useModalPersistence, useAdminUIState } from '../hooks/useAdminStatePersistence'
+import { Link } from 'react-router-dom'
+import { useUserProfile } from '../hooks/useUserProfile'
 
 // Simple inline challenge management component
 function ChallengeManagement() {
@@ -473,6 +475,8 @@ function SuperAdminManagement() {
     setActiveTab, 
     setSearchTerm: setUserSearchTerm 
   } = useAdminUIState('super_admin')
+
+  const { isSuperAdmin } = useUserProfile()
 
   // Persisted form state
   const { 
@@ -954,6 +958,14 @@ function SuperAdminManagement() {
           >
             Manage Challenges
           </button>
+          {isSuperAdmin() && (
+          <Link
+            to="/admin-customisation"
+            className="px-6 py-3 rounded-lg font-medium transition-all bg-white/30 text-gray-600 hover:bg-white/50"
+          >
+            Customisation
+          </Link>
+           )}
         </div>
       </div>
 

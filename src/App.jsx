@@ -15,6 +15,8 @@ import SimpleAdminPage from './pages/SimpleAdminPage'
 import AdminTestPage from './pages/AdminTestPage'
 import { AdminStateProvider } from './contexts/AdminStateContext'
 import { useAuth } from './hooks/useAuth'
+import AdminCustomisation from './pages/AdminCustomisation'
+import SuperAdminRoute from './components/SuperAdminRoute'
 
 // Protected Route component that handles authentication redirection
 function ProtectedRoute({ children }) {
@@ -121,6 +123,13 @@ function App() {
         <Route path="/admin-test" element={
           <ProtectedRoute>
             <AdminTestPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin-customisation" element={
+          <ProtectedRoute>
+            <SuperAdminRoute>
+            {import.meta.env.VITE_FEATURE_ADMIN ? <AdminCustomisation /> : <Navigate to="/" replace />}
+            </SuperAdminRoute>
           </ProtectedRoute>
         } />
       </Routes>

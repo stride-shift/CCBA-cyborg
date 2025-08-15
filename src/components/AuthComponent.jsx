@@ -32,6 +32,18 @@ function AuthComponent() {
     const storedRedirect = localStorage.getItem('authRedirectTo')
 
     console.log('🎯 Redirect sources:', { redirectTo, storedRedirect })
+    
+    // Clear any old navigation persistence to prevent unwanted redirects
+    try {
+      const lastLocation = sessionStorage.getItem('lastKnownLocation')
+      if (lastLocation) {
+        console.log('🧹 Clearing stale navigation persistence:', lastLocation)
+        sessionStorage.removeItem('lastKnownLocation')
+      }
+    } catch (e) {
+      console.warn('Error clearing navigation persistence:', e)
+    }
+    
     return redirectTo || storedRedirect || '/challenges'
   }
 

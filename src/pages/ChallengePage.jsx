@@ -45,21 +45,50 @@ function ChallengePage() {
     if (!userId) return
     
     try {
-      const { data, error } = await supabase
+      // Fetch regular challenge completions (both challenges + reflection required)
+      const { data: regularData, error: regularError } = await supabase
         .from('user_day_completions')
         .select('challenge_id, challenges!inner(order_index)')
         .eq('user_id', userId)
         .eq('both_challenges_completed', true)
         .eq('reflection_submitted', true)
 
-      if (error) {
-        console.error('Error fetching completed days:', error)
-        const completed = JSON.parse(localStorage.getItem('completedDays') || '[]')
-        setCompletedDays(new Set(completed))
-      } else {
-        const completedDayNumbers = data.map(item => item.challenges.order_index)
-        setCompletedDays(new Set(completedDayNumbers))
+      // Fetch customized challenge completions (both challenges + reflection required)  
+      const { data: customizedData, error: customizedError } = await supabase
+        .from('user_customized_day_completions')
+        .select('challenge_id, customized_challenges!inner(order_index)')
+        .eq('user_id', userId)
+        .eq('both_challenges_completed', true)
+        .eq('reflection_submitted', true)
+
+      if (regularError && regularError.code !== 'PGRST116') {
+        console.error('Error fetching regular completed days:', regularError)
       }
+      
+      if (customizedError && customizedError.code !== 'PGRST116') {
+        console.error('Error fetching customized completed days:', customizedError)
+      }
+
+      // Combine both datasets
+      const completedDayNumbers = []
+      
+      if (regularData) {
+        const regularDays = regularData.map(item => item.challenges.order_index)
+        completedDayNumbers.push(...regularDays)
+        console.log('✅ Regular challenge days completed:', regularDays)
+      }
+      
+      if (customizedData) {
+        const customizedDays = customizedData.map(item => item.customized_challenges.order_index)
+        completedDayNumbers.push(...customizedDays)
+        console.log('✅ Customized challenge days completed:', customizedDays)
+      }
+
+      // Remove duplicates and set completed days
+      const uniqueCompletedDays = [...new Set(completedDayNumbers)]
+      setCompletedDays(new Set(uniqueCompletedDays))
+      console.log('🎯 Final completed days:', uniqueCompletedDays)
+      
     } catch (error) {
       console.error('Error connecting to Supabase:', error)
       const completed = JSON.parse(localStorage.getItem('completedDays') || '[]')
