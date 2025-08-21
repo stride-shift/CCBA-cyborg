@@ -58,7 +58,7 @@ export default function AdminPage() {
     <Layout>
       <div className="container mx-auto px-4 py-12">
         {/* Dashboard Header */}
-        <div className="glassmorphism rounded-2xl p-8 mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+        <div className="glassmorphism rounded-2xl p-6 md:p-8 mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
             <div className="flex items-center gap-4 mb-4">
               <button className="glassmorphism px-4 py-2 rounded-full text-white font-semibold">Admin Center</button>
@@ -72,30 +72,30 @@ export default function AdminPage() {
                 </span>
               )}
             </div>
-            <h1 className="text-4xl font-bold text-white mb-2">Dashboard</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Dashboard</h1>
             <p className="text-white/80">
               Welcome, {profile?.first_name ? `${profile.first_name} ${profile.last_name}` : 'Admin'}
               {profile?.organization_name && ` • ${profile.organization_name}`}
             </p>
           </div>
-          <div className="flex items-center gap-4 mt-4 md:mt-0">
-            <select className="glassmorphism px-4 py-2 rounded-full text-white font-semibold">
+          <div className="flex items-center gap-3 md:gap-4 mt-4 md:mt-0">
+            <select className="glassmorphism px-3 md:px-4 py-2 rounded-full text-white font-semibold">
               <option>Today</option>
               <option>This Week</option>
               <option>This Month</option>
             </select>
-            <button className="glassmorphism px-6 py-2 rounded-full text-white font-semibold border border-white/40">Export Data</button>
+            <button className="glassmorphism px-4 md:px-6 py-2 rounded-full text-white font-semibold border border-white/40">Export Data</button>
           </div>
         </div>
 
         {/* Dashboard Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
           <div className="glassmorphism rounded-2xl p-6 flex flex-col justify-between">
             <div className="flex items-center justify-between mb-2">
               <span className="text-white font-semibold">Total Users</span>
               <span className="bg-white/30 rounded-full p-2"><svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0z" /></svg></span>
             </div>
-            <div className="text-4xl font-bold text-white">24</div>
+            <div className="text-3xl md:text-4xl font-bold text-white">24</div>
             <div className="text-green-400 font-semibold text-sm mt-2">+12% from last month</div>
           </div>
           <div className="glassmorphism rounded-2xl p-6 flex flex-col justify-between">
@@ -103,7 +103,7 @@ export default function AdminPage() {
               <span className="text-white font-semibold">Challenges Completed</span>
               <span className="bg-white/30 rounded-full p-2"><svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 17a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H7a4 4 0 00-4 4v10z" /></svg></span>
             </div>
-            <div className="text-4xl font-bold text-white">0</div>
+            <div className="text-3xl md:text-4xl font-bold text-white">0</div>
             <div className="text-white/60 font-semibold text-sm mt-2">&nbsp;</div>
           </div>
           <div className="glassmorphism rounded-2xl p-6 flex flex-col justify-between">
@@ -111,18 +111,18 @@ export default function AdminPage() {
               <span className="text-white font-semibold">Avg. Completion Rate</span>
               <span className="bg-white/30 rounded-full p-2"><svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3v18h18" /></svg></span>
             </div>
-            <div className="text-4xl font-bold text-white">0.0%</div>
+            <div className="text-3xl md:text-4xl font-bold text-white">0.0%</div>
             <div className="text-green-400 font-semibold text-sm mt-2">+1.2% from last month</div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-8 overflow-x-auto">
-          <button onClick={() => setTab('overview')} className={`px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'overview' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Overview</button>
-          <button onClick={() => setTab('cohorts')} className={`px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'cohorts' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Cohorts</button>
-          <button onClick={() => setTab('users')} className={`px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'users' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Users</button>
-          <button onClick={() => setTab('messages')} className={`px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'messages' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Messages</button>
-          <button onClick={() => setTab('organizations')} className={`px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'organizations' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Organizations</button>
+        <div className="flex gap-2 md:gap-4 mb-8 overflow-x-auto">
+          <button onClick={() => setTab('overview')} className={`px-4 md:px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'overview' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Overview</button>
+          <button onClick={() => setTab('cohorts')} className={`px-4 md:px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'cohorts' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Cohorts</button>
+          <button onClick={() => setTab('users')} className={`px-4 md:px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'users' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Users</button>
+          <button onClick={() => setTab('messages')} className={`px-4 md:px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'messages' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Messages</button>
+          <button onClick={() => setTab('organizations')} className={`px-4 md:px-6 py-2 rounded-full font-semibold transition-all whitespace-nowrap ${tab === 'organizations' ? 'glassmorphism text-white' : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'}`}>Organizations</button>
         </div>
 
         {/* Tab Content */}
@@ -174,7 +174,7 @@ export default function AdminPage() {
         {tab === 'cohorts' && (
           <div className="space-y-8">
             {/* Cohort Sub-tabs */}
-            <div className="flex gap-2 border-b border-white/20 pb-4">
+            <div className="flex gap-2 border-b border-white/20 pb-4 overflow-x-auto">
               <button 
                 onClick={() => setCohortView('overview')}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${

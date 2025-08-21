@@ -169,18 +169,49 @@ function InlineRowEditor({ row, onChange }) {
 					/>
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-1">Aha Moments (comma-separated)</label>
-					<input
-						value={row.ahaInput}
-						onChange={(e) => {
-							const raw = e.target.value
-							const list = raw.split(',').map(s => s.trim()).filter(Boolean)
-							onChange({ ...row, ahaInput: raw, ahaList: list })
-						}}
-						className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-white placeholder-white/60"
-						placeholder="e.g., insight, pattern, principle"
-					/>
-					<PreviewChips items={row.ahaList} />
+					<label className="block text-white font-medium mb-1">Aha Moments</label>
+					<div className="flex gap-2">
+						<input
+							value={row.ahaInput}
+							onChange={(e) => set('ahaInput', e.target.value)}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter') {
+									e.preventDefault()
+									const v = (row.ahaInput || '').trim()
+									if (!v) return
+									onChange({ ...row, ahaList: [...(row.ahaList || []), v], ahaInput: '' })
+								}
+							}}
+							className="flex-1 px-3 py-2 rounded bg-white/20 border border-white/30 text-white placeholder-white/60"
+							placeholder="Type an aha moment"
+						/>
+						<button
+							onClick={() => {
+								const v = (row.ahaInput || '').trim()
+								if (!v) return
+								onChange({ ...row, ahaList: [...(row.ahaList || []), v], ahaInput: '' })
+							}}
+							className="px-4 py-2 rounded bg-white/30 border border-white/40 text-gray-900 hover:bg-white/40"
+						>
+							Add
+						</button>
+					</div>
+					{row.ahaList && row.ahaList.length > 0 && (
+						<div className="flex flex-wrap gap-2 mt-2">
+							{row.ahaList.map((item, idx) => (
+								<span key={idx} className="px-2 py-1 text-xs rounded-full bg-white/20 text-white border border-white/30 inline-flex items-center gap-2">
+									{item}
+									<button
+										onClick={() => onChange({ ...row, ahaList: row.ahaList.filter((_, i) => i !== idx) })}
+										className="text-white/70 hover:text-white"
+										aria-label="Remove"
+									>
+										×
+									</button>
+								</span>
+							))}
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

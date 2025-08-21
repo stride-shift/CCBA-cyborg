@@ -5,6 +5,7 @@ import SurveyDayPage from './pages/SurveyDayPage'
 import LoginPage from './pages/LoginPage'
 import AboutPage from './pages/AboutPage'
 import ProductsPage from './pages/ProductsPage'
+import DlabPage from './pages/DlabPage'
 import HabitDetailPage from './pages/HabitDetailPage'
 import ChallengePageWithFlip from './pages/ChallengePageWithFlip'
 import LeaderboardPage from './pages/LeaderboardPage'
@@ -63,6 +64,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/dlab" element={<DlabPage />} />
         <Route path="/habits" element={<ProductsPage />} />
         <Route path="/habits/:habitId" element={<HabitDetailPage />} />
         <Route path="/login" element={<LoginPage />} />

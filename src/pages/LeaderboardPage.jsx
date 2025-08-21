@@ -109,11 +109,23 @@ function LeaderboardPage() {
       setCohortInfo(cohortData)
       console.log('✅ Cohort data loaded:', cohortData)
 
-      // Use the enhanced leaderboard function to get real progress data with all metrics
-      const { data: leaderboardData, error: leaderboardError } = await supabase
-        .rpc('get_enhanced_cohort_leaderboard', {
+      // Try v2 RPC first (unions customized + default); fallback to original if missing
+      let leaderboardData
+      let leaderboardError
+      try {
+        const v2 = await supabase.rpc('get_enhanced_cohort_leaderboard_v2', {
           target_cohort_id: cohortId
         })
+        if (v2.error) throw v2.error
+        leaderboardData = v2.data
+      } catch (e) {
+        console.warn('get_enhanced_cohort_leaderboard_v2 unavailable, falling back:', e?.message || e)
+        const v1 = await supabase.rpc('get_enhanced_cohort_leaderboard', {
+          target_cohort_id: cohortId
+        })
+        leaderboardData = v1.data
+        leaderboardError = v1.error
+      }
 
       if (leaderboardError) throw leaderboardError
 
@@ -123,6 +135,8 @@ function LeaderboardPage() {
       // Limit to top 3 + honorable mention (4th place)
       const limitedLeaderboard = leaderboardData ? leaderboardData.slice(0, 4) : []
       setLeaderboardData(limitedLeaderboard)
+
+      // Debug validation omitted for brevity
 
     } catch (err) {
       console.error('❌ Error loading leaderboard:', err)
@@ -187,7 +201,7 @@ function LeaderboardPage() {
 
   const getCurrentUserRank = () => {
     if (!profile?.user_id || !leaderboardData.length) return null
-    const userEntry = leaderboardData.find(entry => entry.user_id === profile.user_id)
+    const userEntry = leaderboardData.find(entry => entry.user_id === profile.user_id || entry.id === profile.user_id)
     return userEntry?.rank_position || null
   }
 
@@ -262,15 +276,14 @@ function LeaderboardPage() {
 
   return (
     <Layout>
-      <div className="container mx-auto px-6 py-8">
-        <div className="glassmorphism rounded-2xl p-8">
+      <div className="container mx-auto px-4 md:px-6 py-6 md:py-8">
+        <div className="glassmorphism rounded-2xl p-6 md:p-8">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-black mb-6">Leaderboard</h1>
-            
+          <div className="text-center mb-6 md:mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-black mb-6">Leaderboard</h1>
             {/* Cohort Selection Dropdown */}
             {availableCohorts.length > 1 && (
-              <div className="mb-8">
+              <div className="mb-6 md:mb-8">
                 <label className="block text-black/70 text-sm font-medium mb-3">
                   Select Cohort
                 </label>
@@ -278,7 +291,7 @@ function LeaderboardPage() {
                   <select
                     value={selectedCohortId}
                     onChange={(e) => setSelectedCohortId(e.target.value)}
-                    className="w-full glassmorphism text-black rounded-xl px-4 py-3 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-white/50 transition-all appearance-none cursor-pointer"
+                    className="w-full glassmorphism text-black rounded-xl px-3 md:px-4 py-2.5 md:py-3 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-white/50 transition-all appearance-none cursor-pointer"
                   >
                     {availableCohorts.map((cohort) => (
                       <option key={cohort.id} value={cohort.id} className="bg-white text-black">
@@ -305,12 +318,12 @@ function LeaderboardPage() {
 
           {/* Current User's Rank */}
           {getCurrentUserRank() && getCurrentUserRank() <= 4 && (
-            <div className="mb-8 p-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl border border-blue-400/30 backdrop-blur-sm">
+            <div className="mb-6 md:mb-8 p-4 md:p-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl border border-blue-400/30 backdrop-blur-sm">
               <div className="text-center">
                 <p className="text-black/70 text-sm font-medium mb-2">Your Current Rank</p>
-                                 <div className="flex items-center justify-center gap-4">
-                   <div className="transform scale-125">{getRankIcon(getCurrentUserRank())}</div>
-                   <span className="text-3xl font-bold text-black">
+                <div className="flex items-center justify-center gap-3 md:gap-4">
+                  <div className="transform scale-110 md:scale-125">{getRankIcon(getCurrentUserRank())}</div>
+                  <span className="text-2xl md:text-3xl font-bold text-black">
                      {getCurrentUserRank() === 4 ? 'Honorable Mention' : `#${getCurrentUserRank()}`}
                    </span>
                  </div>
@@ -332,7 +345,7 @@ function LeaderboardPage() {
                 <div
                   key={user.user_id}
                   className={`
-                    relative p-6 glassmorphism rounded-xl border transition-all duration-300 hover:scale-[1.02] hover:shadow-lg
+                    relative p-4 md:p-6 glassmorphism rounded-xl border transition-all duration-300 hover:scale-[1.02] hover:shadow-lg
                     ${user.user_id === profile?.user_id 
                       ? 'border-blue-400/50 bg-blue-500/10 shadow-blue-500/20' 
                       : 'border-white/20 hover:border-white/40'
@@ -340,12 +353,12 @@ function LeaderboardPage() {
                     ${index === 0 ? 'ring-2 ring-yellow-400/30' : ''}
                   `}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     {/* Left: Rank and User Info */}
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-4 md:gap-6">
                       {/* Rank Badge */}
                       <div className={`
-                        relative flex items-center justify-center w-16 h-16 rounded-full border-2 text-xl font-bold transition-all
+                        relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full border-2 text-xl font-bold transition-all
                         ${getRankBadgeColor(user.rank_position)}
                       `}>
                         <span className="relative z-10">{getRankIcon(user.rank_position)}</span>
@@ -354,7 +367,7 @@ function LeaderboardPage() {
                       {/* User Details */}
                       <div>
                         <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-xl font-semibold text-black">
+                          <h3 className="text-lg md:text-xl font-semibold text-black">
                             {user.first_name} {user.last_name}
                           </h3>
                           {user.user_id === profile?.user_id && (
@@ -363,16 +376,15 @@ function LeaderboardPage() {
                             </span>
                           )}
                         </div>
-                        
                                                  {/* Stats */}
-                         <div className="flex items-center gap-6 text-sm text-black/70">
+                        <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-black/70">
                            <div className="flex items-center gap-2">
                              <div className="w-4 h-4 bg-gradient-to-br from-white/40 to-white/60 rounded border border-white/50 backdrop-blur-sm flex items-center justify-center">
                                <div className="w-2 h-2 bg-white/80 rounded-sm"></div>
                              </div>
-                             <span className="font-medium">{user.total_days_completed}</span>
-                             <span>days</span>
-                           </div>
+                            <span className="font-medium">{user.total_days_completed}</span>
+                                <span>days</span>
+                              </div>
                            <div className="flex items-center gap-2">
                              <div className="w-4 h-4 bg-gradient-to-br from-white/40 to-white/60 rounded border border-white/50 backdrop-blur-sm flex items-center justify-center">
                                <div className="w-1.5 h-1.5 bg-white/80 transform rotate-45"></div>
@@ -401,19 +413,19 @@ function LeaderboardPage() {
                     </div>
 
                     {/* Right: Progress */}
-                    <div className="text-right">
-                      <div className="mb-4">
-                        <div className="text-3xl font-bold text-black mb-2">
+                    <div className="md:text-right">
+                      <div className="mb-2 md:mb-4">
+                        <div className="text-2xl md:text-3xl font-bold text-black mb-2">
                           {Math.round(parseFloat(user.journey_completion_percentage))}%
                         </div>
-                        <div className="w-32 h-3 bg-white/20 rounded-full overflow-hidden">
+                        <div className="w-full md:w-32 h-3 bg-white/20 rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-gradient-to-r from-[#0f4f66] to-[#a7dbe3] rounded-full transition-all duration-1000 ease-out"
                             style={{ width: `${Math.min(parseFloat(user.journey_completion_percentage), 100)}%` }}
                           ></div>
                         </div>
                       </div>
-                      <div className="text-xs text-black/60 bg-white/10 px-2 py-1 rounded-full">
+                      <div className="text-xs text-black/60 bg-white/10 px-2 py-1 rounded-full inline-block">
                         {user.surveys_completed}/2 surveys
                       </div>
                     </div>
@@ -423,9 +435,9 @@ function LeaderboardPage() {
 
               {/* Honorable Mention Section */}
               {leaderboardData.length >= 4 && (
-                <div className="mt-8">
+                <div className="mt-6 md:mt-8">
                   {/* Divider */}
-                  <div className="flex items-center gap-4 my-6">
+                  <div className="flex items-center gap-4 my-4 md:my-6">
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent"></div>
                                          <div className="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-purple-200/20 to-indigo-200/30 rounded-full border border-purple-300/40 backdrop-blur-sm">
                        <div className="w-5 h-4 bg-gradient-to-b from-purple-300/60 to-indigo-400/70 rounded-sm border border-purple-200/60 backdrop-blur-sm relative flex items-center justify-center">
@@ -439,19 +451,19 @@ function LeaderboardPage() {
                   
                                       <div
                       className={`
-                        relative p-6 glassmorphism rounded-xl border transition-all duration-300 hover:scale-[1.02] hover:shadow-lg border-purple-400/30 bg-purple-500/5
+                      relative p-4 md:p-6 glassmorphism rounded-xl border transition-all duration-300 hover:scale-[1.02] hover:shadow-lg border-purple-400/30 bg-purple-500/5
                         ${leaderboardData[3].user_id === profile?.user_id 
                           ? 'ring-2 ring-blue-400/50 bg-gradient-to-r from-blue-500/10 to-purple-500/10' 
                           : ''
                         }
                       `}
                     >
-                      <div className="flex items-center justify-between">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         {/* Left: Rank and User Info */}
-                        <div className="flex items-center gap-6">
+                      <div className="flex items-center gap-4 md:gap-6">
                           {/* Rank Badge */}
                           <div className={`
-                            relative flex items-center justify-center w-16 h-16 rounded-full border-2 text-xl font-bold transition-all
+                          relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full border-2 text-xl font-bold transition-all
                             ${getRankBadgeColor(4)}
                           `}>
                             <span className="relative z-10">{getRankIcon(4)}</span>
@@ -460,7 +472,7 @@ function LeaderboardPage() {
                           {/* User Details */}
                           <div>
                             <div className="flex items-center gap-3 mb-2">
-                              <h3 className="text-xl font-semibold text-black">
+                            <h3 className="text-lg md:text-xl font-semibold text-black">
                                 {leaderboardData[3].first_name} {leaderboardData[3].last_name}
                               </h3>
                               {leaderboardData[3].user_id === profile?.user_id && (
@@ -471,12 +483,12 @@ function LeaderboardPage() {
                             </div>
                             
                             {/* Stats */}
-                            <div className="flex items-center gap-6 text-sm text-black/70">
+                          <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-black/70">
                               <div className="flex items-center gap-2">
                                 <div className="w-4 h-4 bg-gradient-to-br from-white/40 to-white/60 rounded border border-white/50 backdrop-blur-sm flex items-center justify-center">
                                   <div className="w-2 h-2 bg-white/80 rounded-sm"></div>
                                 </div>
-                                <span className="font-medium">{leaderboardData[3].total_days_completed}</span>
+                              <span className="font-medium">{leaderboardData[3].total_days_completed}</span>
                                 <span>days</span>
                               </div>
                               <div className="flex items-center gap-2">
@@ -507,21 +519,21 @@ function LeaderboardPage() {
                         </div>
 
                         {/* Right: Progress */}
-                        <div className="text-right">
-                          <div className="mb-4">
-                            <div className="text-3xl font-bold text-black mb-2">
-                              {Math.round(parseFloat(leaderboardData[3].journey_completion_percentage))}%
+                      <div className="md:text-right">
+                        <div className="mb-2 md:mb-4">
+                          <div className="text-2xl md:text-3xl font-bold text-black mb-2">
+                            {Math.round(parseFloat(leaderboardData[3].journey_completion_percentage))}%
                             </div>
-                            <div className="w-32 h-3 bg-white/20 rounded-full overflow-hidden">
+                          <div className="w-full md:w-32 h-3 bg-white/20 rounded-full overflow-hidden">
                               <div 
                                 className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out"
-                                style={{ width: `${Math.min(parseFloat(leaderboardData[3].journey_completion_percentage), 100)}%` }}
+                              style={{ width: `${Math.min(parseFloat(leaderboardData[3].journey_completion_percentage), 100)}%` }}
                               ></div>
                             </div>
                           </div>
-                          <div className="text-xs text-black/60 bg-white/10 px-2 py-1 rounded-full">
+                        <div className="text-xs text-black/60 bg-white/10 px-2 py-1 rounded-full inline-block">
                             {leaderboardData[3].surveys_completed}/2 surveys
-                          </div>
+                        </div>
                         </div>
                       </div>
                     </div>
@@ -531,7 +543,7 @@ function LeaderboardPage() {
           )}
 
           {/* Footer */}
-          <div className="mt-12 text-center">
+          <div className="mt-10 md:mt-12 text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/20">
               <span className="text-sm text-black/60">
                 Showing top 3 performers and honorable mention • Rankings update in real-time

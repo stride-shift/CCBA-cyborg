@@ -11,6 +11,7 @@ function Layout({ children }) {
   const navigate = useNavigate()
   const location = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +20,11 @@ function Layout({ children }) {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [location.pathname])
 
   const handleSignOut = async () => {
     console.log('🖱️ Layout: Sign out button clicked')
@@ -133,7 +139,7 @@ function Layout({ children }) {
           boxShadow: '0 4px 30px rgba(255, 255, 255, 0.1)',
           pointerEvents: 'auto'
         }}>
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-4 md:px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 relative z-10">
@@ -161,8 +167,22 @@ function Layout({ children }) {
               )}
             </div>
 
+            {/* Mobile menu toggle */}
+            <div className="md:hidden relative z-10">
+              <button
+                onClick={() => setIsMobileMenuOpen(prev => !prev)}
+                aria-label="Toggle menu"
+                className="glassmorphism p-2 rounded-lg text-white hover:bg-white/25 transition-all"
+              >
+                {/* Simple hamburger icon */}
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+
             {/* Sign In Button */}
-            <div className="relative z-10">
+            <div className="relative z-10 hidden md:block">
               {user ? (
                 <div className="flex items-center gap-4">
                   <span className="text-white text-sm">{user.email}</span>
@@ -183,6 +203,34 @@ function Layout({ children }) {
               )}
             </div>
           </div>
+          {/* Mobile dropdown */}
+          {isMobileMenuOpen && (
+            <div
+              className="md:hidden mt-3 glassmorphism rounded-xl border border-white/30 overflow-hidden"
+            >
+              <div className="flex flex-col">
+                <Link to="/" className="px-4 py-3 text-white hover:bg-white/20">Home</Link>
+                <Link to="/challenges" className="px-4 py-3 text-white hover:bg-white/20">Challenges</Link>
+                {user && (
+                  <Link to="/leaderboard" className="px-4 py-3 text-white hover:bg-white/20">Leaderboard</Link>
+                )}
+                {isAdmin() && (
+                  <Link to="/admin" className="px-4 py-3 text-white hover:bg-white/20">Admin</Link>
+                )}
+                <div className="border-t border-white/20" />
+                {user ? (
+                  <button
+                    onClick={handleSignOut}
+                    className="text-left px-4 py-3 text-white hover:bg-white/20"
+                  >
+                    Sign Out ({user.email})
+                  </button>
+                ) : (
+                  <Link to="/login" className="px-4 py-3 text-white hover:bg-white/20">Sign In</Link>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
