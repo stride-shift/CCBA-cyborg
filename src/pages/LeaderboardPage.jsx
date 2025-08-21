@@ -6,11 +6,15 @@ import { supabase } from '../lib/supabase'
 function LeaderboardPage() {
   const { profile, loading: profileLoading, isAdmin, isSuperAdmin } = useUserProfile()
   const [leaderboardData, setLeaderboardData] = useState([])
+  const [fullLeaderboardData, setFullLeaderboardData] = useState([])
   const [cohortInfo, setCohortInfo] = useState(null)
   const [availableCohorts, setAvailableCohorts] = useState([])
   const [selectedCohortId, setSelectedCohortId] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [blockedByCohort, setBlockedByCohort] = useState(false)
+
+  const BLOCKED_COHORT_NAME = 'WITS-ALL-20250717-C1'
 
   // Initialize available cohorts and selected cohort
   useEffect(() => {
@@ -64,13 +68,22 @@ function LeaderboardPage() {
             console.error('Error loading user cohort:', error)
             // If cohort doesn't exist or is inactive, show empty
             cohorts = []
+            setBlockedByCohort(false)
           } else {
-            cohorts = data ? [data] : []
+            if (data && data.name === BLOCKED_COHORT_NAME) {
+              // Block leaderboard visibility for this cohort
+              setBlockedByCohort(true)
+              cohorts = []
+            } else {
+              setBlockedByCohort(false)
+              cohorts = data ? [data] : []
+            }
             console.log('👤 User can see their own cohort:', data?.name)
           }
         } else {
           console.log('👤 User has no cohort assigned')
           cohorts = []
+          setBlockedByCohort(false)
         }
       }
       
@@ -109,34 +122,33 @@ function LeaderboardPage() {
       setCohortInfo(cohortData)
       console.log('✅ Cohort data loaded:', cohortData)
 
-      // Try v2 RPC first (unions customized + default); fallback to original if missing
-      let leaderboardData
+      // Try v2 RPC first; fallback to original if missing
+      let fetched
       let leaderboardError
       try {
         const v2 = await supabase.rpc('get_enhanced_cohort_leaderboard_v2', {
           target_cohort_id: cohortId
         })
         if (v2.error) throw v2.error
-        leaderboardData = v2.data
+        fetched = v2.data || []
       } catch (e) {
         console.warn('get_enhanced_cohort_leaderboard_v2 unavailable, falling back:', e?.message || e)
         const v1 = await supabase.rpc('get_enhanced_cohort_leaderboard', {
           target_cohort_id: cohortId
         })
-        leaderboardData = v1.data
+        fetched = v1.data || []
         leaderboardError = v1.error
       }
 
       if (leaderboardError) throw leaderboardError
 
-      console.log('🏆 Enhanced leaderboard data loaded:', leaderboardData?.length, 'users')
-      console.log('📊 Sample data:', leaderboardData?.slice(0, 3))
+      console.log('🏆 Enhanced leaderboard data loaded:', fetched.length, 'users')
+      console.log('📊 Sample data:', fetched.slice(0, 3))
       
+      // Keep full data for locating the current user even if outside top 4
+      setFullLeaderboardData(fetched)
       // Limit to top 3 + honorable mention (4th place)
-      const limitedLeaderboard = leaderboardData ? leaderboardData.slice(0, 4) : []
-      setLeaderboardData(limitedLeaderboard)
-
-      // Debug validation omitted for brevity
+      setLeaderboardData(fetched.slice(0, 4))
 
     } catch (err) {
       console.error('❌ Error loading leaderboard:', err)
@@ -205,6 +217,11 @@ function LeaderboardPage() {
     return userEntry?.rank_position || null
   }
 
+  const getCurrentUserFullEntry = () => {
+    if (!profile?.user_id || fullLeaderboardData.length === 0) return null
+    return fullLeaderboardData.find(e => e.user_id === profile.user_id) || null
+  }
+
   if (profileLoading || loading) {
     return (
       <Layout>
@@ -243,12 +260,18 @@ function LeaderboardPage() {
         <div className="container mx-auto px-6 py-8">
           <div className="glassmorphism rounded-2xl p-8 text-center">
             <h1 className="text-3xl font-bold text-black mb-4">Leaderboard</h1>
-            <p className="text-black/70">
-              {isSuperAdmin() || isAdmin() 
-                ? "No cohorts available to view." 
-                : "You need to be assigned to a cohort to view the leaderboard."
-              }
-            </p>
+            {blockedByCohort ? (
+              <p className="text-black/70">
+                The leaderboard is being revamped for your cohort. Please check with your facilitator.
+              </p>
+            ) : (
+              <p className="text-black/70">
+                {isSuperAdmin() || isAdmin() 
+                  ? "No cohorts available to view." 
+                  : "You need to be assigned to a cohort to view the leaderboard."
+                }
+              </p>
+            )}
           </div>
         </div>
       </Layout>
@@ -529,16 +552,83 @@ function LeaderboardPage() {
                                 className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out"
                               style={{ width: `${Math.min(parseFloat(leaderboardData[3].journey_completion_percentage), 100)}%` }}
                               ></div>
+                          </div>
+                        </div>
+                        <div className="text-xs text-black/60 bg-white/10 px-2 py-1 rounded-full inline-block">
+                          {leaderboardData[3].surveys_completed}/2 surveys
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* If current user isn't in top 4, show their own detailed card */}
+              {(() => {
+                const me = getCurrentUserFullEntry()
+                const inTop4 = leaderboardData.some(u => u.user_id === profile?.user_id)
+                if (!me || inTop4) return null
+                return (
+                  <div className="mt-6">
+                    <div className={`relative p-4 md:p-6 glassmorphism rounded-xl border transition-all duration-300 hover:scale-[1.02] hover:shadow-lg border-blue-400/40 bg-blue-500/10`}>
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div className="flex items-center gap-4 md:gap-6">
+                          <div className={`relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full border-2 text-xl font-bold ${getRankBadgeColor(me.rank_position)}`}>
+                            <span className="relative z-10">{getRankIcon(me.rank_position)}</span>
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-3 mb-2">
+                              <h3 className="text-lg md:text-xl font-semibold text-black">{me.first_name} {me.last_name}</h3>
+                              <span className="px-3 py-1 bg-blue-500/20 text-blue-700 text-xs font-medium rounded-full border border-blue-500/30">You</span>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-black/70">
+                              <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 bg-gradient-to-br from-white/40 to-white/60 rounded border border-white/50 backdrop-blur-sm flex items-center justify-center">
+                                  <div className="w-2 h-2 bg-white/80 rounded-sm"></div>
+                                </div>
+                                <span className="font-medium">{me.total_days_completed}</span>
+                                <span>days</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 bg-gradient-to-br from-white/40 to-white/60 rounded border border-white/50 backdrop-blur-sm flex items-center justify-center">
+                                  <div className="w-1.5 h-1.5 bg-white/80 transform rotate-45"></div>
+                                </div>
+                                <span className="font-medium">{me.total_challenges_completed}</span>
+                                <span>challenges</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 bg-gradient-to-br from-white/40 to-white/60 rounded-full border border-white/50 backdrop-blur-sm flex items-center justify-center">
+                                  <div className="w-1.5 h-1.5 bg-white/80 rounded-full"></div>
+                                </div>
+                                <span className="font-medium">{me.total_reflections_submitted}</span>
+                                <span>reflections</span>
+                              </div>
+                              {me.current_streak_days > 0 && (
+                                <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-orange-200/30 to-amber-200/40 rounded-full border border-orange-200/50 backdrop-blur-sm">
+                                  <div className="w-3 h-3 bg-gradient-to-br from-orange-300/70 to-red-400/80 rounded-full border border-orange-200/60 relative">
+                                    <div className="absolute inset-0.5 bg-gradient-to-br from-orange-400/60 to-red-500/70 rounded-full"></div>
+                                  </div>
+                                  <span className="font-bold text-orange-700">{me.current_streak_days}</span>
+                                  <span className="text-orange-600 text-xs">streak</span>
+                                </div>
+                              )}
                             </div>
                           </div>
-                        <div className="text-xs text-black/60 bg-white/10 px-2 py-1 rounded-full inline-block">
-                            {leaderboardData[3].surveys_completed}/2 surveys
                         </div>
+                        <div className="md:text-right">
+                          <div className="mb-2 md:mb-4">
+                            <div className="text-2xl md:text-3xl font-bold text-black mb-2">{Math.round(parseFloat(me.journey_completion_percentage))}%</div>
+                            <div className="w-full md:w-32 h-3 bg-white/20 rounded-full overflow-hidden">
+                              <div className="h-full bg-gradient-to-r from-[#0f4f66] to-[#a7dbe3] rounded-full transition-all duration-1000 ease-out" style={{ width: `${Math.min(parseFloat(me.journey_completion_percentage), 100)}%` }}></div>
+                            </div>
+                          </div>
+                          <div className="text-xs text-black/60 bg-white/10 px-2 py-1 rounded-full inline-block">{me.surveys_completed}/2 surveys</div>
                         </div>
                       </div>
                     </div>
                 </div>
-              )}
+                )
+              })()}
             </div>
           )}
 
