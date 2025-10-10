@@ -42,11 +42,11 @@ function CohortManagement() {
   } = useAdminUIState('cohort_management')
 
   // Persisted form state
-  const { 
-    formData: cohortForm, 
-    updateForm: setCohortForm, 
+  const {
+    formData: cohortForm,
+    updateForm: setCohortForm,
     resetForm: resetCohortForm,
-    setFormField: setCohortFormField 
+    setFormField: setCohortFormField
   } = useFormPersistence('cohort_management', {
     name: '',
     description: '',
@@ -54,6 +54,7 @@ function CohortManagement() {
     start_date: '',
     end_date: '',
     max_participants: '',
+    challenge_set_id: '',
     is_active: true
   })
 
@@ -75,12 +76,14 @@ function CohortManagement() {
 
   // Non-persisted state (reloaded data)
   const [cohorts, setCohorts] = useState([])
+  const [challengeSets, setChallengeSets] = useState([])
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-  // Load cohorts on mount
+  // Load cohorts and challenge sets on mount
   useEffect(() => {
     loadCohorts()
+    loadChallengeSets()
   }, [])
 
   // Prevent body scroll when modal is open
@@ -114,6 +117,22 @@ function CohortManagement() {
     }
   }
 
+  const loadChallengeSets = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('challenge_sets')
+        .select('id, name, description, is_active')
+        .eq('is_active', true)
+        .order('name')
+
+      if (error) throw error
+      setChallengeSets(data || [])
+    } catch (err) {
+      console.error('Error loading challenge sets:', err)
+      setMessage('Error loading challenge sets: ' + err.message)
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -127,6 +146,7 @@ function CohortManagement() {
         start_date: cohortForm.start_date || null,
         end_date: cohortForm.end_date || null,
         max_participants: cohortForm.max_participants ? parseInt(cohortForm.max_participants) : null,
+        challenge_set_id: cohortForm.challenge_set_id || null,
         is_active: cohortForm.is_active
       }
 
@@ -170,6 +190,7 @@ function CohortManagement() {
         start_date: cohort.start_date || '',
         end_date: cohort.end_date || '',
         max_participants: cohort.max_participants?.toString() || '',
+        challenge_set_id: cohort.challenge_set_id || '',
         is_active: cohort.is_active !== false
       })
       // Open modal with editing cohort
@@ -438,7 +459,24 @@ function CohortManagement() {
               />
             </div>
 
-
+            <div>
+              <label className="block text-white font-medium mb-2">Challenge Set</label>
+              <select
+                value={cohortForm.challenge_set_id}
+                onChange={(e) => setCohortFormField('challenge_set_id', e.target.value)}
+                className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
+              >
+                <option value="">Select challenge set...</option>
+                {challengeSets.map(set => (
+                  <option key={set.id} value={set.id}>
+                    {set.name}
+                  </option>
+                ))}
+              </select>
+              <p className="text-white/70 text-xs mt-1">
+                Choose which set of challenges this cohort will use
+              </p>
+            </div>
 
             <div>
               <label className="block text-white font-medium mb-2">Start Date</label>

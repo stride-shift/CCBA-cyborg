@@ -76,12 +76,6 @@ function DlabPage() {
         .eq('user_id', user.id)
         .eq('both_challenges_completed', true)
 
-      const { data: customizedData } = await supabase
-        .from('user_customized_day_completions')
-        .select('challenge_id, customized_challenges!inner(order_index)')
-        .eq('user_id', user.id)
-        .eq('both_challenges_completed', true)
-
       const { data: preSurvey } = await supabase
         .from('pre_survey_responses')
         .select('id')
@@ -96,7 +90,6 @@ function DlabPage() {
 
       const completed = []
       if (challengeData) completed.push(...challengeData.map(i => i.challenges.order_index))
-      if (customizedData) completed.push(...customizedData.map(i => i.customized_challenges.order_index))
       if (preSurvey) completed.push(0)
       if (postSurvey) completed.push(16)
       setCompletedDays(new Set(completed))

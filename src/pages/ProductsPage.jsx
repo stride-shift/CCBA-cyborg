@@ -134,7 +134,7 @@ function ProductsPage() {
     console.log('🔄 Fetching completed days for user:', user.id)
     
     try {
-      // Fetch regular challenge completions - ONLY check if both challenges are completed (reflections are optional)
+      // Fetch challenge completions - ONLY check if both challenges are completed (reflections are optional)
       const { data: challengeData, error: challengeError } = await supabase
         .from('user_day_completions')
         .select('challenge_id, challenges!inner(order_index)')
@@ -142,17 +142,8 @@ function ProductsPage() {
         .eq('both_challenges_completed', true)
         // Removed reflection_submitted requirement since reflections are optional
 
-      // Fetch customized challenge completions 
-      const { data: customizedData, error: customizedError } = await supabase
-        .from('user_customized_day_completions')
-        .select('challenge_id, customized_challenges!inner(order_index)')
-        .eq('user_id', user.id)
-        .eq('both_challenges_completed', true)
-
-      console.log('📊 Regular challenge data from DB:', challengeData)
-      console.log('📊 Customized challenge data from DB:', customizedData)
+      console.log('📊 Challenge data from DB:', challengeData)
       console.log('❌ Challenge error:', challengeError)
-      console.log('❌ Customized error:', customizedError)
 
       // Fetch survey completions
       const { data: preSurveyData, error: preSurveyError } = await supabase
@@ -181,18 +172,11 @@ function ProductsPage() {
       // Combine all completed days
       const completedDayNumbers = []
       
-      // Add regular challenge days (days 1-15: complete when both challenges done)
+      // Add challenge days (days 1-15: complete when both challenges done)
       if (challengeData) {
         const challengeDays = challengeData.map(item => item.challenges.order_index)
         completedDayNumbers.push(...challengeDays)
-        console.log('✅ Regular challenge days completed:', challengeDays)
-      }
-      
-      // Add customized challenge days (days 1-15: complete when both challenges done)
-      if (customizedData) {
-        const customizedDays = customizedData.map(item => item.customized_challenges.order_index)
-        completedDayNumbers.push(...customizedDays)
-        console.log('✅ Customized challenge days completed:', customizedDays)
+        console.log('✅ Challenge days completed:', challengeDays)
       }
       
       // Add survey days (day 0 & 16: complete when survey submitted)

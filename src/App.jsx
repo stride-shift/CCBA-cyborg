@@ -11,9 +11,6 @@ import ChallengePageWithFlip from './pages/ChallengePageWithFlip'
 import LeaderboardPage from './pages/LeaderboardPage'
 import AdminPage from './pages/AdminPage'
 import NewAdminPage from './pages/NewAdminPage'
-import AdminDebugPage from './pages/AdminDebugPage'
-import SimpleAdminPage from './pages/SimpleAdminPage'
-import AdminTestPage from './pages/AdminTestPage'
 import { AdminStateProvider } from './contexts/AdminStateContext'
 import { useAuth } from './hooks/useAuth'
 import AdminCustomisation from './pages/AdminCustomisation'
@@ -110,21 +107,6 @@ function App() {
         <Route path="/admin-old" element={
           <ProtectedRoute>
             <AdminPage />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin-debug" element={
-          <ProtectedRoute>
-            <AdminDebugPage />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin-simple" element={
-          <ProtectedRoute>
-            <SimpleAdminPage />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin-test" element={
-          <ProtectedRoute>
-            <AdminTestPage />
           </ProtectedRoute>
         } />
         <Route path="/admin-customisation" element={

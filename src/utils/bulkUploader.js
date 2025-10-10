@@ -5,13 +5,15 @@ import { uploadImageToStorage } from './imageUpload'
  * Bulk upload challenges with images to Supabase
  * @param {Array} csvData - Validated CSV data
  * @param {Map} images - Extracted images from ZIP
+ * @param {string} challengeSetId - ID of the challenge set to upload to
  * @param {Function} onProgress - Progress callback function
  * @returns {Promise<{success: boolean, results: Array, errors: Array}>}
  */
-export const bulkUploadChallenges = async (csvData, images, onProgress = () => {}) => {
+export const bulkUploadChallenges = async (csvData, images, challengeSetId, onProgress = () => {}) => {
   console.log('🚀 Starting bulk upload:', {
     challengeCount: csvData.length,
-    imageCount: images.size
+    imageCount: images.size,
+    challengeSetId
   })
 
   const results = []
@@ -19,9 +21,11 @@ export const bulkUploadChallenges = async (csvData, images, onProgress = () => {
   let completedCount = 0
 
   try {
-    // Get cohort mappings for validation
-    const cohortMap = await getCohortMappings()
-    
+    // Validate challenge set ID is provided
+    if (!challengeSetId) {
+      throw new Error('Challenge set ID is required for bulk upload')
+    }
+
     // Process each challenge
     for (let i = 0; i < csvData.length; i++) {
       const challengeData = csvData[i]
@@ -36,32 +40,26 @@ export const bulkUploadChallenges = async (csvData, images, onProgress = () => {
       try {
         onProgress(progress)
 
-        // Step 1: Validate cohort exists or get cohort_id
-        const cohortId = await validateAndGetCohortId(challengeData.cohort_name, cohortMap)
-        if (!cohortId) {
-          throw new Error(`Cohort "${challengeData.cohort_name}" not found in database`)
-        }
-
         progress.step = 'uploading_image'
         onProgress(progress)
 
-        // Step 2: Upload image to storage
+        // Step 1: Upload image to storage
         let imageStoragePath = null
         const imageFileName = challengeData.image_file_name
-        
+
         if (imageFileName && images.has(imageFileName)) {
           const imageData = images.get(imageFileName)
-          
-          // Create storage path: cohorts/{cohort_name}/day-{day_number}/{filename}
-          const storagePrefix = `cohorts/${challengeData.cohort_name}/day-${challengeData.day_number}/`
-          
+
+          // Create storage path: challenge-sets/{challenge_set_id}/day-{day_number}/{filename}
+          const storagePrefix = `challenge-sets/${challengeSetId}/day-${challengeData.day_number}/`
+
           console.log(`📤 Uploading image: ${imageFileName}`)
           const uploadResult = await uploadImageToStorage(imageData.file, storagePrefix)
-          
+
           if (uploadResult.error) {
             throw new Error(`Image upload failed: ${uploadResult.error}`)
           }
-          
+
           imageStoragePath = uploadResult.url
           console.log(`✅ Image uploaded: ${imageStoragePath}`)
         } else if (imageFileName) {
@@ -71,12 +69,12 @@ export const bulkUploadChallenges = async (csvData, images, onProgress = () => {
         progress.step = 'saving_database'
         onProgress(progress)
 
-        // Step 3: Check for existing challenge
-        const existingChallenge = await checkExistingChallenge(cohortId, challengeData.day_number)
-        
-        // Step 4: Prepare challenge record for customized_challenges table
+        // Step 2: Check for existing challenge
+        const existingChallenge = await checkExistingChallenge(challengeSetId, challengeData.day_number)
+
+        // Step 3: Prepare challenge record for challenges table
         const challengeRecord = {
-          cohort_id: cohortId,
+          challenge_set_id: challengeSetId,
           order_index: challengeData.day_number,
           title: challengeData.challenge_title,
           challenge_1: challengeData.challenge_description,
@@ -92,20 +90,20 @@ export const bulkUploadChallenges = async (csvData, images, onProgress = () => {
           is_active: true
         }
 
-        // Step 5: Insert or update challenge
+        // Step 4: Insert or update challenge
         let dbResult
         if (existingChallenge) {
-          console.log(`🔄 Updating existing challenge for cohort ${challengeData.cohort_name}, day ${challengeData.day_number}`)
+          console.log(`🔄 Updating existing challenge for day ${challengeData.day_number}`)
           dbResult = await supabase
-            .from('customized_challenges')
+            .from('challenges')
             .update(challengeRecord)
-            .eq('cohort_id', cohortId)
+            .eq('challenge_set_id', challengeSetId)
             .eq('order_index', challengeData.day_number)
             .select()
         } else {
-          console.log(`➕ Creating new challenge for cohort ${challengeData.cohort_name}, day ${challengeData.day_number}`)
+          console.log(`➕ Creating new challenge for day ${challengeData.day_number}`)
           dbResult = await supabase
-            .from('customized_challenges')
+            .from('challenges')
             .insert(challengeRecord)
             .select()
         }
@@ -176,64 +174,17 @@ export const bulkUploadChallenges = async (csvData, images, onProgress = () => {
 }
 
 /**
- * Get cohort ID mappings from database
- * @returns {Promise<Map>} Map of cohort name to cohort ID
- */
-const getCohortMappings = async () => {
-  try {
-    const { data, error } = await supabase
-      .from('cohorts')
-      .select('id, name')
-
-    if (error) {
-      console.error('Failed to fetch cohorts:', error)
-      return new Map()
-    }
-
-    const cohortMap = new Map()
-    data.forEach(cohort => {
-      cohortMap.set(cohort.name, cohort.id)
-    })
-
-    console.log('📋 Loaded cohort mappings:', cohortMap.size, 'cohorts')
-    return cohortMap
-
-  } catch (error) {
-    console.error('Error fetching cohorts:', error)
-    return new Map()
-  }
-}
-
-/**
- * Validate cohort name and get cohort ID
- * @param {string} cohortName - Cohort name from CSV
- * @param {Map} cohortMap - Map of cohort names to IDs
- * @returns {Promise<string|null>} Cohort ID or null if not found
- */
-const validateAndGetCohortId = async (cohortName, cohortMap) => {
-  // First check existing cohorts
-  if (cohortMap.has(cohortName)) {
-    return cohortMap.get(cohortName)
-  }
-
-  // If cohort doesn't exist, we could optionally create it
-  // For now, we'll just return null to indicate it doesn't exist
-  console.warn(`⚠️ Cohort "${cohortName}" not found in database`)
-  return null
-}
-
-/**
- * Check if challenge already exists for cohort and day
- * @param {string} cohortId - Cohort ID
+ * Check if challenge already exists for challenge set and day
+ * @param {string} challengeSetId - Challenge set ID
  * @param {number} dayNumber - Day number
  * @returns {Promise<Object|null>} Existing challenge or null
  */
-const checkExistingChallenge = async (cohortId, dayNumber) => {
+const checkExistingChallenge = async (challengeSetId, dayNumber) => {
   try {
     const { data, error } = await supabase
-      .from('customized_challenges')
+      .from('challenges')
       .select('id, title, challenge_1')
-      .eq('cohort_id', cohortId)
+      .eq('challenge_set_id', challengeSetId)
       .eq('order_index', dayNumber)
       .single()
 
@@ -250,54 +201,23 @@ const checkExistingChallenge = async (cohortId, dayNumber) => {
 }
 
 /**
- * Create a new cohort if it doesn't exist (optional feature)
- * @param {string} cohortName - Name of the cohort to create
- * @returns {Promise<string|null>} Created cohort ID or null if failed
- */
-export const createCohortIfNotExists = async (cohortName) => {
-  try {
-    const { data, error } = await supabase
-      .from('cohorts')
-      .insert({
-        name: cohortName,
-        description: `Auto-created cohort from bulk upload: ${cohortName}`,
-        created_at: new Date().toISOString()
-      })
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Failed to create cohort:', error)
-      return null
-    }
-
-    console.log('✅ Created new cohort:', cohortName, 'ID:', data.id)
-    return data.id
-
-  } catch (error) {
-    console.error('Error creating cohort:', error)
-    return null
-  }
-}
-
-/**
  * Rollback uploaded challenges (cleanup on failure)
  * @param {Array} successfulResults - Array of successfully uploaded challenge results
  * @returns {Promise<{success: boolean, errors: Array}>}
  */
 export const rollbackChallenges = async (successfulResults) => {
   console.log('🔄 Rolling back uploaded challenges:', successfulResults.length)
-  
+
   const errors = []
-  
+
   for (const result of successfulResults) {
     try {
       if (result.databaseId) {
         const { error } = await supabase
-          .from('customized_challenges')
+          .from('challenges')
           .delete()
           .eq('id', result.databaseId)
-          
+
         if (error) {
           errors.push(`Failed to rollback challenge ${result.databaseId}: ${error.message}`)
         } else {
@@ -308,7 +228,7 @@ export const rollbackChallenges = async (successfulResults) => {
       errors.push(`Rollback error for challenge ${result.index}: ${error.message}`)
     }
   }
-  
+
   return {
     success: errors.length === 0,
     errors

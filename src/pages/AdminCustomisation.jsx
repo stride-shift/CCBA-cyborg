@@ -306,21 +306,18 @@ const MinimalAddCohort = ({ onCancel, onSaved }) => {
 export default function AdminCustomisation() {
 	const { isSuperAdmin } = useUserProfile()
 	const [activeTab, setActiveTab] = useState('Upload')
-	const [selectedCohort, setSelectedCohort] = useState('') // stores cohort_id
-	const tabs = ['Upload', 'Bulk Upload', 'Customised']
-
-	// Mock cohorts
-	const cohortOptions = ['Select a cohort', 'LIBERTY-ALL-202507-C1', 'ACME-2025-Cohort', 'Demo Cohort']
+	const [selectedChallengeSet, setSelectedChallengeSet] = useState('') // stores challenge_set_id
+	const tabs = ['Upload', 'Bulk Upload', 'Challenge Sets', 'Cohort Management']
 
 	// Day rows state
 	const [rows, setRows] = useState(() => Array.from({ length: 15 }, (_, i) => createEmptyDayRow(i + 1)))
 
-	// Customised items by cohort: { [cohortName]: Array<row> }
-	const [customisedByCohort, setCustomisedByCohort] = useState({})
+	// Challenges by set: { [challengeSetId]: Array<row> }
+	const [challengesBySet, setChallengesBySet] = useState({})
 
-	const customisedForCohort = useMemo(() => customisedByCohort[selectedCohort] || [], [customisedByCohort, selectedCohort])
+	const challengesForSet = useMemo(() => challengesBySet[selectedChallengeSet] || [], [challengesBySet, selectedChallengeSet])
 
-	const [cohortItems, setCohortItems] = useState([])
+	const [challengeSetItems, setChallengeSetItems] = useState([])
 	const [showAddModal, setShowAddModal] = useState(false)
 	const [message, setMessage] = useState('')
 	const [saving, setSaving] = useState(false)
@@ -336,32 +333,32 @@ export default function AdminCustomisation() {
 
 	useEffect(() => {
 		const load = async () => {
-			const { data, error } = await supabase.from('cohorts').select('id, name').order('name')
-			if (!error) setCohortItems(data || [])
+			const { data, error } = await supabase.from('challenge_sets').select('id, name').order('name')
+			if (!error) setChallengeSetItems(data || [])
 		}
 		load()
 	}, [])
 
-	const refreshCohorts = async () => {
-		const { data } = await supabase.from('cohorts').select('id, name').order('name')
-		setCohortItems(data || [])
+	const refreshChallengeSets = async () => {
+		const { data } = await supabase.from('challenge_sets').select('id, name').order('name')
+		setChallengeSetItems(data || [])
 	}
 
-	// Fetch existing customisations when cohort changes
+	// Fetch existing challenges when challenge set changes
 	useEffect(() => {
-		if (!selectedCohort) return
-		const fetchCustomised = async () => {
+		if (!selectedChallengeSet) return
+		const fetchChallenges = async () => {
 			try {
 				setMessage('')
 				const { data, error } = await supabase
-					.from('customized_challenges')
+					.from('challenges')
 					.select('*')
-								.eq('cohort_id', selectedCohort)
-								.order('order_index')
+					.eq('challenge_set_id', selectedChallengeSet)
+					.order('order_index')
 				if (error) throw error
 				const map = new Map()
 				for (const rec of data || []) {
-							map.set(rec.order_index, rec)
+					map.set(rec.order_index, rec)
 				}
 				setRows(Array.from({ length: 15 }, (_, i) => {
 					const day = i + 1
@@ -371,27 +368,27 @@ export default function AdminCustomisation() {
 						day,
 						challenge1: rec.challenge_1 || '',
 						challenge1Type: rec.challenge_1_type || '',
-																		video1Url: rec.video_url_1 || '',
+						video1Url: rec.video_url_1 || '',
 						image1File: null,
-											image1Preview: rec.challenge_1_image_url || '',
+						image1Preview: rec.challenge_1_image_url || '',
 						challenge2: rec.challenge_2 || '',
 						challenge2Type: rec.challenge_2_type || '',
-											video2Url: rec.video_url_2 || '',
+						video2Url: rec.video_url_2 || '',
 						image2File: null,
-											image2Preview: rec.challenge_2_image_url || '',
-							reflectionQuestion: rec.reflection_question || '',
-						hahaInput: (rec.intended_aha_moments || []).join(', '),
-						hahaList: rec.intended_aha_moments || [],
+						image2Preview: rec.challenge_2_image_url || '',
+						reflectionQuestion: rec.reflection_question || '',
+						ahaInput: (rec.intended_aha_moments || []).join(', '),
+						ahaList: rec.intended_aha_moments || [],
 						title: rec.title || '',
 					}
 				}))
-				setCustomisedByCohort(prev => ({ ...prev, [selectedCohort]: (data || []).map(d => d) }))
+				setChallengesBySet(prev => ({ ...prev, [selectedChallengeSet]: (data || []).map(d => d) }))
 			} catch (err) {
-				setMessage('Failed to load customised data: ' + err.message)
+				setMessage('Failed to load challenges: ' + err.message)
 			}
 		}
-		fetchCustomised()
-	}, [selectedCohort])
+		fetchChallenges()
+	}, [selectedChallengeSet])
 
 	const setRow = (index, newRow) => {
 		setRows(prev => prev.map((r, i) => (i === index ? newRow : r)))
@@ -401,22 +398,21 @@ export default function AdminCustomisation() {
 		try {
 			const day = rows[index].day
 			setRows(prev => prev.map((r, i) => (i === index ? createEmptyDayRow(r.day) : r)))
-			if (!selectedCohort) return
+			if (!selectedChallengeSet) return
 			const { error } = await supabase
-				.from('customized_challenges')
+				.from('challenges')
 				.delete()
-				.eq('cohort_slug', selectedCohort)
-				.eq('day_index', day)
-				.eq('version', 'v1')
+				.eq('challenge_set_id', selectedChallengeSet)
+				.eq('order_index', day)
 			if (error) throw error
 		} catch (err) {
 			setMessage('Failed to clear day: ' + err.message)
 		}
 	}
 
-	const saveRowToCustomised = (row) => {
-		setCustomisedByCohort(prev => {
-			const current = prev[selectedCohort] ? [...prev[selectedCohort]] : []
+	const saveRowToChallengeSet = (row) => {
+		setChallengesBySet(prev => {
+			const current = prev[selectedChallengeSet] ? [...prev[selectedChallengeSet]] : []
 			const existingIndex = current.findIndex(item => item.day === row.day)
 			const payload = { ...row }
 			if (existingIndex >= 0) {
@@ -424,7 +420,7 @@ export default function AdminCustomisation() {
 			} else {
 				current.push(payload)
 			}
-			return { ...prev, [selectedCohort]: current }
+			return { ...prev, [selectedChallengeSet]: current }
 		})
 	}
 
@@ -441,26 +437,26 @@ export default function AdminCustomisation() {
 	}
 
 	const onSaveAll = async () => {
-		if (!selectedCohort) {
-			setMessage('Please select a cohort before saving.')
+		if (!selectedChallengeSet) {
+			setMessage('Please select a challenge set before saving.')
 			return
 		}
 		try {
 			setSaving(true)
 			setMessage('Processing images and saving...')
-			
+
 			const filteredRows = rows.filter(r => hasAnyContent(r))
 			const records = []
-			
+
 			for (const r of filteredRows) {
 				let challenge1ImageUrl = null
 				let challenge2ImageUrl = null
-				
+
 				// Process challenge 1 image: Try storage upload first, fallback to base64
 				if (r.image1File) {
 					console.log('📤 Uploading challenge 1 image to storage...')
 					const storageResult = await uploadImageToStorage(r.image1File, `challenge-1-day-${r.day}-`)
-					
+
 					if (storageResult.error) {
 						console.warn('⚠️ Storage upload failed for challenge 1, using base64 fallback:', storageResult.error)
 						challenge1ImageUrl = await convertImageToDataUrl(r.image1File)
@@ -472,12 +468,12 @@ export default function AdminCustomisation() {
 					// Keep existing stored URL or data URL if no new file
 					challenge1ImageUrl = r.image1Preview
 				}
-				
+
 				// Process challenge 2 image: Try storage upload first, fallback to base64
 				if (r.image2File) {
 					console.log('📤 Uploading challenge 2 image to storage...')
 					const storageResult = await uploadImageToStorage(r.image2File, `challenge-2-day-${r.day}-`)
-					
+
 					if (storageResult.error) {
 						console.warn('⚠️ Storage upload failed for challenge 2, using base64 fallback:', storageResult.error)
 						challenge2ImageUrl = await convertImageToDataUrl(r.image2File)
@@ -489,9 +485,9 @@ export default function AdminCustomisation() {
 					// Keep existing stored URL or data URL if no new file
 					challenge2ImageUrl = r.image2Preview
 				}
-				
+
 				records.push({
-					cohort_id: selectedCohort,
+					challenge_set_id: selectedChallengeSet,
 					order_index: r.day,
 					challenge_1: r.challenge1 || null,
 					challenge_1_type: r.challenge1Type || null,
@@ -507,16 +503,16 @@ export default function AdminCustomisation() {
 					is_active: true
 				})
 			}
-			
+
 			if (records.length === 0) {
 				setMessage('Nothing to save.')
 				return
 			}
-			
+
 			setMessage('Saving to database...')
 			const { error } = await supabase
-				.from('customized_challenges')
-				.upsert(records, { onConflict: 'cohort_id,order_index' })
+				.from('challenges')
+				.upsert(records, { onConflict: 'challenge_set_id,order_index' })
 			if (error) throw error
 			setMessage('Saved successfully.')
 		} catch (err) {
@@ -532,6 +528,11 @@ export default function AdminCustomisation() {
 
 	// Bulk upload functions
 	const handleBulkUpload = async () => {
+		if (!selectedChallengeSet) {
+			setMessage('Please select a challenge set before bulk upload')
+			return
+		}
+
 		if (!bulkCsvFile || !bulkZipFile) {
 			setMessage('Please select both CSV and ZIP files')
 			return
@@ -547,8 +548,8 @@ export default function AdminCustomisation() {
 		try {
 			// Step 1: Parse CSV
 			setMessage('Parsing CSV file...')
-			const csvResult = await parseCSV(bulkCsvFile, cohortItems)
-			
+			const csvResult = await parseCSV(bulkCsvFile, [])
+
 			if (csvResult.errors.length > 0) {
 				setBulkErrors(csvResult.errors.map(e => e.message || e))
 				setMessage(`CSV validation failed with ${csvResult.errors.length} errors`)
@@ -563,7 +564,7 @@ export default function AdminCustomisation() {
 			setMessage('Extracting images from ZIP...')
 			const requiredImages = csvResult.data.map(row => row.image_file_name).filter(Boolean)
 			const zipResult = await extractZip(bulkZipFile, requiredImages)
-			
+
 			if (zipResult.errors.length > 0) {
 				setBulkErrors(prev => [...prev, ...zipResult.errors.map(e => e.message || e)])
 				setMessage(`Image extraction failed with ${zipResult.errors.length} errors`)
@@ -579,6 +580,7 @@ export default function AdminCustomisation() {
 			const uploadResult = await bulkUploadChallenges(
 				csvResult.data,
 				zipResult.images,
+				selectedChallengeSet,
 				(progress) => {
 					setBulkProgress(prev => {
 						const newProgress = [...prev]
@@ -656,13 +658,13 @@ export default function AdminCustomisation() {
 				<div className="glassmorphism rounded-2xl p-6 mb-8">
 					<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 						<div>
-							<h3 className="text-2xl font-bold text-white mb-2">All Cohorts</h3>
-							<p className="text-white/80">Choose a cohort to customise, or create a new one.</p>
+							<h3 className="text-2xl font-bold text-white mb-2">Challenge Set Manager</h3>
+							<p className="text-white/80">Select a challenge set to edit (Standard, Sales, Executive)</p>
 						</div>
 						<div className="flex gap-3 items-center">
-							<select value={selectedCohort} onChange={(e) => setSelectedCohort(e.target.value)} className="px-4 py-3 rounded-xl bg-white/30 border border-white/30 text-gray-900 min-w-[18rem]">
-								<option value="">Select a cohort...</option>
-								{cohortItems.map(c => (
+							<select value={selectedChallengeSet} onChange={(e) => setSelectedChallengeSet(e.target.value)} className="px-4 py-3 rounded-xl bg-white/30 border border-white/30 text-gray-900 min-w-[18rem]">
+								<option value="">Select a challenge set...</option>
+								{challengeSetItems.map(c => (
 									<option key={c.id} value={c.id}>{c.name}</option>
 								))}
 							</select>
@@ -685,13 +687,13 @@ export default function AdminCustomisation() {
 					</nav>
 				</div>
 
-				{!selectedCohort && (
+				{!selectedChallengeSet && activeTab !== 'Cohort Management' && (
 					<div className="glassmorphism rounded-2xl p-8">
-						<p className="text-white text-lg">Please select a cohort</p>
+						<p className="text-white text-lg">Please select a challenge set</p>
 					</div>
 				)}
 
-				{selectedCohort && activeTab === 'Upload' && (
+				{selectedChallengeSet && activeTab === 'Upload' && (
 					<div className="space-y-6">
 						{/* Table */}
 						<div className="glassmorphism rounded-2xl p-4 overflow-x-auto">
@@ -726,7 +728,7 @@ export default function AdminCustomisation() {
 					</div>
 				)}
 
-				{selectedCohort && activeTab === 'Bulk Upload' && (
+				{selectedChallengeSet && activeTab === 'Bulk Upload' && (
 					<div className="space-y-6">
 						<div className="glassmorphism rounded-2xl p-8">
 							<h3 className="text-2xl font-bold text-white mb-6">Bulk Upload Challenges</h3>
@@ -895,15 +897,15 @@ export default function AdminCustomisation() {
 					</div>
 				)}
 
-{selectedCohort && activeTab === 'Customised' && (
+{selectedChallengeSet && activeTab === 'Challenge Sets' && (
 	<div className="space-y-4">
-		{customisedForCohort.length === 0 ? (
+		{challengesForSet.length === 0 ? (
 			<div className="glassmorphism rounded-2xl p-8 text-white/90">
-				No customised challenges yet for this cohort.
+				No challenges yet for this set.
 			</div>
 		) : (
-			customisedForCohort
-				.sort((a, b) => a.day - b.day)
+			challengesForSet
+				.sort((a, b) => a.order_index - b.order_index)
 				.map((item, i) => (
 					<div key={`${item.day}-${i}`} className="space-y-4">
 						<div className="glassmorphism rounded-2xl p-6">
@@ -973,11 +975,11 @@ export default function AdminCustomisation() {
 										title: item.title || '',
 									}}
 									onChange={(updated) => {
-										setCustomisedByCohort(prev => {
-											const current = [...(prev[selectedCohort] || [])];
+										setChallengesBySet(prev => {
+											const current = [...(prev[selectedChallengeSet] || [])];
 											const idx = current.findIndex(x => (x.day || x.order_index) === (item.day || item.order_index));
 											if (idx >= 0) current[idx] = { ...current[idx], ...updated };
-											return { ...prev, [selectedCohort]: current };
+											return { ...prev, [selectedChallengeSet]: current };
 										});
 									}}
 								/>
@@ -987,23 +989,22 @@ export default function AdminCustomisation() {
 										onClick={async () => {
 											try {
 												const r = {
-											cohort_id: selectedCohort,
-											order_index: item.day || item.order_index,
+													challenge_set_id: selectedChallengeSet,
+													order_index: item.day || item.order_index,
 													challenge_1: item.challenge1 || item.challenge_1 || null,
 													challenge_1_type: item.challenge1Type || item.challenge_1_type || null,
 													challenge_2: item.challenge2 || item.challenge_2 || null,
 													challenge_2_type: item.challenge2Type || item.challenge_2_type || null,
-																									video_url_1: item.video1Url || item.video_url_1 || null,
-												video_url_2: item.video2Url || item.video_url_2 || null,
-												challenge_1_image_url: item.image1Preview || item.challenge_1_image_url || null,
-												challenge_2_image_url: item.image2Preview || item.challenge_2_image_url || null,
-												reflection_question: item.reflectionQuestion || item.reflection_question || null,
+													video_url_1: item.video1Url || item.video_url_1 || null,
+													video_url_2: item.video2Url || item.video_url_2 || null,
+													challenge_1_image_url: item.image1Preview || item.challenge_1_image_url || null,
+													challenge_2_image_url: item.image2Preview || item.challenge_2_image_url || null,
+													reflection_question: item.reflectionQuestion || item.reflection_question || null,
 													intended_aha_moments: (item.ahaList || item.intended_aha_moments) || null,
 													title: item.title || null,
-													is_active: true,
-													version: 'v1'
+													is_active: true
 												};
-												const { error } = await supabase.from('customized_challenges').upsert([r], { onConflict: 'cohort_id,order_index' });
+												const { error } = await supabase.from('challenges').upsert([r], { onConflict: 'challenge_set_id,order_index' });
 												if (error) throw error;
 												setMessage('Saved.');
 											} catch (err) {
@@ -1019,10 +1020,10 @@ export default function AdminCustomisation() {
 										onClick={async () => {
 											try {
 												const { error } = await supabase
-													.from('customized_challenges')
+													.from('challenges')
 													.delete()
-												.eq('cohort_id', selectedCohort)
-												.eq('order_index', item.day || item.order_index);
+													.eq('challenge_set_id', selectedChallengeSet)
+													.eq('order_index', item.day || item.order_index);
 												if (error) throw error;
 												setMessage('Deleted.');
 											} catch (err) {
@@ -1041,6 +1042,12 @@ export default function AdminCustomisation() {
 		)}
 	</div>
 )}
+
+				{activeTab === 'Cohort Management' && (
+					<div className="glassmorphism rounded-2xl p-8">
+						<CohortManagement />
+					</div>
+				)}
 
 </div>
 </Layout>

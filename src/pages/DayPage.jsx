@@ -53,120 +53,58 @@ function DayPage() {
 
   const fetchChallengeData = async () => {
     try {
-      let challengeData = null
-      let userCohortId = null
-      let userCohortName = null
-      
-      // First, get user's cohort ID from their profile
+      let userChallengeSetId = null
+
+      // Get user's cohort → challenge_set_id
       if (user) {
-        console.log('👤 Getting user cohort from profile for user:', user.id)
-        const { data: userProfile, error: profileError } = await supabase
+        const { data: userProfile } = await supabase
           .from('user_profiles')
           .select('cohort_id')
           .eq('user_id', user.id)
           .single()
-        
-        console.log('🔍 Profile lookup result:', { userProfile, profileError })
-        
-        if (!profileError && userProfile?.cohort_id) {
-          userCohortId = userProfile.cohort_id
-          console.log('📍 User is in cohort:', userCohortId)
-          // Also get the cohort name for customized_challenges lookup
-          const { data: cohortRow, error: cohortErr } = await supabase
+
+        if (userProfile?.cohort_id) {
+          const { data: cohort } = await supabase
             .from('cohorts')
-            .select('name')
-            .eq('id', userCohortId)
+            .select('challenge_set_id')
+            .eq('id', userProfile.cohort_id)
             .single()
-          if (!cohortErr && cohortRow?.name) {
-            userCohortName = cohortRow.name
-            console.log('🏷️ Cohort name:', userCohortName)
-          }
-        } else {
-          console.log('❌ No cohort found or error:', profileError)
-        }
-      } else {
-        console.log('❌ No user found')
-      }
-      
-      // Try cohort-specific override from customized_challenges first
-      if (userCohortId) {
-        try {
-          console.log('🎯 Checking customized_challenges for cohort/day override')
-          const { data: customRow, error: customErr } = await supabase
-            .from('customized_challenges')
-            .select('*')
-            .eq('cohort_id', userCohortId)
-            .eq('order_index', parseInt(dayNumber))
-            .eq('is_active', true)
-            .order('created_at', { ascending: false })
-            .limit(1)
-            .maybeSingle()
-          if (!customErr && customRow) {
-            challengeData = {
-              ...customRow,
-              is_cohort_specific: true
-            }
-            console.log('✅ Using customized_challenges override:', customRow)
-            console.log('🔍 Challenge data set to:', challengeData)
-            console.log('🔍 Customized challenge structure check:', {
-              challenge_1: customRow.challenge_1,
-              challenge_2: customRow.challenge_2,
-              challenge_1_image_url: customRow.challenge_1_image_url,
-              challenge_2_image_url: customRow.challenge_2_image_url
-            })
-          } else if (customErr) {
-            console.log('ℹ️ No customized override or error:', customErr?.message)
-          }
-        } catch (e) {
-          console.warn('Failed to load customized_challenges override:', e)
+
+          userChallengeSetId = cohort?.challenge_set_id
         }
       }
-      
-      // Try to get cohort-specific challenge if user has a cohort (legacy path)
-      if (!challengeData && userCohortId) {
-        console.log('🎯 Fetching cohort-specific challenge for cohort:', userCohortId)
-        const { data, error } = await supabase
-          .rpc('get_challenge_for_user_day', {
-            user_cohort_id: userCohortId,
-            day_number: parseInt(dayNumber)
-          })
-        
-        if (!error && data && data.length > 0) {
-          challengeData = data[0]
-          console.log('✅ Found challenge:', challengeData.is_cohort_specific ? 'cohort-specific' : 'default')
-        }
-      }
-      
-      // Fallback to direct query if RPC function fails or user has no cohort
-      if (!challengeData) {
-        console.log('📚 Fetching default challenge for day:', dayNumber)
-        const { data, error } = await supabase
+
+      // Single query to challenges table
+      let query = supabase
         .from('challenges')
         .select('*')
         .eq('order_index', parseInt(dayNumber))
         .eq('is_active', true)
-          .is('cohort_id', null) // Only get default challenges
-        .single()
 
-        if (!error && data) {
-          challengeData = { ...data, is_cohort_specific: false }
-        }
+      if (userChallengeSetId) {
+        query = query.eq('challenge_set_id', userChallengeSetId)
+      } else {
+        // Fallback to Standard set
+        const { data: standardSet } = await supabase
+          .from('challenge_sets')
+          .select('id')
+          .eq('name', 'Standard')
+          .single()
+        query = query.eq('challenge_set_id', standardSet.id)
       }
 
-      if (challengeData) {
-        // Fetch corresponding videos based on challenge types
-        const videos = await fetchVideosForChallenge(challengeData)
-        setChallengeData({...challengeData, videos})
-        console.log('📋 Challenge loaded:', challengeData.title || `Day ${dayNumber}`)
+      const { data, error } = await query.single()
+
+      if (!error && data) {
+        const videos = await fetchVideosForChallenge(data)
+        setChallengeData({...data, videos})
       } else {
-        console.log('⚠️ No challenge found, using mock data')
         setChallengeData(generateMockChallengeData())
       }
     } catch (error) {
-      console.error('Error connecting to Supabase:', error)
+      console.error('Error fetching challenge:', error)
       setChallengeData(generateMockChallengeData())
     }
-    // Always set loading to false after fetching challenge data
     setLoading(false)
   }
 
@@ -227,23 +165,13 @@ function DayPage() {
       if (progress.challenge1) completed.add(1)
       if (progress.challenge2) completed.add(2)
       setCompletedChallenges(completed)
-      console.log('📱 Using localStorage progress:', completed)
       return
     }
-    
+
     try {
-      console.log('🔍 Fetching progress for challengeData.id:', challengeData.id, 'user:', user.id)
-      
-      // Choose the right table based on challenge type
-      const tableName = challengeData.is_cohort_specific 
-        ? 'user_customized_challenge_completions' 
-        : 'user_challenge_completions'
-      
-      console.log('📊 Using table:', tableName)
-      
       // Fetch user challenge completions from Supabase
       const { data, error } = await supabase
-        .from(tableName)
+        .from('user_challenge_completions')
         .select('challenge_number')
         .eq('user_id', user.id)
         .eq('challenge_id', challengeData.id)
@@ -256,11 +184,9 @@ function DayPage() {
         if (progress.challenge1) completed.add(1)
         if (progress.challenge2) completed.add(2)
         setCompletedChallenges(completed)
-        console.log('📱 Fallback to localStorage progress:', completed)
       } else {
         const completed = new Set(data.map(item => item.challenge_number))
         setCompletedChallenges(completed)
-        console.log('💾 Loaded progress from database:', completed, 'data:', data)
       }
     } catch (error) {
       console.error('Error connecting to Supabase:', error)
@@ -334,52 +260,39 @@ function DayPage() {
     }
 
     try {
-      // Choose the right table based on challenge type
-      const tableName = challengeData.is_cohort_specific 
-        ? 'user_customized_challenge_completions' 
-        : 'user_challenge_completions'
-      
-      console.log('💾 Using table for save:', tableName)
-      
       if (isCompleting) {
-        console.log('Inserting completion record...')
         // Insert completion record
         const { data, error } = await supabase
-          .from(tableName)
+          .from('user_challenge_completions')
           .insert({
             user_id: user.id,
             challenge_id: challengeData.id,
             challenge_number: challengeNumber
           })
           .select()
-        
+
         if (error) {
           console.error('Error saving challenge completion:', error)
           // Revert the UI change
           const revertedCompleted = new Set(completedChallenges)
           setCompletedChallenges(revertedCompleted)
-        } else {
-          console.log('Successfully inserted completion:', data)
         }
       } else {
-        console.log('Deleting completion record...')
         // Delete completion record
         const { data, error } = await supabase
-          .from(tableName)
+          .from('user_challenge_completions')
           .delete()
           .eq('user_id', user.id)
           .eq('challenge_id', challengeData.id)
           .eq('challenge_number', challengeNumber)
           .select()
-        
+
         if (error) {
           console.error('Error removing challenge completion:', error)
           // Revert the UI change
           const revertedCompleted = new Set(completedChallenges)
           revertedCompleted.add(challengeNumber)
           setCompletedChallenges(revertedCompleted)
-        } else {
-          console.log('Successfully deleted completion:', data)
         }
       }
 
@@ -392,46 +305,23 @@ function DayPage() {
 
   const updateDayCompletion = async (userId, completedChallenges) => {
     const bothChallengesCompleted = completedChallenges.has(1) && completedChallenges.has(2)
-    
+
     try {
-      // Choose the right reflection table based on challenge type
-      const reflectionTable = challengeData.is_cohort_specific 
-        ? 'user_customized_challenge_reflections' 
-        : 'user_reflections'
-      
-      console.log('🔍 Checking reflection in table:', reflectionTable)
-      
       // Check if reflection exists
-      const { data: reflectionData, error: reflectionError } = await supabase
-        .from(reflectionTable)
+      const { data: reflectionData } = await supabase
+        .from('user_reflections')
         .select('id')
         .eq('user_id', userId)
         .eq('challenge_id', challengeData.id)
         .single()
 
-      const reflectionSubmitted = !!reflectionData && !reflectionError
+      const reflectionSubmitted = !!reflectionData
       const hasAnyProgress = completedChallenges.size > 0 || reflectionSubmitted
 
-      console.log('Updating day completion:', {
-        userId,
-        challengeId: challengeData.id,
-        bothChallengesCompleted,
-        reflectionSubmitted,
-        hasAnyProgress,
-        completedChallenges: Array.from(completedChallenges)
-      })
-
       if (hasAnyProgress) {
-        // Choose the right table based on challenge type
-        const dayCompletionTable = challengeData.is_cohort_specific 
-          ? 'user_customized_day_completions' 
-          : 'user_day_completions'
-        
-        console.log('💾 Updating day completion in table:', dayCompletionTable)
-        
         // Only create/update record if there's actual progress
-        const { data, error } = await supabase
-          .from(dayCompletionTable)
+        await supabase
+          .from('user_day_completions')
           .upsert({
             user_id: userId,
             challenge_id: challengeData.id,
@@ -440,32 +330,13 @@ function DayPage() {
           }, {
             onConflict: 'user_id,challenge_id'
           })
-          .select()
-
-        if (error) {
-          console.error('Error updating day completion:', error)
-        } else {
-          console.log('Day completion updated successfully:', data)
-          // Analytics will be updated automatically by database triggers
-        }
       } else {
-        // Choose the right table based on challenge type
-        const dayCompletionTable = challengeData.is_cohort_specific 
-          ? 'user_customized_day_completions' 
-          : 'user_day_completions'
-        
         // Delete any existing record if no progress
-        const { error } = await supabase
-          .from(dayCompletionTable)
+        await supabase
+          .from('user_day_completions')
           .delete()
           .eq('user_id', userId)
           .eq('challenge_id', challengeData.id)
-
-        if (error) {
-          console.error('Error deleting day completion record:', error)
-        } else {
-          console.log('Day completion record deleted (no progress)')
-        }
       }
     } catch (error) {
       console.error('Error updating day completion:', error)
@@ -691,7 +562,6 @@ function DayPage() {
                 dayNumber={dayNumber}
                 question={challengeData?.reflection_question}
                 challengeId={challengeData?.id}
-                isCustomizedChallenge={challengeData?.is_cohort_specific}
               />
             </div>
           </div>

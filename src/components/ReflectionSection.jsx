@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 
-function ReflectionSection({ dayNumber, question, challengeId, isCustomizedChallenge }) {
+function ReflectionSection({ dayNumber, question, challengeId }) {
   const { user } = useAuth()
   const [reflection, setReflection] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -39,18 +39,11 @@ function ReflectionSection({ dayNumber, question, challengeId, isCustomizedChall
   // Load existing reflection or draft
   const loadExistingContent = useCallback(async () => {
     if (!user?.id || !challengeId || hasLoadedExistingRef.current) return
-    
+
     try {
-      // Choose the right table based on challenge type
-      const tableName = isCustomizedChallenge 
-        ? 'user_customized_challenge_reflections' 
-        : 'user_reflections'
-      
-      console.log('📖 Loading reflection from table:', tableName)
-      
       // First, try to fetch submitted reflection from database
       const { data, error } = await supabase
-        .from(tableName)
+        .from('user_reflections')
         .select('reflection_text')
         .eq('user_id', user.id)
         .eq('challenge_id', challengeId)
@@ -72,10 +65,9 @@ function ReflectionSection({ dayNumber, question, challengeId, isCustomizedChall
         if (savedDraft) {
           setReflection(savedDraft)
           setLastSavedDraft(savedDraft)
-          console.log('📝 Loaded draft reflection for day', dayNumber)
         }
       }
-      
+
       hasLoadedExistingRef.current = true
     } catch (error) {
       console.error('Error loading reflection content:', error)
@@ -90,7 +82,7 @@ function ReflectionSection({ dayNumber, question, challengeId, isCustomizedChall
       }
       hasLoadedExistingRef.current = true
     }
-  }, [user?.id, challengeId, getDraftKey, dayNumber, isCustomizedChallenge])
+  }, [user?.id, challengeId, getDraftKey, dayNumber])
 
   // Only reset state when the actual day changes (not when challengeId changes due to refetching)
   useEffect(() => {
@@ -155,17 +147,10 @@ function ReflectionSection({ dayNumber, question, challengeId, isCustomizedChall
 
     try {
       if (!user) return
-      
-      // Choose the right table based on challenge type
-      const tableName = isCustomizedChallenge 
-        ? 'user_customized_challenge_reflections' 
-        : 'user_reflections'
-      
-      console.log('💾 Saving reflection to table:', tableName)
-      
+
       // Check if reflection already exists
       const { data: existingReflection } = await supabase
-        .from(tableName)
+        .from('user_reflections')
         .select('id')
         .eq('user_id', user.id)
         .eq('challenge_id', challengeId)
@@ -175,7 +160,7 @@ function ReflectionSection({ dayNumber, question, challengeId, isCustomizedChall
       if (existingReflection) {
         // Update existing reflection
         const { error: updateError } = await supabase
-          .from(tableName)
+          .from('user_reflections')
           .update({
             reflection_text: reflection.trim(),
             word_count: reflection.trim().split(/\s+/).length,
@@ -187,7 +172,7 @@ function ReflectionSection({ dayNumber, question, challengeId, isCustomizedChall
       } else {
         // Insert new reflection
         const { error: insertError } = await supabase
-          .from(tableName)
+          .from('user_reflections')
           .insert({
             user_id: user.id,
             challenge_id: challengeId,
