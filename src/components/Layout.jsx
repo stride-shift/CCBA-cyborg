@@ -154,7 +154,10 @@ function Layout({ children }) {
               <Link to="/" className="text-white hover:text-gray-200 transition-colors">Home</Link>
               <Link to="/challenges" className="text-white hover:text-gray-200 transition-colors">Challenges</Link>
               {user && (
-                <Link to="/leaderboard" className="text-white hover:text-gray-200 transition-colors">Leaderboard</Link>
+                <>
+                  <Link to="/progress-map" className="text-white hover:text-gray-200 transition-colors">Progress Map</Link>
+                  <Link to="/leaderboard" className="text-white hover:text-gray-200 transition-colors">Leaderboard</Link>
+                </>
               )}
               {/* <Link to="/about" className="text-white hover:text-gray-200 transition-colors">About</Link> */}
               {isAdmin() && (
@@ -212,7 +215,10 @@ function Layout({ children }) {
                 <Link to="/" className="px-4 py-3 text-white hover:bg-white/20">Home</Link>
                 <Link to="/challenges" className="px-4 py-3 text-white hover:bg-white/20">Challenges</Link>
                 {user && (
-                  <Link to="/leaderboard" className="px-4 py-3 text-white hover:bg-white/20">Leaderboard</Link>
+                  <>
+                    <Link to="/progress-map" className="px-4 py-3 text-white hover:bg-white/20">Progress Map</Link>
+                    <Link to="/leaderboard" className="px-4 py-3 text-white hover:bg-white/20">Leaderboard</Link>
+                  </>
                 )}
                 {isAdmin() && (
                   <Link to="/admin" className="px-4 py-3 text-white hover:bg-white/20">Admin</Link>

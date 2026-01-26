@@ -9,6 +9,7 @@ import DlabPage from './pages/DlabPage'
 import HabitDetailPage from './pages/HabitDetailPage'
 import ChallengePageWithFlip from './pages/ChallengePageWithFlip'
 import LeaderboardPage from './pages/LeaderboardPage'
+import ProgressMapPage from './pages/ProgressMapPage'
 import AdminPage from './pages/AdminPage'
 import NewAdminPage from './pages/NewAdminPage'
 import { AdminStateProvider } from './contexts/AdminStateContext'
@@ -77,6 +78,13 @@ function App() {
         <Route path="/leaderboard" element={
           <ProtectedRoute>
             <LeaderboardPage />
+          </ProtectedRoute>
+        } />
+        
+        {/* Progress Map route - protected */}
+        <Route path="/progress-map" element={
+          <ProtectedRoute>
+            <ProgressMapPage />
           </ProtectedRoute>
         } />
         
