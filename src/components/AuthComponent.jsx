@@ -291,7 +291,7 @@ function AuthComponent() {
         <div className="text-center mb-8">
           <div className="flex flex-col items-center justify-center gap-3 mb-4">
             {/* CCBA Logo */}
-            <img src="/ccba-logo.jpg" alt="CCBA" className="h-16 w-auto mb-2" />
+            <img src="/ccba-logo.png" alt="CCBA" className="h-16 w-auto mb-2" />
             <h1 className="text-4xl font-bold text-white">Cyborg Habits</h1>
           </div>
           <h2 className="text-2xl text-white font-semibold mb-2">
