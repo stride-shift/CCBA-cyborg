@@ -189,7 +189,7 @@ function AuthComponent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0f4f66, #a7dbe3)' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 25%, #F40009 50%, #8B0000 75%, #1a1a1a 100%)' }}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-white">Loading...</p>
@@ -199,7 +199,7 @@ function AuthComponent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f4f66, #a7dbe3)' }}>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 25%, #F40009 50%, #8B0000 75%, #1a1a1a 100%)' }}>
       {/* Animated glass bubbles */}
       <style>{`
         @keyframes float-up {
@@ -213,11 +213,11 @@ function AuthComponent() {
         .bubble {
           position: absolute;
           border-radius: 50%;
-          background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+          background: linear-gradient(145deg, rgba(244, 0, 9, 0.15), rgba(139, 0, 0, 0.1));
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2), 0 8px 32px rgba(14, 20, 52, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: inset 0 0 20px rgba(244, 0, 9, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
           z-index: 0;
         }
         .float-1 { animation: float-up 6s ease-in-out infinite; }
@@ -229,35 +229,35 @@ function AuthComponent() {
         
         /* Glassmorphism for the sign-in box */
         .glassmorphism {
-          background: rgba(255, 255, 255, 0.2);
+          background: rgba(0, 0, 0, 0.5);
           backdrop-filter: blur(12px);
-          box-shadow: 0 8px 32px rgba(14, 20, 52, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         /* Custom OTP form styles */
         .otp-form input {
-          background: #e6f2f5 !important;
-          border: 1px solid #c7e2e8 !important;
+          background: #1a1a1a !important;
+          border: 1px solid #F40009 !important;
           border-radius: 0.75rem !important;
           padding: 0.75rem !important;
           font-size: 1rem !important;
-          color: #0f4f66 !important;
+          color: #ffffff !important;
           width: 100% !important;
         }
         
         .otp-form input:focus {
           outline: none !important;
-          border-color: #0f4f66 !important;
-          box-shadow: 0 0 0 2px rgba(15, 79, 102, 0.2) !important;
+          border-color: #F40009 !important;
+          box-shadow: 0 0 0 2px rgba(244, 0, 9, 0.3) !important;
         }
         
         .otp-form button {
-          background-color: rgba(255, 255, 255, 0.2) !important;
-          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          background-color: #F40009 !important;
+          border: 1px solid #F40009 !important;
           border-radius: 0.75rem !important;
           padding: 0.75rem 1.5rem !important;
-          color: #0f4f66 !important;
+          color: #ffffff !important;
           font-weight: 600 !important;
           transition: all 0.3s ease !important;
           backdrop-filter: blur(10px) !important;
@@ -266,7 +266,7 @@ function AuthComponent() {
         }
         
         .otp-form button:hover:not(:disabled) {
-          background-color: rgb(115, 172, 180) !important;
+          background-color: #cc0008 !important;
           color: white !important;
           transform: translateY(-2px) !important;
         }
@@ -289,14 +289,15 @@ function AuthComponent() {
       
       <div className="relative z-10 w-full max-w-xl mx-auto px-4">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            {/* Logo - transparent white circle with inner circle */}
-            <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
-              <div className="w-8 h-8 bg-white rounded-full"></div>
+          <div className="flex flex-col items-center justify-center gap-3 mb-4">
+            {/* CCBA Logo */}
+            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-2">
+              <span className="text-[#F40009] font-bold text-lg">CCBA</span>
             </div>
             <h1 className="text-4xl font-bold text-white">Cyborg Habits</h1>
+            <span className="text-sm text-white/70">Powered by CCBA</span>
           </div>
-          <h2 className="text-2xl text-gray-800 font-semibold mb-2">
+          <h2 className="text-2xl text-white font-semibold mb-2">
             {authView === 'sign_in' 
               ? 'Sign in to your account' 
               : otpStep === 'email' 
@@ -304,7 +305,7 @@ function AuthComponent() {
                 : 'Enter your OTP'
             }
           </h2>
-          <p className="text-gray-700">
+          <p className="text-white/80">
             {authView === 'sign_in' 
               ? 'Enter your credentials to access your account' 
               : otpStep === 'email'
@@ -317,13 +318,13 @@ function AuthComponent() {
         <div className="glassmorphism rounded-2xl p-8">
           {/* Shared Email Input */}
           <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-2">Email Address</label>
+            <label className="block text-white font-medium mb-2">Email Address</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="w-full p-3 rounded-lg border border-gray-300 bg-[#e6f2f5] text-[#0f4f66] focus:outline-none focus:border-[#0f4f66] focus:ring-2 focus:ring-[#0f4f66]/20"
+              className="w-full p-3 rounded-lg border border-[#F40009]/50 bg-black/50 text-white placeholder-white/50 focus:outline-none focus:border-[#F40009] focus:ring-2 focus:ring-[#F40009]/30"
             />
           </div>
 
@@ -331,8 +332,8 @@ function AuthComponent() {
           {message && (
             <div className={`mb-6 p-4 rounded-xl ${
               message.includes('Error') 
-                ? 'bg-red-500/20 border border-red-500/30 text-red-800' 
-                : 'bg-green-500/20 border border-green-500/30 text-green-800'
+                ? 'bg-red-500/30 border border-red-500/50 text-white' 
+                : 'bg-green-500/30 border border-green-500/50 text-white'
             }`}>
               <p className="font-medium">{message}</p>
             </div>
@@ -343,7 +344,7 @@ function AuthComponent() {
               {/* Password Form */}
               <form onSubmit={handlePasswordLogin} className="space-y-6">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">Password</label>
+                  <label className="block text-white font-medium mb-2">Password</label>
                   <input
                     type="password"
                     value={password}
@@ -351,14 +352,14 @@ function AuthComponent() {
                     placeholder="Enter your password"
                     required
                     disabled={passwordLoading}
-                    className="w-full p-3 rounded-lg border border-gray-300 bg-[#e6f2f5] text-[#0f4f66] focus:outline-none focus:border-[#0f4f66] focus:ring-2 focus:ring-[#0f4f66]/20"
+                    className="w-full p-3 rounded-lg border border-[#F40009]/50 bg-black/50 text-white placeholder-white/50 focus:outline-none focus:border-[#F40009] focus:ring-2 focus:ring-[#F40009]/30"
                   />
                 </div>
                 
                 <button
                   type="submit"
                   disabled={passwordLoading || !email || !password}
-                  className="w-full p-3 rounded-lg font-semibold transition-all bg-white/20 border border-white/20 text-[#0f4f66] hover:bg-[#73acb4] hover:text-white disabled:opacity-60 disabled:cursor-not-allowed backdrop-blur-10"
+                  className="w-full p-3 rounded-lg font-semibold transition-all bg-[#F40009] border border-[#F40009] text-white hover:bg-[#cc0008] disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {passwordLoading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -379,7 +380,7 @@ function AuthComponent() {
                     setOtp('')
                     setMessage('')
                   }}
-                  className="text-sm text-gray-600 hover:text-gray-800 underline font-medium"
+                  className="text-sm text-white/70 hover:text-white underline font-medium"
                 >
                   Sign in with OTP instead
                 </button>
@@ -411,7 +412,7 @@ function AuthComponent() {
                     setPassword('')
                     setMessage('')
                   }}
-                  className="text-sm text-gray-600 hover:text-gray-800 underline font-medium"
+                  className="text-sm text-white/70 hover:text-white underline font-medium"
                 >
                   Sign in with password instead
                 </button>
@@ -422,7 +423,7 @@ function AuthComponent() {
               {/* OTP Verification Step */}
               <form onSubmit={handleVerifyOtp} className="otp-form space-y-6">
                 <div>
-                  <label className="block text-gray-700 font-medium mb-2">6-Digit OTP Code</label>
+                  <label className="block text-white font-medium mb-2">6-Digit OTP Code</label>
                   <input
                     type="text"
                     value={otp}
@@ -463,7 +464,7 @@ function AuthComponent() {
                     setPassword('')
                     setMessage('')
                   }}
-                  className="text-sm text-gray-600 hover:text-gray-800 underline font-medium"
+                  className="text-sm text-white/70 hover:text-white underline font-medium"
                 >
                   Sign in with password instead
                 </button>

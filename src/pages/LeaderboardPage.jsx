@@ -522,7 +522,7 @@ function LeaderboardPage() {
                         </div>
                         <div className="w-full md:w-32 h-3 bg-white/20 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-[#0f4f66] to-[#a7dbe3] rounded-full transition-all duration-1000 ease-out"
+                            className="h-full bg-gradient-to-r from-[#F40009] to-[#8B0000] rounded-full transition-all duration-1000 ease-out"
                             style={{
                               width: `${Math.min(parseFloat(user.journey_completion_percentage), 100)}%`,
                             }}
@@ -755,7 +755,7 @@ function LeaderboardPage() {
                             </div>
                             <div className="w-full md:w-32 h-3 bg-white/20 rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-gradient-to-r from-[#0f4f66] to-[#a7dbe3] rounded-full transition-all duration-1000 ease-out"
+                                className="h-full bg-gradient-to-r from-[#F40009] to-[#8B0000] rounded-full transition-all duration-1000 ease-out"
                                 style={{
                                   width: `${Math.min(parseFloat(me.journey_completion_percentage), 100)}%`,
                                 }}

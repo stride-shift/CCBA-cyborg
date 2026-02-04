@@ -234,7 +234,7 @@ function DlabPage() {
             <h3 className="text-2xl font-bold mb-6 text-white">Your Progress</h3>
             <div className="mb-4">
               <div className="bg-white/20 rounded-full h-4 overflow-hidden">
-                <div className="bg-gradient-to-r from-[#0f4f66] to-[#a7dbe3] h-full transition-all duration-500 ease-out" style={{ width: `${progressPercentage}%` }}></div>
+                <div className="bg-gradient-to-r from-[#F40009] to-[#8B0000] h-full transition-all duration-500 ease-out" style={{ width: `${progressPercentage}%` }}></div>
               </div>
             </div>
             <div className="flex justify-between items-center">

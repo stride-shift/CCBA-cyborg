@@ -31,7 +31,7 @@ function ProductsPage() {
       name: 'Guide It',
       description: 'Use AI to provide step-by-step guidance, making even the most complex tasks feel simple and manageable.',
       categories: ['Learning', 'Productivity'],
-      gradient: 'from-teal-500/70 to-teal-600/70',
+      gradient: 'from-red-600/70 to-red-800/70',
       image: 'https://images.unsplash.com/photo-1506818144585-74b29c980d4b?w=400&h=600&fit=crop',
       icon: '🧭'
     },
@@ -250,7 +250,7 @@ function ProductsPage() {
             : 'hover:bg-white/20'
           }
           ${isSurveyDay 
-            ? 'bg-gradient-to-br from-blue-500/20 to-teal-500/20 w-80 h-48' 
+            ? 'bg-gradient-to-br from-red-500/20 to-red-800/20 w-80 h-48' 
             : ''
           }
         `}>
@@ -646,7 +646,7 @@ function ProductsPage() {
             <div className="mb-4">
               <div className="bg-white/20 rounded-full h-4 overflow-hidden">
                 <div 
-                  className="bg-gradient-to-r from-[#0f4f66] to-[#a7dbe3] h-full transition-all duration-500 ease-out"
+                  className="bg-gradient-to-r from-[#F40009] to-[#8B0000] h-full transition-all duration-500 ease-out"
                   style={{ width: `${progressPercentage}%` }}
                 ></div>
               </div>

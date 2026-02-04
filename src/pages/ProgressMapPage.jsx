@@ -239,7 +239,7 @@ function ProgressMapPage() {
               <div className="col-span-3 flex items-center gap-3">
                 <div className="flex-grow h-2 bg-white/20 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-cyan-400 rounded-full transition-all duration-500"
+                    className="h-full bg-[#F40009] rounded-full transition-all duration-500"
                     style={{ width: `${item.percentage}%` }}
                   />
                 </div>
@@ -255,7 +255,7 @@ function ProgressMapPage() {
               <span className="text-white/50"> / {totalEvidence.possible}</span>
             </div>
             <div className="col-span-6 text-right text-white font-medium">
-              Overall Progress: <span className="text-cyan-400">{overallPercentage}%</span>
+              Overall Progress: <span className="text-[#F40009]">{overallPercentage}%</span>
             </div>
           </div>
         </div>

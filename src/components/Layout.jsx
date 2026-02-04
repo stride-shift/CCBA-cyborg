@@ -39,8 +39,8 @@ function Layout({ children }) {
 
   return (
     <div className="min-h-screen relative">
-      {/* Fixed gradient background */}
-      <div className="fixed inset-0 overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f4f66, #a7dbe3)' }}></div>
+      {/* Fixed gradient background - CCBA Coca-Cola branding */}
+      <div className="fixed inset-0 overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 25%, #F40009 50%, #8B0000 75%, #1a1a1a 100%)' }}></div>
       
       {/* Content wrapper */}
       <div className="relative z-10 min-h-screen flex flex-col">
@@ -57,11 +57,11 @@ function Layout({ children }) {
         .bubble {
           position: absolute;
           border-radius: 50%;
-          background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+          background: linear-gradient(145deg, rgba(244, 0, 9, 0.15), rgba(139, 0, 0, 0.1));
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2), 0 8px 32px rgba(14, 20, 52, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: inset 0 0 20px rgba(244, 0, 9, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
           z-index: 0;
         }
         .float-1 { animation: float-up 6s ease-in-out infinite; }
@@ -70,10 +70,10 @@ function Layout({ children }) {
         .float-4 { animation: float-down 7s ease-in-out infinite; }
         
         .glassmorphism {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(0, 0, 0, 0.4);
           backdrop-filter: blur(16px);
-          box-shadow: 0 8px 32px rgba(14, 20, 52, 0.15);
-          border: 1px solid rgba(255, 255, 255, 0.4);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         /* Enhanced text readability */
@@ -132,21 +132,27 @@ function Layout({ children }) {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300" 
         style={{
-          background: 'rgba(255, 255, 255, 0.2)',
+          background: 'rgba(0, 0, 0, 0.7)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          boxShadow: '0 4px 30px rgba(255, 255, 255, 0.1)',
+          border: '1px solid rgba(244, 0, 9, 0.3)',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)',
           pointerEvents: 'auto'
         }}>
         <div className="container mx-auto px-4 md:px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 relative z-10">
-              <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
-                <div className="w-5 h-5 bg-white rounded-full"></div>
+            {/* Logo - CCBA Branding */}
+            <Link to="/" className="flex items-center gap-3 relative z-10">
+              <div className="flex items-center gap-2">
+                {/* CCBA Logo placeholder */}
+                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                  <span className="text-[#F40009] font-bold text-xs">CCBA</span>
+                </div>
               </div>
-              <span className="text-2xl font-bold text-white">Cyborg Habits</span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-white leading-tight">Cyborg Habits</span>
+                <span className="text-[10px] text-white/70 leading-tight">Powered by CCBA</span>
+              </div>
             </Link>
 
             {/* Nav Links */}
