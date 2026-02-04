@@ -143,16 +143,8 @@ function Layout({ children }) {
           <div className="flex items-center justify-between">
             {/* Logo - CCBA Branding */}
             <Link to="/" className="flex items-center gap-3 relative z-10">
-              <div className="flex items-center gap-2">
-                {/* CCBA Logo placeholder */}
-                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-[#F40009] font-bold text-xs">CCBA</span>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-white leading-tight">Cyborg Habits</span>
-                <span className="text-[10px] text-white/70 leading-tight">Powered by CCBA</span>
-              </div>
+              <img src="/ccba-logo.jpg" alt="CCBA" className="h-10 w-auto" />
+              <span className="text-xl font-bold text-white">Cyborg Habits</span>
             </Link>
 
             {/* Nav Links */}

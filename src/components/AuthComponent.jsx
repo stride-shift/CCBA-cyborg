@@ -291,11 +291,8 @@ function AuthComponent() {
         <div className="text-center mb-8">
           <div className="flex flex-col items-center justify-center gap-3 mb-4">
             {/* CCBA Logo */}
-            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-2">
-              <span className="text-[#F40009] font-bold text-lg">CCBA</span>
-            </div>
+            <img src="/ccba-logo.jpg" alt="CCBA" className="h-16 w-auto mb-2" />
             <h1 className="text-4xl font-bold text-white">Cyborg Habits</h1>
-            <span className="text-sm text-white/70">Powered by CCBA</span>
           </div>
           <h2 className="text-2xl text-white font-semibold mb-2">
             {authView === 'sign_in' 
