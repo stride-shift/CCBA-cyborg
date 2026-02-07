@@ -1,160 +1,79 @@
-import { useState } from 'react'
-
 function DayTile({ day, isCompleted }) {
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const [imageError, setImageError] = useState(false)
-
-  const handleImageLoad = () => {
-    setImageLoaded(true)
-  }
-
-  const handleImageError = () => {
-    setImageError(true)
-    setImageLoaded(true)
-  }
-
-  // Generate a consistent placeholder background based on day number
-  const getPlaceholderBackground = (dayNumber) => {
+  // Generate a consistent colorful background based on day number - Coca-Cola themed
+  const getGradientBackground = (dayNumber) => {
     const backgrounds = [
-      // Day 1 - Foundation (Purple/Blue)
-      { gradient: 'from-purple-600 via-blue-600 to-indigo-700', pattern: 'foundation' },
-      // Day 2 - Momentum (Blue/Cyan)
-      { gradient: 'from-blue-600 via-cyan-500 to-teal-600', pattern: 'momentum' },
-      // Day 3 - Consistency (Cyan/Teal)
-      { gradient: 'from-cyan-500 via-teal-500 to-emerald-600', pattern: 'consistency' },
-      // Day 4 - Resilience (Teal/Green)
-      { gradient: 'from-teal-600 via-green-500 to-lime-600', pattern: 'resilience' },
-      // Day 5 - Focus (Green/Lime)
-      { gradient: 'from-green-600 via-lime-500 to-yellow-500', pattern: 'focus' },
-      // Day 6 - Energy (Lime/Yellow)
-      { gradient: 'from-lime-500 via-yellow-500 to-amber-600', pattern: 'energy' },
-      // Day 7 - Reflection (Yellow/Orange)
-      { gradient: 'from-yellow-500 via-amber-500 to-orange-600', pattern: 'reflection' },
-      // Day 8 - Growth (Orange/Red)
-      { gradient: 'from-orange-500 via-red-500 to-pink-600', pattern: 'growth' },
-      // Day 9 - Connection (Red/Pink)
-      { gradient: 'from-red-500 via-pink-500 to-rose-600', pattern: 'connection' },
-      // Day 10 - Purpose (Pink/Purple)
-      { gradient: 'from-pink-500 via-purple-500 to-violet-600', pattern: 'purpose' },
-      // Day 11 - Creativity (Purple/Indigo)
-      { gradient: 'from-purple-600 via-indigo-500 to-blue-700', pattern: 'creativity' },
-      // Day 12 - Balance (Indigo/Blue)
-      { gradient: 'from-indigo-600 via-blue-600 to-cyan-700', pattern: 'balance' },
-      // Day 13 - Gratitude (Blue/Emerald)
-      { gradient: 'from-blue-600 via-emerald-500 to-teal-700', pattern: 'gratitude' },
-      // Day 14 - Integration (Emerald/Orange)
-      { gradient: 'from-emerald-600 via-orange-500 to-red-700', pattern: 'integration' },
-      // Day 15 - Transformation (Multi-color celebration)
-      { gradient: 'from-purple-600 via-pink-500 via-orange-500 to-yellow-500', pattern: 'transformation' }
+      'from-red-600 to-red-800',        // Day 1
+      'from-red-500 to-rose-700',       // Day 2
+      'from-rose-600 to-pink-700',      // Day 3
+      'from-red-700 to-orange-600',     // Day 4
+      'from-orange-500 to-red-600',     // Day 5
+      'from-red-600 to-rose-600',       // Day 6
+      'from-rose-500 to-red-700',       // Day 7
+      'from-red-800 to-rose-600',       // Day 8
+      'from-rose-700 to-red-500',       // Day 9
+      'from-red-500 to-pink-600',       // Day 10
+      'from-pink-600 to-red-600',       // Day 11
+      'from-red-600 to-rose-800',       // Day 12
+      'from-rose-600 to-red-700',       // Day 13
+      'from-red-700 to-pink-600',       // Day 14
+      'from-pink-500 to-red-600',       // Day 15
     ]
     return backgrounds[(dayNumber - 1) % backgrounds.length]
   }
 
   return (
     <div className="relative group cursor-pointer transition-all duration-300 hover:scale-105 hover:z-10">
-      <div className="w-80 h-48 bg-gray-800 rounded-xl overflow-hidden relative shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
+      <div className={`w-full h-40 rounded-xl overflow-hidden relative shadow-lg group-hover:shadow-2xl transition-all duration-300 bg-gradient-to-br ${getGradientBackground(day.day_number)}`}>
+        
         {/* Completion Badge */}
         {isCompleted && (
-          <div className="absolute top-3 right-3 z-20">
-            <div className="bg-green-500 text-white rounded-full p-2 shadow-lg">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <div className="absolute top-2 right-2 z-30">
+            <div className="bg-white text-[#C41E3A] rounded-full p-1.5 shadow-lg">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
             </div>
           </div>
         )}
 
-        {/* Background Image or Placeholder */}
-        {!imageError && day.image_url ? (
-          <img
-            src={day.image_url}
-            alt={day.title}
-            className={`w-full h-full object-cover transition-opacity duration-300 ${
-              imageLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-            onLoad={handleImageLoad}
-            onError={handleImageError}
-          />
-        ) : (
-          <div className={`w-full h-full bg-gradient-to-br ${getPlaceholderBackground(day.day_number).gradient} relative`}>
-            {/* Decorative pattern overlay */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="w-full h-full" style={{
-                backgroundImage: `
-                  radial-gradient(circle at 20% 20%, rgba(255,255,255,0.3) 2px, transparent 2px),
-                  radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 1px, transparent 1px),
-                  linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%)
-                `,
-                backgroundSize: '60px 60px, 40px 40px, 100px 100px'
-              }}></div>
-            </div>
-            {/* Additional texture overlay */}
-            <div className="absolute inset-0 opacity-5">
-              <div className="w-full h-full" style={{
-                backgroundImage: `repeating-linear-gradient(
-                  45deg,
-                  transparent,
-                  transparent 2px,
-                  rgba(255,255,255,0.1) 2px,
-                  rgba(255,255,255,0.1) 4px
-                )`
-              }}></div>
-            </div>
-          </div>
-        )}
+        {/* Decorative bubbles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-2 left-4 w-8 h-8 bg-white/10 rounded-full"></div>
+          <div className="absolute bottom-4 right-6 w-12 h-12 bg-white/5 rounded-full"></div>
+          <div className="absolute top-1/2 left-1/4 w-6 h-6 bg-white/10 rounded-full"></div>
+        </div>
 
-        {/* Loading Skeleton */}
-        {!imageLoaded && !imageError && day.image_url && (
-          <div className="absolute inset-0 bg-gray-700 animate-pulse flex items-center justify-center">
-            <div className="text-gray-400">Loading...</div>
-          </div>
-        )}
-
-        {/* Always visible overlay for better text contrast */}
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-
-        {/* Central Day Number - Visible when not hovering */}
-        <div className="absolute inset-0 flex items-center justify-center z-20 group-hover:opacity-0 transition-opacity duration-300">
+        {/* Central Day Number - Always visible */}
+        <div className="absolute inset-0 flex items-center justify-center z-10">
           <div className="text-center">
-            <div className="text-8xl font-bold text-white drop-shadow-2xl">
+            <div className="text-6xl font-bold text-white drop-shadow-lg" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>
               {day.day_number}
             </div>
+            {day.title && (
+              <p className="text-white/90 text-xs mt-1 px-2 font-medium truncate max-w-[150px]">
+                {day.title.replace(`Day ${day.day_number}: `, '').replace(`Day ${day.day_number}`, '')}
+              </p>
+            )}
           </div>
         </div>
 
         {/* Hover Overlay with Details */}
-        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 z-10">
-          <div className="absolute inset-0 p-4 flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <h3 className="text-white font-bold text-lg mb-3">{day.title}</h3>
-            {day.description && (
-              <p className="text-gray-200 text-sm leading-tight mb-4 px-2 line-clamp-3">
-                {day.description.length > 80 ? day.description.substring(0, 80) + '...' : day.description}
-              </p>
-            )}
-            <div className="flex items-center text-blue-400">
-              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-300 z-20">
+          <div className="absolute inset-0 p-3 flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <h3 className="text-white font-bold text-sm mb-2">{day.title || `Day ${day.day_number}`}</h3>
+            <div className="flex items-center text-white bg-white/20 px-3 py-1.5 rounded-full">
+              <span className="text-xs font-medium">Start Challenge</span>
+              <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
-              <span className="text-sm font-medium">Start Challenge</span>
             </div>
           </div>
         </div>
 
-        {/* Completion Overlay */}
+        {/* Completed overlay - red tint */}
         {isCompleted && (
-          <div className="absolute inset-0 bg-green-500 bg-opacity-10 border-2 border-green-400 rounded-xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-transparent"></div>
-          </div>
+          <div className="absolute inset-0 bg-white/20 border-2 border-white/60 rounded-xl z-5"></div>
         )}
-
-        {/* Progress indicator */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gray-700">
-          <div 
-            className={`h-full transition-all duration-500 ${
-              isCompleted ? 'bg-green-500 w-full' : 'bg-blue-500 w-0'
-            }`}
-          ></div>
-        </div>
       </div>
     </div>
   )

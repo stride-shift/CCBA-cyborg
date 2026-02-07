@@ -117,7 +117,7 @@ function HabitDetailPage() {
     return (
       <Layout>
         <div className="container mx-auto px-6 py-16 text-center">
-          <h1 className="text-2xl text-white">Habit not found</h1>
+          <h1 className="text-2xl text-gray-900">Habit not found</h1>
           <Link to="/products" className="text-blue-400 hover:text-blue-300 mt-4 inline-block">
             Back to Products
           </Link>
@@ -135,12 +135,12 @@ function HabitDetailPage() {
           <div>
             <div className="flex items-center gap-4 mb-6">
               <div className={`inline-block px-4 py-2 rounded-full bg-gradient-to-r ${habitData.gradient} opacity-80`}>
-                <span className="text-white font-medium text-sm">{habitData.name}</span>
+                <span className="text-gray-900 font-medium text-sm">{habitData.name}</span>
               </div>
               
               <Link
                 to="/products"
-                className="inline-flex items-center gap-2 glassmorphism px-4 py-2 rounded-full text-white hover:bg-white/25 transition-all"
+                className="inline-flex items-center gap-2 glassmorphism px-4 py-2 rounded-full text-gray-900 hover:bg-white/25 transition-all"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -149,11 +149,11 @@ function HabitDetailPage() {
               </Link>
             </div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-8 leading-tight">
               {habitData.title}
             </h1>
             
-            <p className="text-xl text-white/80 leading-relaxed">
+            <p className="text-xl text-gray-900/80 leading-relaxed">
               {habitData.description}
             </p>
           </div>
@@ -183,10 +183,10 @@ function HabitDetailPage() {
         <div className="relative">
           {/* Section Header */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Complete These {habitData.name} Challenges
             </h2>
-            <p className="text-xl text-white/60 leading-relaxed">
+            <p className="text-xl text-gray-900/60 leading-relaxed">
               Master each challenge in sequence to build your {habitData.name} habit. Each challenge builds upon the previous one, creating a powerful learning journey.
             </p>
           </div>
@@ -205,23 +205,23 @@ function HabitDetailPage() {
                   <div className={`absolute inset-0 bg-gradient-to-t ${habitData.gradient} opacity-90`} />
                   {/* Challenge Number */}
                   <div className="absolute top-6 right-6 w-12 h-12 rounded-full glassmorphism flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">{index + 1}</span>
+                    <span className="text-gray-900 font-bold text-lg">{index + 1}</span>
                   </div>
                   {/* Completion Check */}
-                  <div className="absolute top-6 left-6 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border-2 border-white/20 flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                    <svg className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="absolute top-6 left-6 w-12 h-12 rounded-full bg-gray-50 backdrop-blur-sm border-2 border-white/20 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                    <svg className="w-6 h-6 text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   {/* Content */}
                   <div className="absolute inset-0 flex flex-col justify-end p-8">
-                    <h3 className="text-2xl font-bold text-white mb-4 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 transform translate-y-2 group-hover:translate-y-0 transition-transform">
                       {challenge.title}
                     </h3>
                   </div>
                 </div>
                 {/* Progress indicator */}
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-white/10 rounded-full overflow-hidden">
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-gray-50 rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-green-400 to-green-500 w-0 group-hover:w-full transition-all duration-1000"></div>
                 </div>
               </Link>

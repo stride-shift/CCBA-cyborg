@@ -17,7 +17,7 @@ function ChallengeCard({ challenge, isCompleted, onToggleComplete }) {
     <div className="glassmorphism rounded-2xl overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl max-w-xl mx-auto">
       {/* Card Header */}
       <div className="glassmorphism backdrop-blur-md bg-white/20 p-6 border-b border-white/20">
-        <h3 className="text-2xl font-bold text-white drop-shadow-md tracking-wide" style={{textShadow: '0 2px 8px rgba(0,0,0,0.18)'}}>{challenge.title}</h3>
+        <h3 className="text-2xl font-bold text-gray-900 drop-shadow-md tracking-wide" style={{textShadow: '0 2px 8px rgba(0,0,0,0.18)'}}>{challenge.title}</h3>
       </div>
 
       {/* Card Content */}
@@ -36,7 +36,7 @@ function ChallengeCard({ challenge, isCompleted, onToggleComplete }) {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <div className="text-center text-white/60">
+              <div className="text-center text-gray-900/60">
                 <svg className="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
                 </svg>
@@ -48,7 +48,7 @@ function ChallengeCard({ challenge, isCompleted, onToggleComplete }) {
           {/* Loading Skeleton */}
           {!imageLoaded && !imageError && (
             <div className="absolute inset-0 bg-white/20 animate-pulse flex items-center justify-center rounded-none">
-              <div className="text-white/60 text-sm">Loading...</div>
+              <div className="text-gray-900/60 text-sm">Loading...</div>
             </div>
           )}
         </div>
@@ -56,8 +56,8 @@ function ChallengeCard({ challenge, isCompleted, onToggleComplete }) {
         {/* Content Section */}
         <div className="w-full md:w-1/2 p-4 md:p-6 flex flex-col justify-between bg-white/15 min-h-[200px] md:min-h-0">
           <div>
-            <h4 className="text-lg font-semibold text-white mb-3" style={{textShadow: '0 2px 4px rgba(0,0,0,0.3)'}}>Challenge</h4>
-            <p className="text-white/90 leading-relaxed text-base" style={{textShadow: '0 1px 3px rgba(0,0,0,0.2)'}}>{challenge.description}</p>
+            <h4 className="text-lg font-semibold text-gray-900 mb-3" style={{textShadow: '0 2px 4px rgba(0,0,0,0.3)'}}>Challenge</h4>
+            <p className="text-gray-900/90 leading-relaxed text-base" style={{textShadow: '0 1px 3px rgba(0,0,0,0.2)'}}>{challenge.description}</p>
           </div>
 
           {/* Completion Button */}

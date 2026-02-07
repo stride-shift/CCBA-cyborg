@@ -249,7 +249,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
   if (!selectedUser) {
     return (
       <div className="text-center py-12">
-        <p className="text-white/60">Select a user to view their activity</p>
+        <p className="text-gray-900/60">Select a user to view their activity</p>
       </div>
     )
   }
@@ -258,7 +258,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
     return (
       <div className="text-center py-12">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
-        <p className="text-white">Loading user activity...</p>
+        <p className="text-gray-900">Loading user activity...</p>
       </div>
     )
   }
@@ -269,7 +269,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
         <p className="text-red-400 mb-4">Error loading user data: {error}</p>
         <button
           onClick={loadUserData}
-          className="px-4 py-2 bg-red-500/20 rounded-lg text-white hover:bg-red-500/30 transition-all"
+          className="px-4 py-2 bg-red-500/20 rounded-lg text-gray-900 hover:bg-red-500/30 transition-all"
         >
           Try Again
         </button>
@@ -283,7 +283,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
       <div className="flex items-center justify-between">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-white/70 hover:text-white transition-colors"
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
         >
           ← Back to Search
         </button>
@@ -296,9 +296,9 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
       </div>
 
       {/* User Header */}
-      <div className="bg-white/10 rounded-xl p-6">
+      <div className="bg-gray-50 rounded-xl p-6">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold text-2xl">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-gray-900 font-bold text-2xl">
             {selectedUser.first_name?.[0]?.toUpperCase() || '?'}
           </div>
           <div>
@@ -319,31 +319,31 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
       <div>
         <h3 className="text-lg font-semibold text-black mb-4">Progress Overview</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-white mb-1">
+          <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900 mb-1">
               {userStats?.journey?.journey_completion_percentage || 0}%
             </div>
             <div className="text-black font-medium text-sm">Journey Complete</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-white mb-1">
+          <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900 mb-1">
               {userStats?.totalDaysCompleted}
             </div>
             <div className="text-black font-medium text-sm">Days Completed</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-white mb-1">
+          <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900 mb-1">
               {userStats?.journey?.current_streak_days || 0}
             </div>
             <div className="text-black font-medium text-sm">Current Streak</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-white mb-1">
+          <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-gray-900 mb-1">
               {userStats?.totalReflections}
             </div>
             <div className="text-black font-medium text-sm">Reflections</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+          <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
             <div className={`text-2xl font-bold mb-1 ${
               userStats?.surveys?.total_completed === 2 ? 'text-green-400' : 
               userStats?.surveys?.total_completed === 1 ? 'text-yellow-400' : 'text-red-400'
@@ -363,20 +363,20 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
       <div>
         <h3 className="text-lg font-semibold text-black mb-4">This Week's Activity</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-            <div className="text-xl font-bold text-white mb-1">
+          <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+            <div className="text-xl font-bold text-gray-900 mb-1">
               {userStats?.recentChallenges}
             </div>
             <div className="text-black font-medium text-sm">Challenges Completed</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-            <div className="text-xl font-bold text-white mb-1">
+          <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+            <div className="text-xl font-bold text-gray-900 mb-1">
               {userStats?.recentReflections}
             </div>
             <div className="text-black font-medium text-sm">Reflections Submitted</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-            <div className="text-xl font-bold text-white mb-1">
+          <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+            <div className="text-xl font-bold text-gray-900 mb-1">
               {userStats?.journey?.last_activity_at ? 
                 Math.floor((new Date() - new Date(userStats.journey.last_activity_at)) / (1000 * 60 * 60 * 24)) : 
                 '?'
@@ -391,7 +391,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
       {detailedProgress.length > 0 && (
         <div>
           <h3 className="text-lg font-semibold text-black mb-4">Challenge & Reflection Progress</h3>
-          <div className="bg-white/10 rounded-xl p-6">
+          <div className="bg-gray-50 rounded-xl p-6">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -412,7 +412,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
                       <td className="py-3 text-center">
                         {day.challenge_1_completed ? (
                           <div className="w-5 h-5 bg-green-500 rounded-full mx-auto flex items-center justify-center">
-                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-3 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           </div>
@@ -423,7 +423,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
                       <td className="py-3 text-center">
                         {day.challenge_2_completed ? (
                           <div className="w-5 h-5 bg-green-500 rounded-full mx-auto flex items-center justify-center">
-                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-3 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           </div>
@@ -434,7 +434,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
                       <td className="py-3 text-center">
                         {day.reflection_completed ? (
                           <div className="w-5 h-5 bg-blue-500 rounded-full mx-auto flex items-center justify-center">
-                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-3 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                             </svg>
                           </div>
@@ -445,7 +445,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
                       <td className="py-3 text-center">
                         {day.day_completed ? (
                           <div className="w-5 h-5 bg-yellow-500 rounded-full mx-auto flex items-center justify-center">
-                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-3 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
                           </div>
@@ -492,7 +492,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
         </div>
         
         {isReflectionsExpanded && (
-          <div className="bg-white/10 rounded-xl p-6">
+          <div className="bg-gray-50 rounded-xl p-6">
             {userReflections.length === 0 ? (
               <p className="text-gray-600 text-center py-8">No reflections submitted yet</p>
             ) : (
@@ -501,7 +501,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
                   <div key={reflection.id} className="bg-white/5 rounded-lg p-6 border border-white/10">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        <div className="bg-blue-500 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">
                           Day {reflection.challenges?.order_index || 'N/A'}
                         </div>
                         <div>
@@ -531,7 +531,7 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
                     
                     <div>
                       <h5 className="text-black font-medium text-sm mb-2">Answer:</h5>
-                      <div className="text-gray-800 text-sm bg-white/10 p-4 rounded border border-white/20 max-h-96 overflow-y-auto">
+                      <div className="text-gray-800 text-sm bg-gray-50 p-4 rounded border border-white/20 max-h-96 overflow-y-auto">
                         <p className="whitespace-pre-wrap leading-relaxed">{reflection.reflection_text}</p>
                       </div>
                     </div>
@@ -568,14 +568,14 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
         </div>
         
         {isRecentActivityExpanded && (
-          <div className="bg-white/10 rounded-xl p-6">
+          <div className="bg-gray-50 rounded-xl p-6">
             {recentActivity.length === 0 ? (
               <p className="text-gray-600 text-center py-8">No recent activity in the last 7 days</p>
             ) : (
               <div className="space-y-3">
                 {recentActivity.map((activity, index) => (
                   <div key={index} className="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
-                    <div className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
+                    <div className={`px-3 py-1 rounded-full text-xs font-semibold text-gray-900 ${
                       activity.type === 'challenge' || activity.type === 'challenge_completion'
                         ? 'bg-green-500' 
                         : activity.type === 'reflection' || activity.type === 'reflection_submission'

@@ -317,10 +317,10 @@ function DayPage() {
   if (loading) {
     return (
       <Layout>
-        <div className="container mx-auto px-6 py-32 text-white flex items-center justify-center">
+        <div className="container mx-auto px-6 py-32 flex items-center justify-center">
           <div className="text-center glassmorphism rounded-2xl p-12">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-white mx-auto mb-6"></div>
-            <p className="text-xl">Loading day {dayNumber}...</p>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#C41E3A] mx-auto mb-6"></div>
+            <p className="text-xl text-gray-700">Loading day {dayNumber}...</p>
           </div>
         </div>
       </Layout>
@@ -370,7 +370,7 @@ function DayPage() {
         {/* How This Works Modal */}
         {showHowItWorks && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowHowItWorks(false)}>
-            <div className="glassmorphism rounded-2xl p-8 max-w-lg w-full relative" onClick={(e) => e.stopPropagation()}>
+            <div className="glassmorphism-dark rounded-2xl p-8 max-w-lg w-full relative" onClick={(e) => e.stopPropagation()}>
               <button 
                 onClick={() => setShowHowItWorks(false)}
                 className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
@@ -411,7 +411,7 @@ function DayPage() {
               
               <button 
                 onClick={() => setShowHowItWorks(false)}
-                className="w-full mt-8 glassmorphism px-6 py-3 rounded-full text-white font-medium hover:bg-white/20 transition-all"
+                className="w-full mt-8 bg-[#C41E3A] hover:bg-[#a01830] px-6 py-3 rounded-full text-white font-medium transition-all"
               >
                 Begin
               </button>
@@ -423,16 +423,16 @@ function DayPage() {
         <div className="glassmorphism rounded-2xl p-6 md:p-8 mb-8">
           {/* Navigation Links */}
           <div className="flex items-center gap-4 mb-4">
-            <Link to="/challenges" className="inline-flex items-center text-white/70 hover:text-white transition-colors group">
+            <Link to="/challenges" className="inline-flex items-center text-gray-500 hover:text-[#C41E3A] transition-colors group">
               <svg className="w-4 h-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               <span className="text-sm font-medium">Back to Challenges</span>
             </Link>
-            <span className="text-white/40">|</span>
+            <span className="text-gray-300">|</span>
             <button 
               onClick={() => setShowHowItWorks(true)}
-              className="inline-flex items-center text-white/70 hover:text-white transition-colors"
+              className="inline-flex items-center text-gray-500 hover:text-[#C41E3A] transition-colors"
             >
               <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -444,22 +444,22 @@ function DayPage() {
           {/* Title and Day Number */}
           <div className="flex items-start justify-between mb-6">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{challengeData?.title || `Day ${dayNumber}: Challenge`}</h1>
-              <p className="text-white/70">
+              <h1 className="text-3xl md:text-4xl font-bold text-[#C41E3A] mb-2">{challengeData?.title || `Day ${dayNumber}: Challenge`}</h1>
+              <p className="text-gray-600">
                 Complete both challenges to unlock your reflection
               </p>
             </div>
             <div className="text-right flex-shrink-0 ml-4">
-              <div className="text-xs text-white/50 uppercase tracking-wide">Day</div>
-              <div className="text-4xl md:text-5xl font-bold text-white">{dayNumber}</div>
+              <div className="text-xs text-gray-400 uppercase tracking-wide">Day</div>
+              <div className="text-4xl md:text-5xl font-bold text-[#C41E3A]">{dayNumber}</div>
             </div>
           </div>
           
           {/* What You Might Discover - integrated into header */}
           {challengeData?.intended_aha_moments && challengeData.intended_aha_moments.length > 0 && (
-            <div className="border-t border-white/20 pt-5 mt-2">
-              <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
-                <svg className="w-5 h-5 mr-2 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="border-t border-gray-200 pt-5 mt-2">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                <svg className="w-5 h-5 mr-2 text-[#C41E3A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
                 What You Might Discover
@@ -467,12 +467,12 @@ function DayPage() {
               <div className="space-y-2 mb-4">
                 {challengeData.intended_aha_moments.map((moment, index) => (
                   <div key={index} className="flex items-start space-x-2">
-                    <span className="text-white/50">•</span>
-                    <p className="text-white/80 text-sm italic">"{moment}"</p>
+                    <span className="text-[#C41E3A]">•</span>
+                    <p className="text-gray-600 text-sm italic">"{moment}"</p>
                   </div>
                 ))}
               </div>
-              <p className="text-white/60 text-xs">
+              <p className="text-gray-500 text-xs">
                 Complete the challenge pair and then share your reflection. Remember to include your own context in the challenges.
               </p>
             </div>
@@ -480,20 +480,20 @@ function DayPage() {
         </div>
 
         {/* Today's Challenges Header */}
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Today's Challenges</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-white text-shadow-dark mb-6">Today's Challenges</h2>
         
         {/* Challenges Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {challenges.map((challenge) => (
             <div key={challenge.id} className="glassmorphism rounded-2xl overflow-hidden transform transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
               {/* Challenge Type Header */}
-              <div className="px-5 py-3 border-b border-white/20 bg-white/10">
-                <h3 className="text-xl font-bold text-white">{challenge.title}</h3>
+              <div className="px-5 py-3 border-b border-red-200" style={{ background: 'rgba(196, 30, 58, 0.1)' }}>
+                <h3 className="text-xl font-bold" style={{ color: '#C41E3A' }}>{challenge.title}</h3>
               </div>
               
               <div className="flex flex-col md:flex-row h-[280px] md:h-[220px]">
                 {/* Image Section - Fixed size square */}
-                <div className="hidden md:block md:w-[200px] md:min-w-[200px] relative bg-white/5">
+                <div className="hidden md:block md:w-[200px] md:min-w-[200px] relative bg-gray-100">
                   <img
                     src={challenge.image_url}
                     alt={challenge.title}
@@ -503,8 +503,8 @@ function DayPage() {
                       e.target.nextSibling.style.display = 'flex';
                     }}
                   />
-                  <div className="hidden w-full h-full items-center justify-center absolute inset-0 bg-white/10">
-                    <div className="text-center text-white/50">
+                  <div className="hidden w-full h-full items-center justify-center absolute inset-0 bg-gray-100">
+                    <div className="text-center text-gray-400">
                       <svg className="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
                       </svg>
@@ -513,14 +513,14 @@ function DayPage() {
                 </div>
 
                 {/* Content Section - Takes remaining width */}
-                <div className="flex-1 p-4 md:p-5 flex flex-col bg-white/10 min-w-0">
-                  <h4 className="text-base font-semibold text-white mb-2 flex-shrink-0">
+                <div className="flex-1 p-4 md:p-5 flex flex-col min-w-0">
+                  <h4 className="text-base font-semibold text-gray-900 mb-2 flex-shrink-0">
                     {parseChallenge(challenge.description).name}
                   </h4>
                   
                   {/* Scrollable text container with custom scrollbar */}
-                  <div className="flex-1 overflow-y-auto mb-3 pr-2 min-h-0 scrollbar-thin scrollbar-thumb-white/30 scrollbar-track-transparent hover:scrollbar-thumb-white/50">
-                    <p className="text-white/85 text-sm leading-relaxed">
+                  <div className="flex-1 overflow-y-auto mb-3 pr-2 min-h-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400">
+                    <p className="text-gray-600 text-sm leading-relaxed">
                       {parseChallenge(challenge.description).instruction}
                     </p>
                   </div>
@@ -530,8 +530,8 @@ function DayPage() {
                     onClick={() => handleChallengeComplete(challenge.challenge_number)}
                     className={`w-full px-5 py-2.5 rounded-full font-medium transition-all duration-300 flex-shrink-0 ${
                       completedChallenges.has(challenge.challenge_number)
-                        ? 'glassmorphism border border-white/30 text-white'
-                        : 'glassmorphism text-white/90 hover:bg-white/20'
+                        ? 'bg-[#E85D6F] text-white border border-[#C41E3A]'
+                        : 'bg-[#C41E3A] text-white hover:bg-[#a01830]'
                     }`}
                   >
                     {completedChallenges.has(challenge.challenge_number) ? (
@@ -556,16 +556,16 @@ function DayPage() {
           <div className="glassmorphism rounded-2xl overflow-hidden mb-8">
             <button
               onClick={() => setVideosExpanded(!videosExpanded)}
-              className="w-full px-6 py-4 flex items-center justify-between hover:bg-white/5 transition-colors"
+              className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
             >
               <div className="flex items-center gap-3">
-                <h3 className="text-xl font-bold text-white">Explainer Videos</h3>
-                <span className="text-xs text-white/60 bg-white/10 px-2 py-1 rounded-full">
+                <h3 className="text-xl font-bold text-gray-900">Explainer Videos</h3>
+                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
                   {challengeData.videos.length} videos
                 </span>
               </div>
               <svg 
-                className={`w-5 h-5 text-white/60 transition-transform duration-300 ${videosExpanded ? 'rotate-180' : ''}`} 
+                className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${videosExpanded ? 'rotate-180' : ''}`} 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
@@ -575,15 +575,15 @@ function DayPage() {
             </button>
             
             {videosExpanded && (
-              <div className="px-6 pb-6">
-                <p className="text-white/70 text-sm mb-6">
+              <div className="px-6 pb-6 border-t border-gray-100">
+                <p className="text-gray-600 text-sm mb-6 mt-4">
                   These videos explain the habits you're building today. Watching them helps you understand the deeper value of each habit.
                 </p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {challengeData.videos
                     .sort((a, b) => a.sequence - b.sequence)
                     .map((video) => (
-                      <div key={video.id} className="glassmorphism rounded-xl overflow-hidden bg-white/5">
+                      <div key={video.id} className="rounded-xl overflow-hidden border border-gray-200 bg-white">
                         <YouTubeVideo 
                           videoId={video.youtube_video_id} 
                           title={video.title}
@@ -614,11 +614,11 @@ function DayPage() {
 
         {/* Navigation */}
         <div className="glassmorphism rounded-2xl p-4 md:p-6">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             {parseInt(dayNumber) > 1 && (
               <Link
                 to={`/day/${parseInt(dayNumber) - 1}`}
-                className="glassmorphism px-5 py-2.5 rounded-full text-white hover:bg-white/20 transition-all inline-flex items-center gap-2 text-sm"
+                className="bg-white hover:bg-gray-100 px-6 py-3 rounded-full text-gray-700 transition-all inline-flex items-center gap-2 text-sm font-semibold border border-gray-300 shadow-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -629,10 +629,11 @@ function DayPage() {
             {parseInt(dayNumber) < 17 && (
               <Link
                 to={`/day/${parseInt(dayNumber) + 1}`}
-                className="glassmorphism px-5 py-2.5 rounded-full text-white hover:bg-white/20 transition-all ml-auto inline-flex items-center gap-2 text-sm"
+                className="bg-[#8B0000] hover:bg-[#660000] px-8 py-3 rounded-full transition-all ml-auto inline-flex items-center gap-2 text-base font-bold shadow-xl hover:shadow-2xl border-2 border-white/30"
+                style={{ color: '#ffffff', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
               >
                 Next Day
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>

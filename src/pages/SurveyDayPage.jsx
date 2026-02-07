@@ -72,7 +72,7 @@ function SurveyDayPage() {
     return (
       <Layout>
         <div className="container mx-auto px-6 py-16 text-center">
-          <h1 className="text-2xl text-white mb-4">Please sign in to access the survey</h1>
+          <h1 className="text-2xl text-gray-900 mb-4">Please sign in to access the survey</h1>
           <Link to="/login" className="text-blue-400 hover:text-blue-300">
             Sign In
           </Link>
@@ -85,7 +85,7 @@ function SurveyDayPage() {
     return (
       <Layout>
         <div className="container mx-auto px-6 py-16 text-center">
-          <h1 className="text-2xl text-white mb-4">Invalid survey day</h1>
+          <h1 className="text-2xl text-gray-900 mb-4">Invalid survey day</h1>
           <Link to="/challenges" className="text-blue-400 hover:text-blue-300">
             Back to Challenges
           </Link>
@@ -110,13 +110,13 @@ function SurveyDayPage() {
 
         {/* Day Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+          <h1 className="text-5xl md:text-6xl font-bold text-white text-shadow-dark mb-4">
             Day {dayNumber}
           </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold text-white/90 mb-4">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white text-shadow-dark mb-4">
             {isPreSurvey ? 'Pre-Program Survey' : 'Post-Program Survey'}
           </h2>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="text-lg text-white/90 max-w-2xl mx-auto">
             {isPreSurvey 
               ? 'Before we begin your Cyborg Habits journey, help us understand your current AI usage patterns.'
               : 'Congratulations on completing the Cyborg Habits program! Tell us about your experience and current AI usage.'
@@ -127,7 +127,7 @@ function SurveyDayPage() {
         {loading ? (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
-            <p className="text-white">Loading survey...</p>
+            <p className="text-gray-900">Loading survey...</p>
           </div>
         ) : showSurvey ? (
           <SurveyForm
@@ -140,34 +140,34 @@ function SurveyDayPage() {
             {/* Additional Information - moved above survey */}
             <div className="max-w-4xl mx-auto mb-12">
               <div className="grid md:grid-cols-3 gap-6">
-                <div className="bg-white/10 rounded-xl p-6 text-center">
-                  <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="glassmorphism rounded-xl p-6 text-center">
+                  <div className="w-12 h-12 bg-[#C41E3A]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-6 h-6 text-[#C41E3A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h4 className="text-black font-semibold mb-2">Quick & Easy</h4>
-                  <p className="text-gray-700 text-sm">Takes only 3-5 minutes to complete</p>
+                  <h4 className="text-gray-900 font-semibold mb-2">Quick & Easy</h4>
+                  <p className="text-gray-600 text-sm">Takes only 3-5 minutes to complete</p>
                 </div>
 
-                <div className="bg-white/10 rounded-xl p-6 text-center">
-                  <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="glassmorphism rounded-xl p-6 text-center">
+                  <div className="w-12 h-12 bg-[#C41E3A]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-6 h-6 text-[#C41E3A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                   </div>
-                  <h4 className="text-black font-semibold mb-2">Anonymous</h4>
-                  <p className="text-gray-700 text-sm">Your responses are confidential and secure</p>
+                  <h4 className="text-gray-900 font-semibold mb-2">Anonymous</h4>
+                  <p className="text-gray-600 text-sm">Your responses are confidential and secure</p>
                 </div>
 
-                <div className="bg-white/10 rounded-xl p-6 text-center">
-                  <div className="w-12 h-12 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="glassmorphism rounded-xl p-6 text-center">
+                  <div className="w-12 h-12 bg-[#C41E3A]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-6 h-6 text-[#C41E3A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <h4 className="text-black font-semibold mb-2">Impact</h4>
-                  <p className="text-gray-700 text-sm">Helps us improve the program for future participants</p>
+                  <h4 className="text-gray-900 font-semibold mb-2">Impact</h4>
+                  <p className="text-gray-600 text-sm">Helps us improve the program for future participants</p>
                 </div>
               </div>
             </div>
@@ -175,17 +175,17 @@ function SurveyDayPage() {
             {/* Survey Challenge Card */}
             <div className="max-w-2xl mx-auto">
               <div className="glassmorphism rounded-3xl p-8 text-center">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-20 h-20 bg-[#C41E3A] rounded-full flex items-center justify-center mx-auto mb-6">
                   <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                 </div>
                 
-                <h3 className="text-2xl font-bold text-white mb-4">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
                   Complete the Survey
                 </h3>
                 
-                <p className="text-white/80 mb-6">
+                <p className="text-gray-900/80 mb-6">
                   {isPreSurvey 
                     ? 'Take a few minutes to share your current AI usage habits and experience level. This will help us personalize your learning journey.'
                     : 'Reflect on your journey and share how your AI usage habits have evolved throughout the program.'
@@ -194,14 +194,14 @@ function SurveyDayPage() {
 
                 {surveyCompleted ? (
                   <div className="space-y-4">
-                    <div className="flex items-center justify-center gap-2 text-white mb-4">
+                    <div className="flex items-center justify-center gap-2 text-gray-900 mb-4">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                       <span className="font-semibold">Survey Completed!</span>
                     </div>
                     
-                    <p className="text-white/70 text-sm mb-4">
+                    <p className="text-gray-600 text-sm mb-4">
                       Submitted on {new Date(existingResponse.completed_at).toLocaleDateString()}
                     </p>
                     
@@ -215,7 +215,7 @@ function SurveyDayPage() {
                 ) : (
                   <button
                     onClick={handleStartSurvey}
-                    className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-cyan-600 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+                    className="bg-[#C41E3A] text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#a01830] transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
                   >
                     Start Survey
                   </button>

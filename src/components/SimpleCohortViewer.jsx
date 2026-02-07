@@ -244,12 +244,12 @@ function SimpleCohortViewer() {
     <div className="space-y-4 sm:space-y-6">
       {/* Cohort Selector */}
       <div className="bg-white/10 rounded-xl p-4 sm:p-6">
-        <h3 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">Select Cohort</h3>
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Select Cohort</h3>
         
         <select
           value={selectedCohortId}
           onChange={(e) => setSelectedCohortId(e.target.value)}
-          className="w-full px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-white/20 text-white border border-white/30 focus:border-white/50 focus:outline-none text-sm sm:text-base"
+          className="w-full px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-white/20 text-gray-900 border border-white/30 focus:border-white/50 focus:outline-none text-sm sm:text-base"
         >
           <option value="">Choose a cohort...</option>
           {cohorts.map(cohort => (
@@ -261,7 +261,7 @@ function SimpleCohortViewer() {
 
         {selectedCohort && (
           <div className="mt-3">
-            <div className="text-white/70 text-sm sm:text-base">
+            <div className="text-gray-600 text-sm sm:text-base">
             Selected: {selectedCohort.name}
             {selectedCohort.organization_name && (
               <span className="block sm:inline">
@@ -278,7 +278,7 @@ function SimpleCohortViewer() {
       {loading && (
         <div className="bg-white/10 rounded-xl p-6 sm:p-8 text-center">
           <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-white mx-auto mb-3 sm:mb-4"></div>
-          <p className="text-white text-sm sm:text-base">Loading...</p>
+          <p className="text-gray-900 text-sm sm:text-base">Loading...</p>
         </div>
       )}
 
@@ -321,7 +321,7 @@ function SimpleCohortViewer() {
                     setSelectedUser(null)
                     setSelectedUserId('')
                   }}
-                  className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm sm:text-base"
+                  className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors text-sm sm:text-base"
                 >
                   ← Back to {selectedCohort?.name} Users
                 </button>
@@ -339,7 +339,7 @@ function SimpleCohortViewer() {
             // Show user list
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4">
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-gray-900">
                   Cohort Users ({users.length})
                 </h3>
                 <button 
@@ -372,7 +372,7 @@ function SimpleCohortViewer() {
                 </div>
               ) : (
                 <div className="space-y-2 sm:space-y-3">
-                  <p className="text-white/60 text-xs sm:text-sm mb-3 sm:mb-4">
+                  <p className="text-gray-900/60 text-xs sm:text-sm mb-3 sm:mb-4">
                     Click on a user to view their detailed activity and progress
                   </p>
                   {users.map(user => (
@@ -384,7 +384,7 @@ function SimpleCohortViewer() {
                       {/* Mobile Layout: Stack vertically */}
                       <div className="md:hidden">
                         <div className="flex items-center gap-3 mb-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold">
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-gray-900 font-bold">
                             {user.first_name?.[0]?.toUpperCase() || '?'}
                           </div>
                           <div className="flex-1">
@@ -397,7 +397,7 @@ function SimpleCohortViewer() {
                         <div className="grid grid-cols-2 gap-3 text-sm">
                           <div className="text-center bg-white/10 rounded-lg p-2">
                             <div className="w-4 h-4 bg-blue-500 rounded-full mx-auto mb-1 flex items-center justify-center">
-                              <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-2.5 h-2.5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                               </svg>
                             </div>
@@ -405,7 +405,7 @@ function SimpleCohortViewer() {
                           </div>
                           <div className="text-center bg-white/10 rounded-lg p-2">
                             <div className="w-4 h-4 bg-green-500 rounded-full mx-auto mb-1 flex items-center justify-center">
-                              <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-2.5 h-2.5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                               </svg>
                             </div>
@@ -413,7 +413,7 @@ function SimpleCohortViewer() {
                           </div>
                           <div className="text-center bg-white/10 rounded-lg p-2">
                             <div className="w-4 h-4 bg-cyan-500 rounded-full mx-auto mb-1 flex items-center justify-center">
-                              <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-2.5 h-2.5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                               </svg>
                             </div>
@@ -421,7 +421,7 @@ function SimpleCohortViewer() {
                           </div>
                           <div className="text-center bg-white/10 rounded-lg p-2">
                             <div className="w-4 h-4 bg-purple-500 rounded-full mx-auto mb-1 flex items-center justify-center">
-                              <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-2.5 h-2.5 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
                               </svg>
                             </div>
@@ -435,7 +435,7 @@ function SimpleCohortViewer() {
                       {/* Desktop Layout: Horizontal */}
                       <div className="hidden md:flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold">
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-gray-900 font-bold">
                             {user.first_name?.[0]?.toUpperCase() || '?'}
                           </div>
                           <div>
@@ -448,7 +448,7 @@ function SimpleCohortViewer() {
                         <div className="flex items-center gap-4 text-sm">
                           <div className="text-center">
                             <div className="w-5 h-5 bg-blue-500 rounded-full mx-auto mb-1 flex items-center justify-center">
-                              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-3 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                               </svg>
                             </div>
@@ -456,7 +456,7 @@ function SimpleCohortViewer() {
                           </div>
                           <div className="text-center">
                             <div className="w-5 h-5 bg-green-500 rounded-full mx-auto mb-1 flex items-center justify-center">
-                              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-3 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                               </svg>
                             </div>
@@ -464,7 +464,7 @@ function SimpleCohortViewer() {
                           </div>
                           <div className="text-center">
                             <div className="w-5 h-5 bg-cyan-500 rounded-full mx-auto mb-1 flex items-center justify-center">
-                              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-3 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                               </svg>
                             </div>
@@ -472,7 +472,7 @@ function SimpleCohortViewer() {
                           </div>
                           <div className="text-center">
                             <div className="w-5 h-5 bg-purple-500 rounded-full mx-auto mb-1 flex items-center justify-center">
-                              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-3 h-3 text-gray-900" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
                               </svg>
                             </div>

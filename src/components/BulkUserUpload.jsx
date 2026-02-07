@@ -738,8 +738,8 @@ ${cohorts.map(c => `# - ${c.name} (${c.organization_name})`).join('\n')}`
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-2xl font-bold text-white mb-2">Bulk User Upload</h3>
-          <p className="text-white/70">Upload CSV or XLSX files to create multiple users at once</p>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">Bulk User Upload</h3>
+          <p className="text-gray-600">Upload CSV or XLSX files to create multiple users at once</p>
           {isRestoredSession && (
             <div className="mt-2 flex items-center gap-2 text-blue-300 text-sm">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -751,7 +751,7 @@ ${cohorts.map(c => `# - ${c.name} (${c.organization_name})`).join('\n')}`
         </div>
         <button
           onClick={handleClose}
-          className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+          className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -822,7 +822,7 @@ ${cohorts.map(c => `# - ${c.name} (${c.organization_name})`).join('\n')}`
 
       {/* Upload Options */}
       {file && !parseError && !parsing && progress.total > 0 && !uploading && (
-        <div className="bg-gray-500/10 border border-gray-500/30 rounded-xl p-4">
+        <div className="bg-white border border-gray-200 rounded-xl p-4">
           <h4 className="text-gray-300 font-medium mb-3">Upload Options</h4>
           <div className="space-y-3">
             <label className="flex items-center gap-3 cursor-pointer">
@@ -901,8 +901,8 @@ ${cohorts.map(c => `# - ${c.name} (${c.organization_name})`).join('\n')}`
         {parsing ? (
           <div className="space-y-3">
             <div className="w-8 h-8 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-white font-medium">Parsing file...</p>
-            <p className="text-white/60 text-sm">Validating data structure and content</p>
+            <p className="text-gray-900 font-medium">Parsing file...</p>
+            <p className="text-gray-900/60 text-sm">Validating data structure and content</p>
           </div>
         ) : file && !parseError ? (
           <div className="space-y-3">
@@ -910,13 +910,13 @@ ${cohorts.map(c => `# - ${c.name} (${c.organization_name})`).join('\n')}`
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div>
-              <p className="text-white font-medium">{file.name}</p>
-              <p className="text-white/60 text-sm">{(file.size / 1024).toFixed(1)} KB • {progress.total} users ready</p>
+              <p className="text-gray-900 font-medium">{file.name}</p>
+              <p className="text-gray-900/60 text-sm">{(file.size / 1024).toFixed(1)} KB • {progress.total} users ready</p>
             </div>
             <div className="flex gap-3 justify-center">
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="px-4 py-2 glassmorphism text-white rounded-lg hover:bg-white/20 transition-all"
+                className="px-4 py-2 glassmorphism text-gray-900 rounded-lg hover:bg-white/20 transition-all"
               >
                 Choose Different File
               </button>
@@ -932,16 +932,16 @@ ${cohorts.map(c => `# - ${c.name} (${c.organization_name})`).join('\n')}`
           </div>
         ) : (
           <div className="space-y-3">
-            <svg className="w-12 h-12 text-white/40 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-12 h-12 text-gray-900/40 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
             <div>
-              <p className="text-white font-medium mb-1">Drop your CSV or XLSX file here</p>
-              <p className="text-white/60 text-sm">or click to browse files</p>
+              <p className="text-gray-900 font-medium mb-1">Drop your CSV or XLSX file here</p>
+              <p className="text-gray-900/60 text-sm">or click to browse files</p>
             </div>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="px-6 py-2 glassmorphism text-white rounded-lg hover:bg-white/20 transition-all font-medium"
+              className="px-6 py-2 glassmorphism text-gray-900 rounded-lg hover:bg-white/20 transition-all font-medium"
             >
               Select File
             </button>
@@ -995,8 +995,8 @@ ${cohorts.map(c => `# - ${c.name} (${c.organization_name})`).join('\n')}`
       {isComplete && (
         <div className="space-y-4">
           {/* Summary Stats */}
-          <div className="bg-gray-500/10 border border-gray-500/30 rounded-xl p-4">
-            <h4 className="text-white font-medium mb-3">Upload Complete</h4>
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <h4 className="text-gray-900 font-medium mb-3">Upload Complete</h4>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
                 <div className="text-2xl font-bold text-green-300">{progress.successes.length}</div>
@@ -1082,7 +1082,7 @@ ${cohorts.map(c => `# - ${c.name} (${c.organization_name})`).join('\n')}`
                 setProgress({ processed: 0, total: 0, errors: [], successes: [], skipped: [] })
                 clearPersistedState()
               }}
-              className="px-4 py-2 glassmorphism text-white rounded-lg hover:bg-white/20 transition-all"
+              className="px-4 py-2 glassmorphism text-gray-900 rounded-lg hover:bg-white/20 transition-all"
             >
               Upload More Users
             </button>

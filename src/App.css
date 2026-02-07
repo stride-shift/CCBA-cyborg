@@ -44,33 +44,37 @@
 }
 
 .auth-bg-gradient {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 25%, #F40009 50%, #8B0000 75%, #1a1a1a 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #fff5f5 50%, #ffebeb 100%);
   min-height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-/* Optional: Bubble styles for background accents */
-.auth-bg-gradient::before, .auth-bg-gradient::after {
+/* Accent stripe at top */
+.auth-bg-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #F40009 0%, #8B0000 50%, #F40009 100%);
+  z-index: 1;
+}
+
+/* Subtle red accent circle */
+.auth-bg-gradient::after {
   content: '';
   position: absolute;
   border-radius: 50%;
-  opacity: 0.2;
+  opacity: 0.05;
   z-index: 0;
-}
-.auth-bg-gradient::before {
-  width: 400px;
-  height: 400px;
-  left: -100px;
-  top: -100px;
-  background: #fff;
-}
-.auth-bg-gradient::after {
-  width: 300px;
-  height: 300px;
-  right: -80px;
-  bottom: -80px;
-  background: #6a7783;
+  width: 600px;
+  height: 600px;
+  right: -200px;
+  bottom: -200px;
+  background: radial-gradient(circle, #F40009 0%, transparent 70%);
 }

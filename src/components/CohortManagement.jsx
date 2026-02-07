@@ -265,7 +265,7 @@ function CohortManagement() {
             ) : (
               <span className="text-green-400 text-lg">✅</span>
             )}
-            <p className="text-white font-medium">{message}</p>
+            <p className="text-gray-900 font-medium">{message}</p>
           </div>
         </div>
       )}
@@ -274,7 +274,7 @@ function CohortManagement() {
       <div className="glassmorphism rounded-2xl p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">Cohort Management</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Cohort Management</h3>
             <p className="text-gray-600">Create, edit, and manage cohorts</p>
           </div>
           
@@ -286,9 +286,9 @@ function CohortManagement() {
                 placeholder="Search cohorts..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full sm:w-80 px-4 py-3 pl-12 rounded-xl bg-white/90 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full sm:w-80 px-4 py-3 pl-12 rounded-xl bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C41E3A] focus:border-transparent transition-all"
               />
-              <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-900/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -296,7 +296,7 @@ function CohortManagement() {
             {/* Add Cohort Button */}
             <button
               onClick={() => openModal()}
-              className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-white/30"
+              className="px-6 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-gray-300"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -311,10 +311,10 @@ function CohortManagement() {
       <div className="glassmorphism rounded-2xl p-6">
         {filteredCohorts.length === 0 ? (
           <div className="text-center py-12">
-            <svg className="mx-auto h-12 w-12 text-white/40 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="mx-auto h-12 w-12 text-gray-900/40 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
-            <h3 className="text-xl font-medium text-gray-800 mb-2">
+            <h3 className="text-xl font-medium text-gray-900 mb-2">
               {searchTerm ? 'No cohorts found' : 'No cohorts yet'}
             </h3>
             <p className="text-gray-600 mb-6">
@@ -326,7 +326,7 @@ function CohortManagement() {
             {!searchTerm && (
               <button
                 onClick={() => openModal()}
-                className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium border border-white/30"
+                className="px-6 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all font-medium border border-gray-300"
               >
                 Create First Cohort
               </button>
@@ -340,24 +340,24 @@ function CohortManagement() {
             </div>
             
             {filteredCohorts.map(cohort => (
-              <div key={cohort.id} className="bg-white/80 backdrop-blur-sm border border-white/30 rounded-xl p-4 hover:bg-white/90 transition-all">
+              <div key={cohort.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-all shadow-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2">
-                      <h4 className="text-gray-800 font-semibold text-lg truncate">
+                      <h4 className="text-gray-900 font-semibold text-lg truncate">
                         {cohort.name}
                       </h4>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         cohort.is_active 
-                          ? 'bg-green-100 text-green-800 border border-green-300'
-                          : 'bg-gray-100 text-gray-800 border border-gray-300'
+                          ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                          : 'bg-gray-500/20 text-gray-300 border border-gray-500/30'
                       }`}>
                         {cohort.is_active ? 'Active' : 'Inactive'}
                       </span>
 
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-sm text-gray-700">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-sm text-gray-900/80">
                       <div>
                         <span className="font-medium">Organization:</span> {cohort.organization_name || 'N/A'}
                       </div>
@@ -373,7 +373,7 @@ function CohortManagement() {
                     </div>
                     
                     {cohort.description && (
-                      <div className="mt-2 text-sm text-gray-600">
+                      <div className="mt-2 text-sm text-gray-900/60">
                         <span className="font-medium">Description:</span> {cohort.description}
                       </div>
                     )}
@@ -421,12 +421,12 @@ function CohortManagement() {
       {/* Create/Edit Modal */}
       <CohortModal isOpen={showModal} onClose={closeModal}>
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-white">
+          <h3 className="text-2xl font-bold text-gray-900">
             {editingCohort ? 'Edit Cohort' : 'Create New Cohort'}
           </h3>
           <button
             onClick={closeModal}
-            className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -437,7 +437,7 @@ function CohortManagement() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
-              <label className="block text-white font-medium mb-2">Cohort Name *</label>
+              <label className="block text-gray-900 font-medium mb-2">Cohort Name *</label>
               <input
                 type="text"
                 value={cohortForm.name}
@@ -449,7 +449,7 @@ function CohortManagement() {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-2">Organization</label>
+              <label className="block text-gray-900 font-medium mb-2">Organization</label>
               <input
                 type="text"
                 value={cohortForm.organization_name}
@@ -460,7 +460,7 @@ function CohortManagement() {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-2">Challenge Set</label>
+              <label className="block text-gray-900 font-medium mb-2">Challenge Set</label>
               <select
                 value={cohortForm.challenge_set_id}
                 onChange={(e) => setCohortFormField('challenge_set_id', e.target.value)}
@@ -473,13 +473,13 @@ function CohortManagement() {
                   </option>
                 ))}
               </select>
-              <p className="text-white/70 text-xs mt-1">
+              <p className="text-gray-600 text-xs mt-1">
                 Choose which set of challenges this cohort will use
               </p>
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-2">Start Date</label>
+              <label className="block text-gray-900 font-medium mb-2">Start Date</label>
               <input
                 type="date"
                 value={cohortForm.start_date}
@@ -489,7 +489,7 @@ function CohortManagement() {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-2">End Date</label>
+              <label className="block text-gray-900 font-medium mb-2">End Date</label>
               <input
                 type="date"
                 value={cohortForm.end_date}
@@ -499,7 +499,7 @@ function CohortManagement() {
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-2">Max Participants</label>
+              <label className="block text-gray-900 font-medium mb-2">Max Participants</label>
               <input
                 type="number"
                 value={cohortForm.max_participants}
@@ -511,7 +511,7 @@ function CohortManagement() {
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-white font-medium mb-2">Description</label>
+              <label className="block text-gray-900 font-medium mb-2">Description</label>
               <textarea
                 value={cohortForm.description}
                 onChange={(e) => setCohortFormField('description', e.target.value)}
@@ -528,9 +528,9 @@ function CohortManagement() {
               id="is_active_modal"
               checked={cohortForm.is_active}
               onChange={(e) => setCohortFormField('is_active', e.target.checked)}
-              className="w-4 h-4 rounded border-white/30 bg-white/20 text-white focus:ring-white/50"
+              className="w-4 h-4 rounded border-white/30 bg-white/20 text-gray-900 focus:ring-white/50"
             />
-            <label htmlFor="is_active_modal" className="ml-3 text-white font-medium">
+            <label htmlFor="is_active_modal" className="ml-3 text-gray-900 font-medium">
               Active Cohort
             </label>
           </div>

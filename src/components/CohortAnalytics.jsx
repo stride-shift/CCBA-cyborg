@@ -89,7 +89,7 @@ function CohortAnalytics() {
           <p className="text-sm">{error}</p>
           <button 
             onClick={fetchAnalytics}
-            className="mt-4 px-4 py-2 bg-red-500/20 rounded-lg text-white hover:bg-red-500/30"
+            className="mt-4 px-4 py-2 bg-red-500/20 rounded-lg text-gray-900 hover:bg-red-500/30"
           >
             Retry
           </button>
@@ -103,7 +103,7 @@ function CohortAnalytics() {
       {/* Header */}
       <div className="glassmorphism rounded-2xl p-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-          <h2 className="text-3xl font-bold text-white mb-4 md:mb-0">Cohort Analytics</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4 md:mb-0">Cohort Analytics</h2>
           <div className="flex gap-2">
             {['overview', 'cohorts', 'assignments'].map(view => (
               <button
@@ -111,8 +111,8 @@ function CohortAnalytics() {
                 onClick={() => setSelectedView(view)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   selectedView === view 
-                    ? 'bg-white/30 text-white' 
-                    : 'bg-white/10 text-white/70 hover:bg-white/20'
+                    ? 'bg-white/30 text-gray-900' 
+                    : 'bg-gray-50 text-gray-600 hover:bg-white/20'
                 }`}
               >
                 {view.charAt(0).toUpperCase() + view.slice(1)}
@@ -125,27 +125,27 @@ function CohortAnalytics() {
         {selectedView === 'overview' && (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
             {dashboardSummary.map(org => (
-              <div key={org.organization_name} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6">
-                <h3 className="text-xl font-semibold text-white mb-4">{org.organization_name}</h3>
+              <div key={org.organization_name} className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">{org.organization_name}</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-white/70">Total Cohorts</span>
-                    <span className="text-white font-semibold">{org.total_cohorts}</span>
+                    <span className="text-gray-600">Total Cohorts</span>
+                    <span className="text-gray-900 font-semibold">{org.total_cohorts}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/70">Active</span>
+                    <span className="text-gray-600">Active</span>
                     <span className="text-green-400 font-semibold">{org.active_cohorts}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/70">Participants</span>
-                    <span className="text-white font-semibold">{org.total_participants}</span>
+                    <span className="text-gray-600">Participants</span>
+                    <span className="text-gray-900 font-semibold">{org.total_participants}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/70">Fill Rate</span>
+                    <span className="text-gray-600">Fill Rate</span>
                     <span className="text-blue-400 font-semibold">{org.overall_fill_percentage}%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/70">Admins Assigned</span>
+                    <span className="text-gray-600">Admins Assigned</span>
                     <span className="text-teal-400 font-semibold">{org.unique_admins_assigned}</span>
                   </div>
                 </div>
@@ -158,27 +158,27 @@ function CohortAnalytics() {
       {/* Detailed Cohort List */}
       {selectedView === 'cohorts' && (
         <div className="glassmorphism rounded-2xl p-6">
-          <h3 className="text-2xl font-bold text-white mb-6">Individual Cohorts</h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">Individual Cohorts</h3>
           <div className="grid gap-6">
             {cohortAnalytics.map(cohort => (
-              <div key={cohort.id} className="bg-white/10 rounded-xl p-6">
+              <div key={cohort.id} className="bg-gray-50 rounded-xl p-6">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
                   <div>
-                    <h4 className="text-xl font-semibold text-white mb-2">{cohort.name}</h4>
-                    <p className="text-white/70 text-sm">{cohort.description}</p>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">{cohort.name}</h4>
+                    <p className="text-gray-600 text-sm">{cohort.description}</p>
                     <div className="flex items-center gap-4 mt-2">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(cohort.current_status)} text-white`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(cohort.current_status)} text-gray-900`}>
                         {cohort.current_status}
                       </span>
-                      <span className="text-white/70 text-sm">{cohort.organization_name}</span>
+                      <span className="text-gray-600 text-sm">{cohort.organization_name}</span>
                     </div>
                   </div>
                   
                   <div className="mt-4 lg:mt-0 lg:text-right">
-                    <div className="text-2xl font-bold text-white">
+                    <div className="text-2xl font-bold text-gray-900">
                       {cohort.current_participants}/{cohort.max_participants}
                     </div>
-                    <div className="text-sm text-white/70">participants</div>
+                    <div className="text-sm text-gray-600">participants</div>
                     <div className="text-lg font-semibold text-blue-400 mt-1">
                       {cohort.fill_percentage}% filled
                     </div>
@@ -188,21 +188,21 @@ function CohortAnalytics() {
                 {/* Additional stats row */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-white/20 text-sm">
                   <div className="text-center">
-                    <div className="text-white/70">Start Date</div>
-                    <div className="font-semibold text-white">
+                    <div className="text-gray-600">Start Date</div>
+                    <div className="font-semibold text-gray-900">
                       {new Date(cohort.start_date).toLocaleDateString()}
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-white/70">Duration</div>
-                    <div className="font-semibold text-white">{cohort.duration_weeks} weeks</div>
+                    <div className="text-gray-600">Duration</div>
+                    <div className="font-semibold text-gray-900">{cohort.duration_weeks} weeks</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-white/70">Admins</div>
+                    <div className="text-gray-600">Admins</div>
                     <div className="font-semibold text-teal-400">{cohort.admin_count}</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-white/70">Progress</div>
+                    <div className="text-gray-600">Progress</div>
                     <div className="font-semibold text-blue-400">{cohort.progress_percentage || 0}%</div>
                   </div>
                 </div>
@@ -219,14 +219,14 @@ function CohortAnalytics() {
                 <div className="flex flex-col md:flex-row md:justify-between text-sm">
                   <div>
                     {cohort.facilitator_email && (
-                      <span className="text-white/70">
-                        Facilitator: <span className="text-white">{cohort.facilitator_first_name} {cohort.facilitator_last_name}</span>
+                      <span className="text-gray-600">
+                        Facilitator: <span className="text-gray-900">{cohort.facilitator_first_name} {cohort.facilitator_last_name}</span>
                       </span>
                     )}
                   </div>
                   <div>
                     {cohort.assigned_admins && cohort.assigned_admins.length > 0 && (
-                      <span className="text-white/70">
+                      <span className="text-gray-600">
                         Admins: <span className="text-purple-400">{cohort.admin_count}</span>
                       </span>
                     )}
@@ -241,8 +241,8 @@ function CohortAnalytics() {
       {/* Admin Assignments Management */}
       {selectedView === 'assignments' && isSuperAdmin() && (
         <div className="glassmorphism rounded-2xl p-6">
-          <h3 className="text-2xl font-bold text-white mb-6">Admin Assignments</h3>
-          <div className="text-center text-white/70 py-8">
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">Admin Assignments</h3>
+          <div className="text-center text-gray-600 py-8">
             <p className="text-lg mb-4">Admin Assignment Management</p>
             <p className="text-sm">Feature coming soon - ability to assign/unassign admins to cohorts</p>
           </div>
@@ -253,7 +253,7 @@ function CohortAnalytics() {
       <div className="text-center">
         <button
           onClick={fetchAnalytics}
-          className="glassmorphism px-6 py-3 rounded-lg text-white hover:bg-white/20 transition-all"
+          className="glassmorphism px-6 py-3 rounded-lg text-gray-900 hover:bg-white/20 transition-all"
         >
           Refresh Analytics
         </button>

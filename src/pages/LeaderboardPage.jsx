@@ -256,12 +256,12 @@ function LeaderboardPage() {
     return (
       <Layout>
         <div className="container mx-auto px-6 py-8">
-          <div className="glassmorphism rounded-2xl p-8">
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-white/50">
             <div className="animate-pulse space-y-6">
-              <div className="h-8 bg-white/20 rounded w-1/3 mb-8 mx-auto"></div>
+              <div className="h-8 bg-gray-200 rounded w-1/3 mb-8 mx-auto"></div>
               <div className="space-y-4">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="h-20 bg-white/20 rounded-xl"></div>
+                  <div key={i} className="h-20 bg-gray-200 rounded-xl"></div>
                 ))}
               </div>
             </div>
@@ -275,9 +275,9 @@ function LeaderboardPage() {
     return (
       <Layout>
         <div className="container mx-auto px-6 py-8">
-          <div className="glassmorphism rounded-2xl p-8 text-center">
-            <h1 className="text-3xl font-bold text-black mb-4">Leaderboard</h1>
-            <p className="text-black/70">
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl p-8 text-center shadow-lg border border-white/50">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Leaderboard</h1>
+            <p className="text-gray-600">
               Please log in to view the leaderboard.
             </p>
           </div>
@@ -290,14 +290,14 @@ function LeaderboardPage() {
     return (
       <Layout>
         <div className="container mx-auto px-6 py-8">
-          <div className="glassmorphism rounded-2xl p-8 text-center">
-            <h1 className="text-3xl font-bold text-black mb-4">Leaderboard</h1>
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl p-8 text-center shadow-lg border border-white/50">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Leaderboard</h1>
             {blockedByCohort ? (
-              <p className="text-black/70">
+              <p className="text-gray-600">
                 The leaderboard is currently under construction.
               </p>
             ) : (
-              <p className="text-black/70">
+              <p className="text-gray-600">
                 {isSuperAdmin() || isAdmin()
                   ? "No cohorts available to view."
                   : "You need to be assigned to a cohort to view the leaderboard."}
@@ -313,14 +313,14 @@ function LeaderboardPage() {
     return (
       <Layout>
         <div className="container mx-auto px-6 py-8">
-          <div className="glassmorphism rounded-2xl p-8 text-center">
-            <h1 className="text-3xl font-bold text-black mb-4">Leaderboard</h1>
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl p-8 text-center shadow-lg border border-white/50">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Leaderboard</h1>
             <p className="text-red-600 mb-4">
               Error loading leaderboard: {error}
             </p>
             <button
               onClick={() => loadLeaderboard(selectedCohortId)}
-              className="px-6 py-3 glassmorphism text-black rounded-xl hover:bg-white/25 transition-all"
+              className="px-6 py-3 bg-[#F40009] text-white rounded-xl hover:bg-[#d00008] transition-all"
             >
               Try Again
             </button>
@@ -333,7 +333,7 @@ function LeaderboardPage() {
   return (
     <Layout>
       <div className="container mx-auto px-4 md:px-6 py-6 md:py-8">
-        <div className="glassmorphism rounded-2xl p-6 md:p-8">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 md:p-8 shadow-lg border border-white/50">
           {/* Header */}
           <div className="text-center mb-6 md:mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-black mb-6">

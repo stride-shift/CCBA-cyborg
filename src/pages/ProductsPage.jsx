@@ -246,7 +246,7 @@ function ProductsPage() {
           transition-all duration-300 hover:scale-105 cursor-pointer
           glassmorphism relative flex-shrink-0
           ${isCompleted 
-            ? 'border-2 border-green-400' 
+            ? 'border-2 border-[#C41E3A]' 
             : 'hover:bg-white/20'
           }
           ${isSurveyDay 
@@ -312,20 +312,20 @@ function ProductsPage() {
           transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer
           relative
           ${isCompleted 
-            ? 'bg-emerald-500/80 border-2 border-emerald-400 shadow-lg' 
-            : 'glassmorphism border border-white/20 hover:bg-white/20 hover:border-white/30'
+            ? 'bg-[#C41E3A] border-2 border-red-400 shadow-lg' 
+            : 'bg-white/90 border border-white/50 hover:bg-white shadow-md'
           }
         `}>
           {/* Checkmark for completed */}
           {isCompleted && (
-            <div className="absolute top-2 right-2 w-6 h-6 bg-white/20 rounded-full flex items-center justify-center border border-white/40">
-              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <div className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center border-2 border-white shadow-lg">
+              <svg className="w-4 h-4 text-[#C41E3A]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
             </div>
           )}
           
-          <span className="text-white font-semibold text-xs md:text-sm text-center leading-tight">
+          <span className={`font-semibold text-xs md:text-sm text-center leading-tight ${isCompleted ? 'text-white' : 'text-gray-800'}`}>
             {challengeName}
           </span>
         </div>
@@ -418,30 +418,29 @@ function ProductsPage() {
         className={`
           w-full min-h-[140px] md:min-h-[160px] rounded-2xl flex flex-col items-center justify-center
           transition-all duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer
-          glassmorphism relative
+          relative p-4 md:p-6
           ${isOpen 
-            ? 'bg-white/5 shadow-lg' 
-            : 'border border-white/20 hover:bg-white/10'
+            ? 'bg-white/95 shadow-lg border-2 border-[#C41E3A]' 
+            : 'bg-white/90 border border-white/50 hover:bg-white/95'
           }
-          p-4 md:p-6
         `}
-        style={isOpen ? { borderWidth: '2px', borderColor: '#4ade80', boxShadow: '0 0 15px rgba(74, 222, 128, 0.3)' } : {}}
+        style={isOpen ? { boxShadow: '0 0 15px rgba(196, 30, 58, 0.3)' } : { boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}
       >
         <div className="text-center w-full">
-          <span className="font-bold text-white text-2xl md:text-3xl block mb-2">
+          <span className="font-bold text-[#C41E3A] text-2xl md:text-3xl block mb-2" style={{ textShadow: 'none' }}>
             {monthName}
           </span>
           
           {/* Progress indicator */}
           <div className="mt-2">
-            <div className="flex items-center justify-center gap-1.5 text-white/80 text-xs md:text-sm">
+            <div className="flex items-center justify-center gap-1.5 text-gray-600 text-xs md:text-sm">
               <span>{completedDaysInMonth}/{totalDaysInMonth} days</span>
               <span>•</span>
               <span>{Math.round(monthProgress)}%</span>
             </div>
-            <div className="mt-1.5 w-full max-w-[120px] mx-auto bg-white/20 rounded-full h-1.5 overflow-hidden">
+            <div className="mt-1.5 w-full max-w-[120px] mx-auto bg-gray-200 rounded-full h-1.5 overflow-hidden">
               <div 
-                className="bg-gradient-to-r from-green-400 to-emerald-400 h-full transition-all duration-500"
+                className="bg-gradient-to-r from-[#C41E3A] to-[#E85D6F] h-full transition-all duration-500"
                 style={{ width: `${monthProgress}%` }}
               ></div>
             </div>
@@ -451,13 +450,13 @@ function ProductsPage() {
         {/* Dropdown Arrow */}
         <div className="absolute top-3 right-3 md:top-4 md:right-4">
           <div className={`
-            glassmorphism rounded-full p-2
-            border border-white/30
+            rounded-full p-2
+            border border-gray-300 bg-white/50
             transition-all duration-300
-            ${isOpen ? 'bg-white/20 rotate-180' : 'hover:bg-white/10'}
+            ${isOpen ? 'bg-gray-100 rotate-180' : 'hover:bg-gray-100'}
           `}>
             <svg 
-              className="w-4 h-4 text-white transition-transform duration-300"
+              className="w-4 h-4 text-gray-600 transition-transform duration-300"
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24"
@@ -547,7 +546,7 @@ function ProductsPage() {
             <div className="flex flex-col items-center relative z-10">
               {/* Start Here Button */}
               <Link to="/day/0" className="group mb-2">
-                <div className="bg-gradient-to-b from-[#2d5a6a] to-[#1a3a4a] px-6 py-3 rounded-full shadow-lg group-hover:scale-105 transition-transform border-2 border-[#4a8a9a]/50">
+                <div className="bg-gradient-to-b from-[#C41E3A] to-[#8B0000] px-6 py-3 rounded-full shadow-lg group-hover:scale-105 transition-transform border-2 border-red-400/50">
                   <span className="text-white font-semibold text-base block text-center">Start Here</span>
                   <div className="flex justify-center mt-0.5">
                     <svg className="w-4 h-4 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -558,7 +557,7 @@ function ProductsPage() {
               </Link>
 
               {/* Small connector dot */}
-              <div className="w-2.5 h-2.5 rounded-full bg-[#4a8a9a] mb-2 shadow-md"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-[#C41E3A] mb-2 shadow-md"></div>
 
               {/* Survey Card */}
               <Link to="/day/0" className="group">
@@ -567,7 +566,7 @@ function ProductsPage() {
                   <div className="text-5xl font-bold text-gray-700 mb-2">0</div>
                   
                   {/* Progress/Divider line */}
-                  <div className="w-20 h-1 bg-gradient-to-r from-[#5a9aa8] to-[#7ab8c4] mx-auto mb-3 rounded-full"></div>
+                  <div className="w-20 h-1 bg-gradient-to-r from-[#C41E3A] to-[#E85D6F] mx-auto mb-3 rounded-full"></div>
                   
                   {/* Text */}
                   <div className="text-gray-700 font-semibold text-sm">Pre-Program Survey</div>
@@ -575,7 +574,7 @@ function ProductsPage() {
 
                   {/* Completion checkmark */}
                   {completedDays.has(0) && (
-                    <div className="absolute -top-2 -right-2 w-7 h-7 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+                    <div className="absolute -top-2 -right-2 w-7 h-7 bg-[#C41E3A] rounded-full flex items-center justify-center shadow-lg">
                       <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
@@ -601,7 +600,7 @@ function ProductsPage() {
             ${['March', 'April', 'May', 'June', 'July'].includes(openMonth) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}
           `}>
             <div 
-              className="glassmorphism rounded-2xl p-4 md:p-6 bg-white/5"
+              className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 md:p-6"
               style={{ borderWidth: '2px', borderColor: '#4ade80', boxShadow: '0 0 15px rgba(74, 222, 128, 0.3)' }}
             >
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
@@ -625,7 +624,7 @@ function ProductsPage() {
             ${['August', 'September', 'October', 'November', 'December'].includes(openMonth) ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'}
           `}>
             <div 
-              className="glassmorphism rounded-2xl p-4 md:p-6 bg-white/5"
+              className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 md:p-6"
               style={{ borderWidth: '2px', borderColor: '#4ade80', boxShadow: '0 0 15px rgba(74, 222, 128, 0.3)' }}
             >
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
@@ -637,14 +636,14 @@ function ProductsPage() {
           <div className="mb-12"></div>
 
           {/* Progress Section */}
-          <div className="glassmorphism rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 text-white">
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/50">
+            <h3 className="text-2xl font-bold mb-6 text-gray-900">
               Your Progress
             </h3>
             
             {/* Progress Bar */}
             <div className="mb-4">
-              <div className="bg-white/20 rounded-full h-4 overflow-hidden">
+              <div className="bg-gray-200 rounded-full h-4 overflow-hidden">
                 <div 
                   className="bg-gradient-to-r from-[#F40009] to-[#8B0000] h-full transition-all duration-500 ease-out"
                   style={{ width: `${progressPercentage}%` }}
@@ -654,10 +653,10 @@ function ProductsPage() {
 
             {/* Progress Stats */}
             <div className="flex justify-between items-center">
-              <span className="text-lg text-white/80">
+              <span className="text-lg text-gray-600">
                 {completedDays.size}/{totalDaysWithSurveys} days completed (includes surveys)
               </span>
-              <span className="text-2xl font-bold text-white">
+              <span className="text-2xl font-bold text-[#C41E3A]">
                 {Math.round(progressPercentage)}%
               </span>
             </div>

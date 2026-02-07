@@ -27,8 +27,8 @@ function LikertScale({
               key={option.value}
               className={`flex items-center p-3 rounded-lg cursor-pointer transition-all ${
                 value === option.value
-                  ? 'bg-blue-500 text-white shadow-md'
-                  : 'bg-white/20 text-gray-700 hover:bg-white/30'
+                  ? 'bg-[#C41E3A] text-white shadow-md'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
               <input
@@ -45,7 +45,7 @@ function LikertScale({
                   : 'border-gray-400'
               }`}>
                 {value === option.value && (
-                  <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                  <div className="w-2 h-2 rounded-full bg-[#C41E3A]"></div>
                 )}
               </div>
               <span className="font-medium">{option.label}</span>
@@ -65,21 +65,21 @@ function LikertScale({
                 onMouseLeave={() => setHoveredValue(null)}
                 className={`flex flex-col items-center p-3 rounded-lg transition-all min-w-[80px] ${
                   value === option.value
-                    ? 'bg-blue-500 text-white shadow-lg transform scale-105'
+                    ? 'bg-[#C41E3A] text-white shadow-lg transform scale-105'
                     : hoveredValue === option.value
-                    ? 'bg-blue-100 text-blue-700 shadow-md'
-                    : 'bg-white/20 text-gray-700 hover:bg-white/30'
+                    ? 'bg-red-100 text-[#C41E3A] shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center mb-2 ${
                   value === option.value
                     ? 'border-white bg-white'
                     : hoveredValue === option.value
-                    ? 'border-blue-500 bg-blue-100'
+                    ? 'border-[#C41E3A] bg-red-50'
                     : 'border-gray-400'
                 }`}>
                   <span className={`text-sm font-bold ${
-                    value === option.value ? 'text-blue-500' : 'text-gray-600'
+                    value === option.value ? 'text-[#C41E3A]' : 'text-gray-600'
                   }`}>
                     {option.value}
                   </span>
@@ -98,7 +98,7 @@ function LikertScale({
                   key={option.value}
                   className={`w-3 h-3 rounded-full transition-all ${
                     value === option.value
-                      ? 'bg-blue-500 shadow-lg'
+                      ? 'bg-[#C41E3A] shadow-lg'
                       : 'bg-gray-300'
                   }`}
                 ></div>

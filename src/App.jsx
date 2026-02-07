@@ -24,10 +24,13 @@ function ProtectedRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 25%, #F40009 50%, #8B0000 75%, #1a1a1a 100%)' }}>
+      <div 
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: '#E61A27', backgroundImage: 'url(/Background.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white">Loading...</p>
+          <p className="text-white font-medium">Loading...</p>
         </div>
       </div>
     )
@@ -47,10 +50,13 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 25%, #F40009 50%, #8B0000 75%, #1a1a1a 100%)' }}>
+      <div 
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: '#E61A27', backgroundImage: 'url(/Background.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white">Loading...</p>
+          <p className="text-white font-medium">Loading...</p>
         </div>
       </div>
     )

@@ -174,11 +174,11 @@ function SurveyForm({ surveyType, onComplete, existingResponse = null }) {
 
   return (
     <div className="max-w-4xl mx-auto p-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-4">
+      <div className="glassmorphism rounded-2xl p-6 mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">
           {surveyType === 'pre' ? 'Pre-Program Survey' : 'Post-Program Survey'}
         </h1>
-        <p className="text-white/80 text-lg">
+        <p className="text-gray-600 text-lg">
           {surveyType === 'pre' 
             ? 'Help us understand your current AI usage patterns before starting the program.'
             : 'Tell us about your AI usage after completing the Cyborg Habits program.'
@@ -187,13 +187,13 @@ function SurveyForm({ surveyType, onComplete, existingResponse = null }) {
         
         {/* Progress bar */}
         <div className="mt-6">
-          <div className="flex justify-between text-sm text-white/70 mb-2">
+          <div className="flex justify-between text-sm text-gray-600 mb-2">
             <span>Progress</span>
             <span>{Math.round(progressPercentage())}% complete</span>
           </div>
-          <div className="w-full bg-white/20 rounded-full h-2">
+          <div className="w-full bg-gray-200 rounded-full h-2">
             <div 
-              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+              className="bg-[#C41E3A] h-2 rounded-full transition-all duration-300"
               style={{ width: `${progressPercentage()}%` }}
             ></div>
           </div>
@@ -202,7 +202,7 @@ function SurveyForm({ surveyType, onComplete, existingResponse = null }) {
 
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* AI Usage Rating */}
-        <div className="bg-white/10 rounded-xl p-6">
+        <div className="glassmorphism rounded-xl p-6">
           <LikertScale
             question="How would you rate your current use of AI?"
             value={formData.ai_usage_rating}
@@ -214,7 +214,7 @@ function SurveyForm({ surveyType, onComplete, existingResponse = null }) {
 
         {/* Frequency Questions */}
         {questions.map((question, index) => (
-          <div key={question.key} className="bg-white/10 rounded-xl p-6">
+          <div key={question.key} className="glassmorphism rounded-xl p-6">
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
                 {question.question}
@@ -232,7 +232,7 @@ function SurveyForm({ surveyType, onComplete, existingResponse = null }) {
         ))}
 
         {/* Written Response - Required */}
-        <div className="bg-white/10 rounded-xl p-6">
+        <div className="glassmorphism rounded-xl p-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
             {surveyType === 'pre' 
               ? 'Describe Your Current AI Usage *' 
@@ -255,7 +255,7 @@ function SurveyForm({ surveyType, onComplete, existingResponse = null }) {
             className={`w-full p-4 rounded-lg border focus:outline-none resize-vertical min-h-[120px] bg-white text-gray-800 ${
               formData.additional_comments && formData.additional_comments.trim().length > 0
                 ? 'border-green-500 focus:border-green-600'
-                : 'border-gray-300 focus:border-blue-500'
+                : 'border-gray-300 focus:border-[#C41E3A]'
             }`}
             rows={5}
             required
@@ -276,8 +276,8 @@ function SurveyForm({ surveyType, onComplete, existingResponse = null }) {
 
         {/* Error Display */}
         {error && (
-          <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4">
-            <p className="text-red-600 font-medium">{error}</p>
+          <div className="bg-red-100 border border-red-300 rounded-xl p-4">
+            <p className="text-red-700 font-medium">{error}</p>
           </div>
         )}
 
@@ -288,8 +288,8 @@ function SurveyForm({ surveyType, onComplete, existingResponse = null }) {
             disabled={loading || progressPercentage() < 100}
             className={`px-8 py-3 rounded-lg font-semibold transition-all ${
               loading || progressPercentage() < 100
-                ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                : 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg hover:shadow-xl'
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-[#C41E3A] text-white hover:bg-[#a01830] shadow-lg hover:shadow-xl'
             }`}
           >
             {loading ? (

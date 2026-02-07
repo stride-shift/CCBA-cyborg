@@ -148,9 +148,9 @@ function ProgressMapPage() {
     return (
       <Layout>
         <div className="container mx-auto px-6 py-16 flex items-center justify-center">
-          <div className="text-center glassmorphism rounded-2xl p-12">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-white mx-auto mb-6"></div>
-            <p className="text-xl text-white">Loading progress...</p>
+          <div className="text-center bg-white/95 backdrop-blur-sm rounded-xl p-12 shadow-lg">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#F40009] mx-auto mb-6"></div>
+            <p className="text-xl text-gray-800">Loading progress...</p>
           </div>
         </div>
       </Layout>
@@ -162,63 +162,63 @@ function ProgressMapPage() {
       <div className="container mx-auto px-6 py-8 max-w-5xl">
         {/* Header */}
         <div className="mb-8">
-          <Link to="/challenges" className="inline-flex items-center text-white/70 hover:text-white transition-colors group mb-4">
+          <Link to="/challenges" className="inline-flex items-center text-white/80 hover:text-white transition-colors group mb-4">
             <svg className="w-4 h-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             <span className="text-sm font-medium">Back to Challenges</span>
           </Link>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Habit Formation Progress</h1>
-          <p className="text-white/70 text-lg">Track evidence of your AI collaboration habits</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-white text-shadow-dark mb-2">Habit Formation Progress</h1>
+          <p className="text-white/80 text-lg">Track evidence of your AI collaboration habits</p>
         </div>
 
         {/* How Progress is Calculated */}
-        <div className="glassmorphism rounded-2xl p-6 mb-8">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 mb-8 shadow-lg border border-white/50">
           <div className="flex items-start gap-3">
-            <svg className="w-5 h-5 text-white/80 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-[#F40009] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div>
-              <h3 className="text-white font-semibold mb-3">How Progress is Calculated</h3>
-              <ul className="space-y-1.5 text-white/80 text-sm">
-                <li>• <strong className="text-white">Challenges:</strong> Each completed challenge of a specific type counts as evidence</li>
-                <li>• <strong className="text-white">Reflections:</strong> Each reflection submitted on a day featuring that habit type</li>
-                <li>• <strong className="text-white">Progress:</strong> Your evidence divided by total possible evidence for your challenge set</li>
-                <li>• <strong className="text-white">Maximum:</strong> Each habit appears multiple times across the program (2 evidence per appearance)</li>
+              <h3 className="text-gray-900 font-semibold mb-3">How Progress is Calculated</h3>
+              <ul className="space-y-1.5 text-gray-600 text-sm">
+                <li>• <strong className="text-gray-800">Challenges:</strong> Each completed challenge of a specific type counts as evidence</li>
+                <li>• <strong className="text-gray-800">Reflections:</strong> Each reflection submitted on a day featuring that habit type</li>
+                <li>• <strong className="text-gray-800">Progress:</strong> Your evidence divided by total possible evidence for your challenge set</li>
+                <li>• <strong className="text-gray-800">Maximum:</strong> Each habit appears multiple times across the program (2 evidence per appearance)</li>
               </ul>
             </div>
           </div>
         </div>
 
         {/* Progress Table */}
-        <div className="glassmorphism rounded-2xl overflow-hidden mb-8">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl overflow-hidden mb-8 shadow-lg border border-white/50">
           {/* Table Header */}
-          <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/20 bg-white/5">
-            <div className="col-span-3 flex items-center gap-2 text-white font-medium">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <div className="col-span-3 flex items-center gap-2 text-gray-900 font-medium">
+              <svg className="w-4 h-4 text-[#F40009]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               Habit Type
             </div>
-            <div className="col-span-2 text-center text-white font-medium flex items-center justify-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="col-span-2 text-center text-gray-900 font-medium flex items-center justify-center gap-2">
+              <svg className="w-4 h-4 text-[#F40009]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Challenges
             </div>
-            <div className="col-span-2 text-center text-white font-medium flex items-center justify-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="col-span-2 text-center text-gray-900 font-medium flex items-center justify-center gap-2">
+              <svg className="w-4 h-4 text-[#F40009]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
               Reflections
             </div>
-            <div className="col-span-2 text-center text-white font-medium flex items-center justify-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="col-span-2 text-center text-gray-900 font-medium flex items-center justify-center gap-2">
+              <svg className="w-4 h-4 text-[#F40009]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
               </svg>
               Total Evidence
             </div>
-            <div className="col-span-3 text-center text-white font-medium">Progress</div>
+            <div className="col-span-3 text-center text-gray-900 font-medium">Progress</div>
           </div>
 
           {/* Table Rows */}
@@ -226,49 +226,49 @@ function ProgressMapPage() {
             <div 
               key={item.habit} 
               className={`grid grid-cols-12 gap-4 px-6 py-4 items-center ${
-                index !== habitProgress.length - 1 ? 'border-b border-white/10' : ''
+                index !== habitProgress.length - 1 ? 'border-b border-gray-100' : ''
               }`}
             >
-              <div className="col-span-3 text-white font-medium">{item.habit}</div>
-              <div className="col-span-2 text-center text-white/80">{item.challenges}</div>
-              <div className="col-span-2 text-center text-white/80">{item.reflections}</div>
+              <div className="col-span-3 text-gray-900 font-medium">{item.habit}</div>
+              <div className="col-span-2 text-center text-gray-600">{item.challenges}</div>
+              <div className="col-span-2 text-center text-gray-600">{item.reflections}</div>
               <div className="col-span-2 text-center">
-                <span className="text-white font-medium">{item.totalCollected}</span>
-                <span className="text-white/50"> / {item.totalPossible}</span>
+                <span className="text-gray-900 font-medium">{item.totalCollected}</span>
+                <span className="text-gray-400"> / {item.totalPossible}</span>
               </div>
               <div className="col-span-3 flex items-center gap-3">
-                <div className="flex-grow h-2 bg-white/20 rounded-full overflow-hidden">
+                <div className="flex-grow h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-[#F40009] rounded-full transition-all duration-500"
                     style={{ width: `${item.percentage}%` }}
                   />
                 </div>
-                <span className="text-white/80 text-sm w-10 text-right">{item.percentage}%</span>
+                <span className="text-gray-600 text-sm w-10 text-right">{item.percentage}%</span>
               </div>
             </div>
           ))}
 
           {/* Footer */}
-          <div className="grid grid-cols-12 gap-4 px-6 py-4 border-t border-white/20 bg-white/5">
-            <div className="col-span-6 text-white font-medium">
-              Total Evidence Collected: <span className="text-white">{totalEvidence.collected}</span>
-              <span className="text-white/50"> / {totalEvidence.possible}</span>
+          <div className="grid grid-cols-12 gap-4 px-6 py-4 border-t border-gray-200 bg-gray-50">
+            <div className="col-span-6 text-gray-900 font-medium">
+              Total Evidence Collected: <span className="text-gray-900">{totalEvidence.collected}</span>
+              <span className="text-gray-400"> / {totalEvidence.possible}</span>
             </div>
-            <div className="col-span-6 text-right text-white font-medium">
+            <div className="col-span-6 text-right text-gray-900 font-medium">
               Overall Progress: <span className="text-[#F40009]">{overallPercentage}%</span>
             </div>
           </div>
         </div>
 
         {/* Motivational Section */}
-        <div className="glassmorphism rounded-2xl p-6">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/50">
           <div className="flex items-start gap-3">
-            <svg className="w-5 h-5 text-white/80 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-[#F40009] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
             <div>
-              <h3 className="text-white font-semibold mb-2">Keep Building Your Habits</h3>
-              <p className="text-white/70 text-sm">
+              <h3 className="text-gray-900 font-semibold mb-2">Keep Building Your Habits</h3>
+              <p className="text-gray-600 text-sm">
                 Each piece of evidence represents a step toward mastering AI collaboration. Continue completing challenges and reflecting on your experiences to strengthen these habits.
               </p>
             </div>

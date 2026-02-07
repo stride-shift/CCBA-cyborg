@@ -105,7 +105,7 @@ function ChallengePage() {
               <Link to="/" className="text-white/80 hover:text-white mb-4 inline-block transition-colors">
                 ← Back to Home
               </Link>
-              <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white">15-Day Cyborg Habit Challenge</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white text-shadow-dark">15-Day Cyborg Habit Challenge</h1>
               <p className="text-white/80 text-lg">Transform your AI collaboration skills</p>
             </div>
             {user && (
@@ -113,7 +113,7 @@ function ChallengePage() {
                 <p className="text-white/90 mb-2">Welcome, {user.email}!</p>
                 <button
                   onClick={handleSignOut}
-                  className="glassmorphism px-4 py-2 rounded-full text-white hover:bg-white/25 transition-all"
+                  className="px-4 py-2 rounded-full bg-black/50 border border-white/30 text-white hover:bg-black/70 transition-all"
                 >
                   Sign Out
                 </button>
@@ -124,16 +124,16 @@ function ChallengePage() {
 
         {/* Progress Overview */}
         <div className="mb-8">
-          <div className="glassmorphism rounded-2xl p-6">
-            <h3 className="text-xl font-bold mb-4 text-white">Your Progress</h3>
+          <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/50">
+            <h3 className="text-xl font-bold mb-4 text-gray-900">Your Progress</h3>
             <div className="flex items-center space-x-4">
-              <div className="flex-1 bg-white/20 rounded-full h-3">
+              <div className="flex-1 bg-gray-200 rounded-full h-3">
                 <div 
-                  className="bg-gradient-to-r from-green-400 to-blue-500 h-3 rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-[#F40009] to-[#8B0000] h-3 rounded-full transition-all duration-300"
                   style={{ width: `${(completedDays.size / challenges.length) * 100}%` }}
                 ></div>
               </div>
-              <span className="text-sm font-medium text-white">
+              <span className="text-sm font-medium text-gray-700">
                 {completedDays.size}/{challenges.length} days completed
               </span>
             </div>
@@ -142,7 +142,7 @@ function ChallengePage() {
 
         {/* Days Grid */}
         <div>
-          <h2 className="text-2xl font-bold mb-6 text-white">Your Journey</h2>
+          <h2 className="text-2xl font-bold mb-6 text-white text-shadow-dark">Your Journey</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             {challenges.map((challenge) => (

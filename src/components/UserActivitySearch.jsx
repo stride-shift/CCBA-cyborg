@@ -80,7 +80,7 @@ function UserActivitySearch({ onUserSelect }) {
     return (
       <div className="text-center py-8">
         <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mx-auto mb-4"></div>
-        <p className="text-white">Loading users...</p>
+        <p className="text-gray-900">Loading users...</p>
       </div>
     )
   }
@@ -95,14 +95,14 @@ function UserActivitySearch({ onUserSelect }) {
             placeholder="Search users by name or email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
+            className="w-full px-4 py-2 bg-gray-50 border border-white/30 rounded-lg text-gray-900 placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
           />
         </div>
         <div className="w-64">
           <select
             value={selectedCohort}
             onChange={(e) => setSelectedCohort(e.target.value)}
-            className="w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/50"
+            className="w-full px-4 py-2 bg-gray-50 border border-white/30 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white/50"
           >
             <option value="">All Cohorts</option>
             {cohorts.map(cohort => (
@@ -117,12 +117,12 @@ function UserActivitySearch({ onUserSelect }) {
       {/* Results */}
       <div className="space-y-2">
         {filteredUsers.length === 0 ? (
-          <p className="text-white/60 text-center py-8">
+          <p className="text-gray-900/60 text-center py-8">
             {searchTerm || selectedCohort ? 'No users match your search criteria.' : 'No users found.'}
           </p>
         ) : (
           <>
-            <p className="text-white/60 text-sm mb-4">
+            <p className="text-gray-900/60 text-sm mb-4">
               {filteredUsers.length} user{filteredUsers.length !== 1 ? 's' : ''} found
             </p>
             <div className="max-h-96 overflow-y-auto space-y-2">
@@ -130,28 +130,28 @@ function UserActivitySearch({ onUserSelect }) {
                 <div
                   key={user.user_id}
                   onClick={() => handleUserClick(user)}
-                  className="flex items-center justify-between p-4 bg-white/10 rounded-lg hover:bg-white/20 cursor-pointer transition-all"
+                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-white/20 cursor-pointer transition-all"
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                      <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full flex items-center justify-center text-gray-900 font-bold text-sm">
                         {user.first_name?.[0]?.toUpperCase() || '?'}
                       </div>
                       <div>
-                        <h4 className="text-white font-medium">
+                        <h4 className="text-gray-900 font-medium">
                           {user.first_name} {user.last_name}
                         </h4>
-                        <p className="text-white/60 text-sm">{user.email}</p>
+                        <p className="text-gray-900/60 text-sm">{user.email}</p>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
                     {user.cohort_name && (
-                      <span className="text-xs bg-white/20 px-2 py-1 rounded text-white/80">
+                      <span className="text-xs bg-white/20 px-2 py-1 rounded text-gray-900/80">
                         {user.cohort_name}
                       </span>
                     )}
-                    <div className="text-white/50 text-xs mt-1">
+                    <div className="text-gray-900/50 text-xs mt-1">
                       {user.role}
                     </div>
                   </div>

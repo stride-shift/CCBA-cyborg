@@ -160,8 +160,8 @@ function DashboardMetrics() {
   if (loading) {
     return (
       <div className="text-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
-        <p className="text-white">Loading dashboard metrics...</p>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#C41E3A] mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading dashboard metrics...</p>
       </div>
     )
   }
@@ -169,10 +169,10 @@ function DashboardMetrics() {
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-red-400 mb-4">Failed to load metrics: {error}</p>
+        <p className="text-red-600 mb-4">Failed to load metrics: {error}</p>
         <button
           onClick={loadMetrics}
-          className="px-4 py-2 bg-red-500/20 rounded-lg text-white hover:bg-red-500/30 transition-all"
+          className="px-4 py-2 bg-red-100 rounded-lg text-red-700 hover:bg-red-200 transition-all"
         >
           Try Again
         </button>
@@ -184,16 +184,16 @@ function DashboardMetrics() {
     <div className="space-y-6">
       {/* Header with refresh */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-black">Overview</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Overview</h2>
         <div className="flex items-center gap-4">
           {lastUpdated && (
-            <span className="text-gray-600 text-sm">
+            <span className="text-[#C41E3A] text-sm">
               Updated: {lastUpdated.toLocaleTimeString()}
             </span>
           )}
           <button
             onClick={loadMetrics}
-            className="px-4 py-2 bg-white/20 rounded-lg text-black hover:bg-white/30 transition-all text-sm"
+            className="px-4 py-2 bg-gray-100 rounded-lg text-gray-700 hover:bg-gray-200 transition-all text-sm border border-gray-200"
           >
             Refresh
           </button>
@@ -202,84 +202,84 @@ function DashboardMetrics() {
 
       {/* User Statistics */}
       <div>
-        <h3 className="text-lg font-semibold text-black mb-4">User Activity</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">User Activity</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-white mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-[#C41E3A] mb-2">
               {metrics.userStats.total.toLocaleString()}
             </div>
-            <div className="text-black font-medium">Total Users</div>
+            <div className="text-gray-700 font-medium">Total Users</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-white mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-[#C41E3A] mb-2">
               {metrics.userStats.active.toLocaleString()}
             </div>
-            <div className="text-black font-medium">Active Users</div>
-            <div className="text-gray-700 text-xs mt-1">
+            <div className="text-gray-700 font-medium">Active Users</div>
+            <div className="text-gray-500 text-xs mt-1">
               ({metrics.userStats.total > 0 ? Math.round((metrics.userStats.active / metrics.userStats.total) * 100) : 0}% of total)
             </div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-white mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-[#C41E3A] mb-2">
               {metrics.userStats.newThisWeek.toLocaleString()}
             </div>
-            <div className="text-black font-medium">New This Week</div>
+            <div className="text-gray-700 font-medium">New This Week</div>
           </div>
         </div>
       </div>
 
       {/* Cohort Statistics */}
       <div>
-        <h3 className="text-lg font-semibold text-black mb-4">Cohort Health</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">Cohort Health</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-white mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-[#C41E3A] mb-2">
               {metrics.cohortStats.total}
             </div>
-            <div className="text-black font-medium">Total Cohorts</div>
+            <div className="text-gray-700 font-medium">Total Cohorts</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-white mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-[#C41E3A] mb-2">
               {metrics.cohortStats.active}
             </div>
-            <div className="text-black font-medium">Active Cohorts</div>
-            <div className="text-gray-700 text-xs mt-1">
+            <div className="text-gray-700 font-medium">Active Cohorts</div>
+            <div className="text-gray-500 text-xs mt-1">
               ({metrics.cohortStats.total > 0 ? Math.round((metrics.cohortStats.active / metrics.cohortStats.total) * 100) : 0}% of total)
             </div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-white mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-[#C41E3A] mb-2">
               {metrics.cohortStats.avgSize}
             </div>
-            <div className="text-black font-medium">Avg Cohort Size</div>
+            <div className="text-gray-700 font-medium">Avg Cohort Size</div>
           </div>
         </div>
       </div>
 
       {/* Engagement Statistics */}
       <div>
-        <h3 className="text-lg font-semibold text-black mb-4">Weekly Engagement</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">Weekly Engagement</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-white mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-[#C41E3A] mb-2">
               {metrics.engagementStats.reflectionsThisWeek.toLocaleString()}
             </div>
-            <div className="text-black font-medium">Reflections Submitted</div>
-            <div className="text-gray-700 text-xs mt-1">Last 7 days</div>
+            <div className="text-gray-700 font-medium">Reflections Submitted</div>
+            <div className="text-gray-500 text-xs mt-1">Last 7 days</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-white mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-[#C41E3A] mb-2">
               {metrics.engagementStats.challengeCompletions.toLocaleString()}
             </div>
-            <div className="text-black font-medium">Challenge Completions</div>
-            <div className="text-gray-700 text-xs mt-1">Last 7 days</div>
+            <div className="text-gray-700 font-medium">Challenge Completions</div>
+            <div className="text-gray-500 text-xs mt-1">Last 7 days</div>
           </div>
-          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
-            <div className="text-3xl font-bold text-white mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-[#C41E3A] mb-2">
               {metrics.engagementStats.avgCompletionRate}%
             </div>
-            <div className="text-black font-medium">Avg Progress</div>
-            <div className="text-gray-700 text-xs mt-1">Journey completion</div>
+            <div className="text-gray-700 font-medium">Avg Progress</div>
+            <div className="text-gray-500 text-xs mt-1">Journey completion</div>
           </div>
         </div>
       </div>

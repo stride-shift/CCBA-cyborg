@@ -171,10 +171,10 @@ function CohortDetailView({ cohort, onClose }) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">{cohort.name}</h2>
+          <h2 className="text-2xl font-bold text-gray-900">{cohort.name}</h2>
           <button
             onClick={onClose}
-            className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -193,12 +193,12 @@ function CohortDetailView({ cohort, onClose }) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-2">{cohort.name}</h2>
-          <p className="text-white/70">{cohort.organization_name}</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{cohort.name}</h2>
+          <p className="text-gray-600">{cohort.organization_name}</p>
         </div>
         <button
           onClick={onClose}
-          className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+          className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -208,81 +208,81 @@ function CohortDetailView({ cohort, onClose }) {
 
       {/* Key Metrics Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
-          <div className="text-2xl font-bold text-white mb-1">
+        <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+          <div className="text-2xl font-bold text-gray-900 mb-1">
             {formatNumber(cohortStats.total_users)}
           </div>
-          <div className="text-white/70 text-sm">Total Users</div>
+          <div className="text-gray-600 text-sm">Total Users</div>
         </div>
         
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+        <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-green-400 mb-1">
             {formatNumber(cohortStats.active_users)}
           </div>
-          <div className="text-white/70 text-sm">Active Users</div>
+          <div className="text-gray-600 text-sm">Active Users</div>
         </div>
         
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+        <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-blue-400 mb-1">
             {cohortStats.avg_completion_percentage}%
           </div>
-          <div className="text-white/70 text-sm">Avg Progress</div>
+          <div className="text-gray-600 text-sm">Avg Progress</div>
         </div>
         
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
+        <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-4 text-center">
           <div className="text-2xl font-bold text-yellow-400 mb-1">
             {cohortStats.avg_days_completed}
           </div>
-          <div className="text-white/70 text-sm">Avg Days</div>
+          <div className="text-gray-600 text-sm">Avg Days</div>
         </div>
       </div>
 
       {/* Engagement Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Engagement Metrics */}
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Engagement Overview</h3>
+        <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Engagement Overview</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-white/70">Engagement Rate</span>
-              <span className="text-white font-medium">{getEngagementRate()}%</span>
+              <span className="text-gray-600">Engagement Rate</span>
+              <span className="text-gray-900 font-medium">{getEngagementRate()}%</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-white/70">Active Last 7 Days</span>
-              <span className="text-white font-medium">{cohortStats.users_active_last_7_days}</span>
+              <span className="text-gray-600">Active Last 7 Days</span>
+              <span className="text-gray-900 font-medium">{cohortStats.users_active_last_7_days}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-white/70">Average Streak</span>
-              <span className="text-white font-medium">{cohortStats.avg_current_streak} days</span>
+              <span className="text-gray-600">Average Streak</span>
+              <span className="text-gray-900 font-medium">{cohortStats.avg_current_streak} days</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-white/70">Weekly Activity Rate</span>
-              <span className="text-white font-medium">{getActivityRate()}%</span>
+              <span className="text-gray-600">Weekly Activity Rate</span>
+              <span className="text-gray-900 font-medium">{getActivityRate()}%</span>
             </div>
           </div>
         </div>
 
         {/* Content Metrics */}
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Content Completion</h3>
+        <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Content Completion</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-white/70">Total Challenges</span>
-              <span className="text-white font-medium">{formatNumber(cohortStats.total_challenges_completed)}</span>
+              <span className="text-gray-600">Total Challenges</span>
+              <span className="text-gray-900 font-medium">{formatNumber(cohortStats.total_challenges_completed)}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-white/70">Total Reflections</span>
-              <span className="text-white font-medium">{formatNumber(cohortStats.total_reflections_submitted)}</span>
+              <span className="text-gray-600">Total Reflections</span>
+              <span className="text-gray-900 font-medium">{formatNumber(cohortStats.total_reflections_submitted)}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-white/70">Pre-Survey Rate</span>
-              <span className="text-white font-medium">
+              <span className="text-gray-600">Pre-Survey Rate</span>
+              <span className="text-gray-900 font-medium">
                 {getSurveyCompletionRate(cohortStats.users_completed_pre_survey, cohortStats.total_users)}%
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-white/70">Post-Survey Rate</span>
-              <span className="text-white font-medium">
+              <span className="text-gray-600">Post-Survey Rate</span>
+              <span className="text-gray-900 font-medium">
                 {getSurveyCompletionRate(cohortStats.users_completed_post_survey, cohortStats.total_users)}%
               </span>
             </div>
@@ -292,15 +292,15 @@ function CohortDetailView({ cohort, onClose }) {
 
       {/* Progress Distribution */}
       {progressDistribution.length > 0 && (
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Progress Distribution</h3>
+        <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Progress Distribution</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             {progressDistribution.map((bucket, index) => (
               <div key={index} className="text-center">
                 <div className={`${bucket.color} rounded-lg p-3 mb-2`}>
-                  <div className="text-white font-bold text-lg">{bucket.count}</div>
+                  <div className="text-gray-900 font-bold text-lg">{bucket.count}</div>
                 </div>
-                <div className="text-white/70 text-xs">{bucket.label}</div>
+                <div className="text-gray-600 text-xs">{bucket.label}</div>
               </div>
             ))}
           </div>
@@ -308,40 +308,40 @@ function CohortDetailView({ cohort, onClose }) {
       )}
 
       {/* Cohort Details */}
-      <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">Cohort Details</h3>
+      <div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Cohort Details</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
-            <span className="text-white/70">Start Date:</span>
-            <span className="text-white ml-2">
+            <span className="text-gray-600">Start Date:</span>
+            <span className="text-gray-900 ml-2">
               {cohort.start_date ? new Date(cohort.start_date).toLocaleDateString() : 'Not set'}
             </span>
           </div>
           <div>
-            <span className="text-white/70">End Date:</span>
-            <span className="text-white ml-2">
+            <span className="text-gray-600">End Date:</span>
+            <span className="text-gray-900 ml-2">
               {cohort.end_date ? new Date(cohort.end_date).toLocaleDateString() : 'Not set'}
             </span>
           </div>
           <div>
-            <span className="text-white/70">Max Participants:</span>
-            <span className="text-white ml-2">{cohort.max_participants || 'No limit'}</span>
+            <span className="text-gray-600">Max Participants:</span>
+            <span className="text-gray-900 ml-2">{cohort.max_participants || 'No limit'}</span>
           </div>
           <div>
-            <span className="text-white/70">Status:</span>
+            <span className="text-gray-600">Status:</span>
             <span className={`ml-2 ${cohort.is_active ? 'text-green-400' : 'text-red-400'}`}>
               {cohort.is_active ? 'Active' : 'Inactive'}
             </span>
           </div>
           <div>
-            <span className="text-white/70">Created:</span>
-            <span className="text-white ml-2">
+            <span className="text-gray-600">Created:</span>
+            <span className="text-gray-900 ml-2">
               {new Date(cohort.created_at).toLocaleDateString()}
             </span>
           </div>
           <div>
-            <span className="text-white/70">Completion Rate:</span>
-            <span className="text-white ml-2">
+            <span className="text-gray-600">Completion Rate:</span>
+            <span className="text-gray-900 ml-2">
               {cohortStats.total_users > 0 
                 ? `${((cohortStats.completed_users / cohortStats.total_users) * 100).toFixed(1)}%`
                 : '0%'
@@ -351,8 +351,8 @@ function CohortDetailView({ cohort, onClose }) {
         </div>
         {cohort.description && (
           <div className="mt-4">
-            <span className="text-white/70">Description:</span>
-            <p className="text-white mt-1">{cohort.description}</p>
+            <span className="text-gray-600">Description:</span>
+            <p className="text-gray-900 mt-1">{cohort.description}</p>
           </div>
         )}
       </div>

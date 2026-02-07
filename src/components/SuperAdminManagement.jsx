@@ -149,23 +149,23 @@ function ChallengeManagement() {
             ) : (
               <span className="text-green-400 text-lg">✅</span>
             )}
-            <p className="text-white font-medium">{message}</p>
+            <p className="text-gray-900 font-medium">{message}</p>
           </div>
         </div>
       )}
 
       {/* How It Works Info */}
       <div className="glassmorphism rounded-2xl p-6">
-        <h4 className="text-xl font-semibold text-gray-800 mb-4">How Cohort-Specific Challenges Work</h4>
+        <h4 className="text-xl font-semibold text-gray-900 mb-4">How Cohort-Specific Challenges Work</h4>
         <div className="grid md:grid-cols-2 gap-4 text-gray-700">
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
-            <h5 className="font-semibold text-blue-800 mb-2">📚 Default Challenges</h5>
-            <p className="text-sm">Challenges without a cohort assignment are used by all cohorts as fallbacks.</p>
+            <h5 className="font-semibold text-blue-300 mb-2">📚 Default Challenges</h5>
+            <p className="text-sm text-gray-600">Challenges without a cohort assignment are used by all cohorts as fallbacks.</p>
           </div>
           
           <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4">
-            <h5 className="font-semibold text-purple-800 mb-2">🎯 Cohort-Specific Challenges</h5>
-            <p className="text-sm">Assign a challenge to a specific cohort to override the default for that day.</p>
+            <h5 className="font-semibold text-purple-300 mb-2">🎯 Cohort-Specific Challenges</h5>
+            <p className="text-sm text-gray-600">Assign a challenge to a specific cohort to override the default for that day.</p>
           </div>
         </div>
       </div>
@@ -174,7 +174,7 @@ function ChallengeManagement() {
       <div className="glassmorphism rounded-2xl p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-2">Challenge Management</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Challenge Management</h3>
             <p className="text-gray-600">Create default challenges or cohort-specific challenges</p>
           </div>
           
@@ -183,7 +183,7 @@ function ChallengeManagement() {
             <select
               value={selectedCohort}
               onChange={(e) => setSelectedCohort(e.target.value)}
-              className="px-4 py-3 rounded-xl bg-white/90 border border-white/30 text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              className="px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#F40009] focus:border-transparent transition-all"
             >
               <option value="">All Challenges</option>
               <option value="default">Default Challenges</option>
@@ -201,9 +201,9 @@ function ChallengeManagement() {
                 placeholder="Search challenges..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full sm:w-80 px-4 py-3 pl-12 rounded-xl bg-white/90 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full sm:w-80 px-4 py-3 pl-12 rounded-xl bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F40009] focus:border-transparent transition-all"
               />
-              <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-900/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -211,7 +211,7 @@ function ChallengeManagement() {
             {/* Add Challenge Button */}
             <button
               onClick={() => openModal()}
-              className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-white/30"
+              className="px-6 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-gray-300"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -226,7 +226,7 @@ function ChallengeManagement() {
       <div className="glassmorphism rounded-2xl p-6">
         {filteredChallenges.length === 0 ? (
           <div className="text-center py-12">
-            <h3 className="text-xl font-medium text-gray-800 mb-2">
+            <h3 className="text-xl font-medium text-gray-900 mb-2">
               {searchTerm ? 'No challenges found' : 'No challenges yet'}
             </h3>
             <p className="text-gray-600 mb-6">
@@ -238,7 +238,7 @@ function ChallengeManagement() {
             {!searchTerm && (
               <button
                 onClick={() => openModal()}
-                className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium border border-white/30"
+                className="px-6 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all font-medium border border-gray-300"
               >
                 Create First Challenge
               </button>
@@ -252,24 +252,24 @@ function ChallengeManagement() {
             </div>
             
             {filteredChallenges.map(challenge => (
-              <div key={challenge.id} className="bg-white/80 backdrop-blur-sm border border-white/30 rounded-xl p-4 hover:bg-white/90 transition-all">
+              <div key={challenge.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-all shadow-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2">
-                      <h4 className="text-gray-800 font-semibold text-lg truncate">
+                      <h4 className="text-gray-900 font-semibold text-lg truncate">
                         Day {challenge.order_index}: {challenge.title || 'Untitled Challenge'}
                       </h4>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         challenge.is_active 
-                          ? 'bg-green-100 text-green-800 border border-green-300'
-                          : 'bg-gray-100 text-gray-800 border border-gray-300'
+                          ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                          : 'bg-gray-500/20 text-gray-300 border border-gray-500/30'
                       }`}>
                         {challenge.is_active ? 'Active' : 'Inactive'}
                       </span>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         challenge.cohort_id 
-                          ? 'bg-purple-100 text-purple-800 border border-purple-300'
-                          : 'bg-blue-100 text-blue-800 border border-blue-300'
+                          ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                          : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
                       }`}>
                         {challenge.cohort_id ? `${challenge.cohorts?.name}` : 'Default'}
                       </span>
@@ -285,7 +285,7 @@ function ChallengeManagement() {
                     </div>
                     
                     {challenge.reflection_question && (
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-gray-500">
                         <span className="font-medium">Reflection:</span> {challenge.reflection_question.substring(0, 100)}...
                       </div>
                     )}
@@ -314,15 +314,15 @@ function ChallengeManagement() {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="glassmorphism rounded-2xl p-8 max-w-2xl w-full">
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-white mb-4">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
                 Challenge Management
               </h3>
-              <p className="text-white/80 mb-6">
+              <p className="text-gray-700 mb-6">
                 Full challenge creation and editing interface coming soon!
               </p>
               <button
                 onClick={() => setShowModal(false)}
-                className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium border border-white/30"
+                className="px-6 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all font-medium border border-gray-300"
               >
                 Close
               </button>
@@ -668,7 +668,31 @@ function SuperAdminManagement() {
         // Handle different error scenarios
         if (response.error) {
           console.error('Function call error:', response.error)
-          throw new Error(`Function call failed: ${response.error.message || 'Unknown error'}`)
+          // Try to extract the actual error message from the Edge Function response
+          let errorDetail = response.error.message || 'Unknown error'
+          try {
+            // The Supabase client puts the response context in error.context
+            if (response.error.context) {
+              const errorBody = await response.error.context.json()
+              console.error('Edge Function error body:', errorBody)
+              if (errorBody?.error) {
+                errorDetail = errorBody.error
+              }
+            }
+          } catch (e) {
+            console.error('Could not parse error context:', e)
+          }
+          // Also check if response.data has error info (some client versions)
+          if (response.data) {
+            let errData = response.data
+            if (typeof errData === 'string') {
+              try { errData = JSON.parse(errData) } catch(e) {}
+            }
+            if (errData?.error) {
+              errorDetail = errData.error
+            }
+          }
+          throw new Error(errorDetail)
         }
 
         let { data } = response
@@ -903,7 +927,7 @@ function SuperAdminManagement() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">Super Admin Management</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Super Admin Management</h2>
         <p className="text-gray-600">Create and manage cohorts, users, and role assignments</p>
       </div>
 
@@ -920,7 +944,7 @@ function SuperAdminManagement() {
             ) : (
               <span className="text-green-400 text-lg">✅</span>
             )}
-            <p className="text-white font-medium">{message}</p>
+            <p className="text-gray-900 font-medium">{message}</p>
           </div>
         </div>
       )}
@@ -932,8 +956,8 @@ function SuperAdminManagement() {
             onClick={() => setActiveTab('cohorts')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === 'cohorts'
-                ? 'bg-white/60 text-gray-800'
-                : 'bg-white/30 text-gray-600 hover:bg-white/50'
+                ? 'bg-[#F40009]/30 text-gray-900 border border-[#F40009]/50'
+                : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
             }`}
           >
             Manage Cohorts
@@ -942,8 +966,8 @@ function SuperAdminManagement() {
             onClick={() => setActiveTab('users')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === 'users'
-                ? 'bg-white/60 text-gray-800'
-                : 'bg-white/30 text-gray-600 hover:bg-white/50'
+                ? 'bg-[#F40009]/30 text-gray-900 border border-[#F40009]/50'
+                : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
             }`}
           >
             Manage Users
@@ -952,8 +976,8 @@ function SuperAdminManagement() {
             onClick={() => setActiveTab('challenges')}
             className={`px-6 py-3 rounded-lg font-medium transition-all ${
               activeTab === 'challenges'
-                ? 'bg-white/60 text-gray-800'
-                : 'bg-white/30 text-gray-600 hover:bg-white/50'
+                ? 'bg-[#F40009]/30 text-gray-900 border border-[#F40009]/50'
+                : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
             }`}
           >
             Manage Challenges
@@ -961,7 +985,7 @@ function SuperAdminManagement() {
           {isSuperAdmin() && (
           <Link
             to="/admin-customisation"
-            className="px-6 py-3 rounded-lg font-medium transition-all bg-white/30 text-gray-600 hover:bg-white/50"
+            className="px-6 py-3 rounded-lg font-medium transition-all bg-gray-50 text-gray-600 hover:bg-gray-100"
           >
             Customisation
           </Link>
@@ -981,7 +1005,7 @@ function SuperAdminManagement() {
           <div className="glassmorphism rounded-2xl p-6">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">User Management</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">User Management</h3>
                 <p className="text-gray-600">Manage users, roles, and cohort assignments</p>
               </div>
               
@@ -993,9 +1017,9 @@ function SuperAdminManagement() {
                     placeholder="Search users by name, email, organization, role, or cohort..."
                     value={userSearchTerm}
                     onChange={(e) => setUserSearchTerm(e.target.value)}
-                    className="w-full sm:w-80 px-4 py-3 pl-12 rounded-xl bg-white/90 border border-white/30 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                    className="w-full sm:w-80 px-4 py-3 pl-12 rounded-xl bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C41E3A] focus:border-transparent transition-all"
                   />
-                  <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
@@ -1004,7 +1028,7 @@ function SuperAdminManagement() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => openBulkUploadModal()}
-                    className="px-4 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-white/30"
+                    className="px-4 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-gray-300"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -1014,7 +1038,7 @@ function SuperAdminManagement() {
                   
                 <button
                   onClick={() => openUserModal()}
-                  className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-white/30"
+                  className="px-6 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all font-medium flex items-center gap-2 whitespace-nowrap border border-gray-300"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -1030,10 +1054,10 @@ function SuperAdminManagement() {
           <div className="glassmorphism rounded-2xl p-6">
             {filteredUsers.length === 0 ? (
               <div className="text-center py-12">
-                <svg className="mx-auto h-12 w-12 text-white/40 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="mx-auto h-12 w-12 text-gray-900/40 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                 </svg>
-                <h3 className="text-xl font-medium text-gray-800 mb-2">
+                <h3 className="text-xl font-medium text-gray-900 mb-2">
                   {userSearchTerm ? 'No users found' : 'No users yet'}
                 </h3>
                 <p className="text-gray-600 mb-6">
@@ -1046,7 +1070,7 @@ function SuperAdminManagement() {
                   <div className="flex gap-3 justify-center">
                     <button
                       onClick={() => openBulkUploadModal()}
-                      className="px-4 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium border border-white/30 flex items-center gap-2"
+                      className="px-4 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all font-medium border border-gray-300 flex items-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -1055,7 +1079,7 @@ function SuperAdminManagement() {
                     </button>
                   <button
                     onClick={() => openUserModal()}
-                    className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium border border-white/30"
+                    className="px-6 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all font-medium border border-gray-300"
                   >
                     Create First User
                   </button>
@@ -1070,19 +1094,19 @@ function SuperAdminManagement() {
                 </div>
                 
                 {filteredUsers.map(user => (
-                  <div key={user.user_id} className="bg-white/80 backdrop-blur-sm border border-white/30 rounded-xl p-4 hover:bg-white/90 transition-all">
+                  <div key={user.user_id} className="bg-white border border-gray-200 rounded-xl p-4 hover:bg-gray-50 transition-all shadow-sm">
                     <div className="flex items-center justify-between">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-2">
-                          <h4 className="text-gray-800 font-semibold text-lg truncate">
+                          <h4 className="text-gray-900 font-semibold text-lg truncate">
                             {user.first_name} {user.last_name}
                           </h4>
                           <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                             user.role === 'super_admin' 
-                              ? 'bg-purple-100 text-purple-800 border border-purple-300'
+                              ? 'bg-purple-100 text-purple-700 border border-purple-200'
                               : user.role === 'admin'
-                              ? 'bg-blue-100 text-blue-800 border border-blue-300'
-                              : 'bg-green-100 text-green-800 border border-green-300'
+                              ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                              : 'bg-red-100 text-red-700 border border-red-200'
                           }`}>
                             {user.role.replace('_', ' ')}
                           </span>
@@ -1107,8 +1131,8 @@ function SuperAdminManagement() {
                               <span className="font-medium">Participating in:</span>
                               <span className={`px-2 py-1 rounded-md text-xs ${
                                 user.cohorts?.name 
-                                  ? 'bg-green-100 text-green-800 border border-green-300'
-                                  : 'bg-gray-100 text-gray-600 border border-gray-300'
+                                  ? 'bg-green-100 text-green-700 border border-green-200'
+                                  : 'bg-gray-100 text-gray-600 border border-gray-200'
                               }`}>
                                 {user.cohorts?.name || 'No cohort'}
                               </span>
@@ -1117,7 +1141,7 @@ function SuperAdminManagement() {
                             {(user.role === 'admin' || user.role === 'super_admin') && (
                               <div className="flex items-center gap-2">
                                 <span className="font-medium">Managing:</span>
-                                <span className="px-2 py-1 rounded-md text-xs bg-blue-100 text-blue-800 border border-blue-300">
+                                <span className="px-2 py-1 rounded-md text-xs bg-blue-100 text-blue-700 border border-blue-200">
                                   {user.role === 'super_admin' 
                                     ? 'All cohorts' 
                                     : 'Assigned cohorts'
@@ -1132,7 +1156,7 @@ function SuperAdminManagement() {
                       <div className="flex items-center gap-2 ml-4">
                         <button
                           onClick={() => openUserModal(user)}
-                          className="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500/20 rounded-lg transition-all"
+                          className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded-lg transition-all"
                           title="Edit user"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1142,7 +1166,7 @@ function SuperAdminManagement() {
                         
                         <button
                           onClick={() => deleteUser(user.user_id, user.email || `${user.first_name} ${user.last_name}`)}
-                          className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/20 rounded-lg transition-all"
+                          className="p-2 text-red-600 hover:text-red-800 hover:bg-red-100 rounded-lg transition-all"
                           title="Delete user"
                           disabled={loading}
                         >
@@ -1168,12 +1192,12 @@ function SuperAdminManagement() {
       {/* User Create/Edit Modal */}
       <Modal isOpen={showUserModal} onClose={closeUserModal}>
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-white">
+          <h3 className="text-2xl font-bold text-gray-900">
             {editingUser ? 'Edit User' : 'Create New User'}
           </h3>
           <button
             onClick={closeUserModal}
-            className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1184,7 +1208,7 @@ function SuperAdminManagement() {
         <form onSubmit={handleUserSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-white font-medium mb-2">Email *</label>
+                  <label className="block text-gray-900 font-medium mb-2">Email *</label>
                   <input
                     type="email"
                     value={userForm.email}
@@ -1195,14 +1219,14 @@ function SuperAdminManagement() {
                     disabled={editingUser} // Can't edit email once created
                   />
                   {editingUser && (
-                    <p className="text-white/60 text-xs mt-1">Email cannot be changed after creation</p>
+                    <p className="text-gray-500 text-xs mt-1">Email cannot be changed after creation</p>
                   )}
                 </div>
 
                 {/* Password field - only show when creating new users */}
                 {!editingUser && (
                   <div>
-                    <label className="block text-white font-medium mb-2">Password</label>
+                    <label className="block text-gray-900 font-medium mb-2">Password</label>
                     <input
                       type="password"
                       value={userForm.password}
@@ -1210,14 +1234,14 @@ function SuperAdminManagement() {
                       className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
                       placeholder="Leave empty for default (test1234)"
                     />
-                    <p className="text-white/60 text-xs mt-1">
+                    <p className="text-gray-500 text-xs mt-1">
                       Leave empty to use default password: test1234
                     </p>
                   </div>
                 )}
 
                 <div>
-                  <label className="block text-white font-medium mb-2">Role *</label>
+                  <label className="block text-gray-900 font-medium mb-2">Role *</label>
                   <select
                     value={userForm.role}
                     onChange={(e) => setUserFormField('role', e.target.value)}
@@ -1231,7 +1255,7 @@ function SuperAdminManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-white font-medium mb-2">First Name *</label>
+                  <label className="block text-gray-900 font-medium mb-2">First Name *</label>
                   <input
                     type="text"
                     value={userForm.first_name}
@@ -1243,7 +1267,7 @@ function SuperAdminManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-white font-medium mb-2">Last Name *</label>
+                  <label className="block text-gray-900 font-medium mb-2">Last Name *</label>
                   <input
                     type="text"
                     value={userForm.last_name}
@@ -1255,7 +1279,7 @@ function SuperAdminManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-white font-medium mb-2">Organization</label>
+                  <label className="block text-gray-900 font-medium mb-2">Organization</label>
                   <input
                     type="text"
                     value={userForm.organization_name}
@@ -1266,7 +1290,7 @@ function SuperAdminManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-white font-medium mb-2">Department</label>
+                  <label className="block text-gray-900 font-medium mb-2">Department</label>
                   <input
                     type="text"
                     value={userForm.department}
@@ -1278,10 +1302,10 @@ function SuperAdminManagement() {
 
                 {/* Cohort Participation - Available for ALL user types */}
                 <div className="md:col-span-2">
-                  <label className="block text-white font-medium mb-2">
+                  <label className="block text-gray-900 font-medium mb-2">
                     Participate in Cohort
                     {userForm.role !== 'user' && (
-                      <span className="text-white/60 text-sm font-normal ml-2">(Optional - allows them to do the program)</span>
+                      <span className="text-gray-500 text-sm font-normal ml-2">(Optional - allows them to do the program)</span>
                     )}
                   </label>
                   <select
@@ -1296,7 +1320,7 @@ function SuperAdminManagement() {
                       </option>
                     ))}
                   </select>
-                  <p className="text-white/60 text-xs mt-1">
+                  <p className="text-gray-500 text-xs mt-1">
                     {userForm.role === 'user' 
                       ? 'Users need a cohort assignment to access challenges and track progress.'
                       : 'Allows this admin/super admin to participate in the program and track their own progress.'
@@ -1308,9 +1332,9 @@ function SuperAdminManagement() {
               {/* Admin Cohort Management Assignments */}
               {userForm.role === 'admin' && (
                 <div>
-                  <label className="block text-white font-medium mb-2">
+                  <label className="block text-gray-900 font-medium mb-2">
                     Manage Cohorts 
-                    <span className="text-white/60 text-sm font-normal ml-2">(Administrative access)</span>
+                    <span className="text-gray-500 text-sm font-normal ml-2">(Administrative access)</span>
                   </label>
                   <CohortMultiSelect
                     cohorts={cohorts}
@@ -1318,7 +1342,7 @@ function SuperAdminManagement() {
                     onChange={handleCohortAssignmentChange}
                     placeholder="Search and select cohorts to manage..."
                   />
-                  <p className="text-white/70 text-sm mt-2">
+                  <p className="text-gray-600 text-sm mt-2">
                     Admins can only view and manage users in their assigned cohorts. This is separate from participating in a cohort above.
                   </p>
                 </div>
@@ -1350,7 +1374,7 @@ function SuperAdminManagement() {
                   </div>
                   <div className="space-y-3">
                     <div>
-                      <label className="block text-white font-medium mb-2">New Password</label>
+                      <label className="block text-gray-900 font-medium mb-2">New Password</label>
                       <input
                         type="password"
                         value={userForm.reset_password}
@@ -1399,14 +1423,14 @@ function SuperAdminManagement() {
                 <button
                   type="button"
                   onClick={closeUserModal}
-                  className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all border border-white/30"
+                  className="px-6 py-3 glassmorphism text-gray-900 rounded-xl hover:bg-white/40 transition-all border border-gray-300"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-6 py-3 glassmorphism text-gray-800 rounded-xl hover:bg-white/40 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 border border-white/30"
+                  className="px-6 py-3 bg-[#F40009] text-gray-900 rounded-xl hover:bg-[#d00008] transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {loading && (
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

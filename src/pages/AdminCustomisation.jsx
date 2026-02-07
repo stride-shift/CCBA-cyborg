@@ -76,7 +76,7 @@ function PreviewChips({ items }) {
 	return (
 		<div className="flex flex-wrap gap-2 mt-2">
 			{items.map((item, idx) => (
-				<span key={idx} className="px-2 py-1 text-xs rounded-full bg-white/20 text-white border border-white/30">{item}</span>
+				<span key={idx} className="px-2 py-1 text-xs rounded-full bg-white/20 text-gray-900 border border-white/30">{item}</span>
 			))}
 		</div>
 	)
@@ -88,7 +88,7 @@ function ImagePicker({ value, onChange }) {
 			{value?.preview ? (
 				<img src={value.preview} alt="preview" className="w-28 h-28 object-cover rounded-xl border border-white/40 shadow" />
 			) : (
-				<div className="w-28 h-28 rounded-xl border border-dashed border-white/30 bg-white/10 flex items-center justify-center text-white/60 text-xs">
+				<div className="w-28 h-28 rounded-xl border border-dashed border-white/30 bg-gray-50 flex items-center justify-center text-gray-900/60 text-xs">
 					No image
 				</div>
 			)}
@@ -104,7 +104,7 @@ function ImagePicker({ value, onChange }) {
 					const preview = URL.createObjectURL(file)
 					onChange({ file, preview })
 				}}
-				className="text-white/80 block"
+				className="text-gray-900/80 block"
 			/>
 		</div>
 	)
@@ -116,60 +116,60 @@ function InlineRowEditor({ row, onChange }) {
 		<div className="space-y-5">
 			<div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
 				<div>
-					<label className="block text-white font-medium mb-1">Challenge 1</label>
-					<textarea value={row.challenge1} onChange={(e) => set('challenge1', e.target.value)} placeholder="Describe the first challenge..." className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-white placeholder-white/60 min-h-[72px]" />
+					<label className="block text-gray-900 font-medium mb-1">Challenge 1</label>
+					<textarea value={row.challenge1} onChange={(e) => set('challenge1', e.target.value)} placeholder="Describe the first challenge..." className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-gray-900 placeholder-white/60 min-h-[72px]" />
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-1">Challenge 1 Type</label>
+					<label className="block text-gray-900 font-medium mb-1">Challenge 1 Type</label>
 					<select value={row.challenge1Type} onChange={(e) => { const v = e.target.value; const yt = YOUTUBE_BY_TYPE[v]; onChange({ ...row, challenge1Type: v, video1Url: yt ? `https://www.youtube.com/watch?v=${yt}` : row.video1Url }); }} className="w-full px-3 py-2 rounded bg-white/30 border border-white/30 text-gray-900">
 						<option value="">Select type</option>
 						{CHALLENGE_TYPES.map(t => (<option key={t} value={t}>{t}</option>))}
 					</select>
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-1">Video 1 URL</label>
-					<input value={row.video1Url} onChange={(e) => set('video1Url', e.target.value)} className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-white placeholder-white/60" placeholder="https://www.youtube.com/watch?v=..." />
+					<label className="block text-gray-900 font-medium mb-1">Video 1 URL</label>
+					<input value={row.video1Url} onChange={(e) => set('video1Url', e.target.value)} className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-gray-900 placeholder-white/60" placeholder="https://www.youtube.com/watch?v=..." />
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-1">Image 1</label>
+					<label className="block text-gray-900 font-medium mb-1">Image 1</label>
 					<ImagePicker value={{ file: row.image1File, preview: row.image1Preview }} onChange={({ file, preview }) => onChange({ ...row, image1File: file, image1Preview: preview })} />
 				</div>
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
 				<div>
-					<label className="block text-white font-medium mb-1">Challenge 2</label>
-					<textarea value={row.challenge2} onChange={(e) => set('challenge2', e.target.value)} placeholder="Describe the second challenge..." className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-white placeholder-white/60 min-h-[72px]" />
+					<label className="block text-gray-900 font-medium mb-1">Challenge 2</label>
+					<textarea value={row.challenge2} onChange={(e) => set('challenge2', e.target.value)} placeholder="Describe the second challenge..." className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-gray-900 placeholder-white/60 min-h-[72px]" />
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-1">Challenge 2 Type</label>
+					<label className="block text-gray-900 font-medium mb-1">Challenge 2 Type</label>
 					<select value={row.challenge2Type} onChange={(e) => { const v = e.target.value; const yt = YOUTUBE_BY_TYPE[v]; onChange({ ...row, challenge2Type: v, video2Url: yt ? `https://www.youtube.com/watch?v=${yt}` : row.video2Url }); }} className="w-full px-3 py-2 rounded bg-white/30 border border-white/30 text-gray-900">
 						<option value="">Select type</option>
 						{CHALLENGE_TYPES.map(t => (<option key={t} value={t}>{t}</option>))}
 					</select>
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-1">Video 2 URL</label>
-					<input value={row.video2Url} onChange={(e) => set('video2Url', e.target.value)} className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-white placeholder-white/60" placeholder="https://www.youtube.com/watch?v=..." />
+					<label className="block text-gray-900 font-medium mb-1">Video 2 URL</label>
+					<input value={row.video2Url} onChange={(e) => set('video2Url', e.target.value)} className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-gray-900 placeholder-white/60" placeholder="https://www.youtube.com/watch?v=..." />
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-1">Image 2</label>
+					<label className="block text-gray-900 font-medium mb-1">Image 2</label>
 					<ImagePicker value={{ file: row.image2File, preview: row.image2Preview }} onChange={({ file, preview }) => onChange({ ...row, image2File: file, image2Preview: preview })} />
 				</div>
 			</div>
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-end">
 				<div>
-					<label className="block text-white font-medium mb-1">Reflection Question</label>
+					<label className="block text-gray-900 font-medium mb-1">Reflection Question</label>
 					<input
 						value={row.reflectionQuestion}
 						onChange={(e) => set('reflectionQuestion', e.target.value)}
-						className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-white placeholder-white/60"
+						className="w-full px-3 py-2 rounded bg-white/20 border border-white/30 text-gray-900 placeholder-white/60"
 						placeholder="Prompt the user to reflect..."
 					/>
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-1">Aha Moments</label>
+					<label className="block text-gray-900 font-medium mb-1">Aha Moments</label>
 					<div className="flex gap-2">
 						<input
 							value={row.ahaInput}
@@ -182,7 +182,7 @@ function InlineRowEditor({ row, onChange }) {
 									onChange({ ...row, ahaList: [...(row.ahaList || []), v], ahaInput: '' })
 								}
 							}}
-							className="flex-1 px-3 py-2 rounded bg-white/20 border border-white/30 text-white placeholder-white/60"
+							className="flex-1 px-3 py-2 rounded bg-white/20 border border-white/30 text-gray-900 placeholder-white/60"
 							placeholder="Type an aha moment"
 						/>
 						<button
@@ -199,11 +199,11 @@ function InlineRowEditor({ row, onChange }) {
 					{row.ahaList && row.ahaList.length > 0 && (
 						<div className="flex flex-wrap gap-2 mt-2">
 							{row.ahaList.map((item, idx) => (
-								<span key={idx} className="px-2 py-1 text-xs rounded-full bg-white/20 text-white border border-white/30 inline-flex items-center gap-2">
+								<span key={idx} className="px-2 py-1 text-xs rounded-full bg-white/20 text-gray-900 border border-white/30 inline-flex items-center gap-2">
 									{item}
 									<button
 										onClick={() => onChange({ ...row, ahaList: row.ahaList.filter((_, i) => i !== idx) })}
-										className="text-white/70 hover:text-white"
+										className="text-gray-600 hover:text-gray-900"
 										aria-label="Remove"
 									>
 										×
@@ -260,40 +260,40 @@ const MinimalAddCohort = ({ onCancel, onSaved }) => {
 	return (
 		<form onSubmit={submit} className="space-y-6">
 			<div className="sticky top-0 bg-transparent z-10 pb-4 flex items-center justify-between">
-				<h3 className="text-2xl font-bold text-white">Create New Cohort</h3>
-				<button type="button" onClick={onCancel} className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all">
+				<h3 className="text-2xl font-bold text-gray-900">Create New Cohort</h3>
+				<button type="button" onClick={onCancel} className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all">
 					<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
 				</button>
 			</div>
 			<div className="grid md:grid-cols-2 gap-6">
 				<div className="md:col-span-2">
-					<label className="block text-white font-medium mb-2">Cohort Name *</label>
+					<label className="block text-gray-900 font-medium mb-2">Cohort Name *</label>
 					<input required value={form.name} onChange={(e) => set('name', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 placeholder-gray-400 text-gray-800 focus:outline-none" placeholder="e.g., Spring 2025 Cohort" />
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-2">Organization</label>
+					<label className="block text-gray-900 font-medium mb-2">Organization</label>
 					<input value={form.organization_name} onChange={(e) => set('organization_name', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 text-gray-800" placeholder="e.g., Acme Corporation" />
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-2">Start Date</label>
+					<label className="block text-gray-900 font-medium mb-2">Start Date</label>
 					<input type="date" value={form.start_date} onChange={(e) => set('start_date', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 text-gray-800" />
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-2">End Date</label>
+					<label className="block text-gray-900 font-medium mb-2">End Date</label>
 					<input type="date" value={form.end_date} onChange={(e) => set('end_date', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 text-gray-800" />
 				</div>
 				<div>
-					<label className="block text-white font-medium mb-2">Max Participants</label>
+					<label className="block text-gray-900 font-medium mb-2">Max Participants</label>
 					<input type="number" value={form.max_participants} onChange={(e) => set('max_participants', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 text-gray-800" placeholder="Leave empty for no limit" />
 				</div>
 				<div className="md:col-span-2">
-					<label className="block text-white font-medium mb-2">Description</label>
+					<label className="block text-gray-900 font-medium mb-2">Description</label>
 					<textarea value={form.description} onChange={(e) => set('description', e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 placeholder-gray-400 text-gray-800 resize-none" rows="3" />
 				</div>
 			</div>
 			<div className="flex items-center">
-				<input type="checkbox" id="is_active_add" checked={form.is_active} onChange={(e) => set('is_active', e.target.checked)} className="w-4 h-4 rounded border-white/30 bg-white/20 text-white focus:ring-white/50" />
-				<label htmlFor="is_active_add" className="ml-3 text-white font-medium">Active Cohort</label>
+				<input type="checkbox" id="is_active_add" checked={form.is_active} onChange={(e) => set('is_active', e.target.checked)} className="w-4 h-4 rounded border-white/30 bg-white/20 text-gray-900 focus:ring-white/50" />
+				<label htmlFor="is_active_add" className="ml-3 text-gray-900 font-medium">Active Cohort</label>
 			</div>
 			<div className="flex justify-end gap-3 pt-2">
 				<button type="button" onClick={onCancel} className="px-6 py-3 glassmorphism text-gray-800 rounded-xl border border-white/30">Cancel</button>
@@ -645,21 +645,21 @@ export default function AdminCustomisation() {
 				{/* Message banner */}
 				{message && (
 					<div className="glassmorphism rounded-2xl p-4 mb-4">
-						<p className="text-white">{message}</p>
+						<p className="text-gray-900">{message}</p>
 					</div>
 				)}
 				{/* Page Header */}
 				<div className="glassmorphism rounded-2xl p-8 mb-8">
-					<h1 className="text-4xl font-bold text-white mb-4">Admin Customisation</h1>
-					<p className="text-white/80">Configure cohorts, assignments, and assets. Placeholders only for now.</p>
+					<h1 className="text-4xl font-bold text-gray-900 mb-4">Admin Customisation</h1>
+					<p className="text-gray-900/80">Configure cohorts, assignments, and assets. Placeholders only for now.</p>
 				</div>
 
 				{/* All Cohorts + Add Cohort */}
 				<div className="glassmorphism rounded-2xl p-6 mb-8">
 					<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 						<div>
-							<h3 className="text-2xl font-bold text-white mb-2">Challenge Set Manager</h3>
-							<p className="text-white/80">Select a challenge set to edit (Standard, Sales, Executive)</p>
+							<h3 className="text-2xl font-bold text-gray-900 mb-2">Challenge Set Manager</h3>
+							<p className="text-gray-900/80">Select a challenge set to edit (Standard, Sales, Executive)</p>
 						</div>
 						<div className="flex gap-3 items-center">
 							<select value={selectedChallengeSet} onChange={(e) => setSelectedChallengeSet(e.target.value)} className="px-4 py-3 rounded-xl bg-white/30 border border-white/30 text-gray-900 min-w-[18rem]">
@@ -682,14 +682,14 @@ export default function AdminCustomisation() {
 				<div className="glassmorphism rounded-2xl p-6 mb-8">
 					<nav className="flex gap-4 flex-wrap">
 						{tabs.map(tab => (
-							<button key={tab} type="button" onClick={() => setActiveTab(tab)} className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === tab ? 'bg-white/30 text-white shadow' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}>{tab}</button>
+							<button key={tab} type="button" onClick={() => setActiveTab(tab)} className={`px-6 py-3 rounded-lg font-medium transition-all ${activeTab === tab ? 'bg-white/30 text-gray-900 shadow' : 'bg-gray-50 text-gray-600 hover:bg-white/20'}`}>{tab}</button>
 						))}
 					</nav>
 				</div>
 
 				{!selectedChallengeSet && activeTab !== 'Cohort Management' && (
 					<div className="glassmorphism rounded-2xl p-8">
-						<p className="text-white text-lg">Please select a challenge set</p>
+						<p className="text-gray-900 text-lg">Please select a challenge set</p>
 					</div>
 				)}
 
@@ -699,7 +699,7 @@ export default function AdminCustomisation() {
 						<div className="glassmorphism rounded-2xl p-4 overflow-x-auto">
 							<table className="min-w-full text-left align-top">
 																	<thead className="sticky top-0">
-										<tr className="text-white/90">
+										<tr className="text-gray-900/90">
 											<th className="py-3 px-4">Day</th>
 											<th className="py-3 px-4">Editor</th>
 										</tr>
@@ -707,12 +707,12 @@ export default function AdminCustomisation() {
 								<tbody>
 									{rows.map((row, idx) => (
 										<tr key={row.day} className="align-top">
-											<td className="py-4 px-4 text-white font-semibold">Day {row.day}</td>
+											<td className="py-4 px-4 text-gray-900 font-semibold">Day {row.day}</td>
 																							<td className="py-4 px-4">
-														<div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 shadow-inner">
+														<div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6 shadow-inner">
 														<InlineRowEditor row={row} onChange={(updated) => setRow(idx, updated)} />
 															<div className="mt-4 flex justify-end">
-																<button onClick={() => clearRow(idx)} className="px-4 py-2 rounded-lg bg-white/20 text-white hover:bg-white/30 transition-all border border-white/30">Clear Day</button>
+																<button onClick={() => clearRow(idx)} className="px-4 py-2 rounded-lg bg-white/20 text-gray-900 hover:bg-white/30 transition-all border border-white/30">Clear Day</button>
 															</div>
 													</div>
 												</td>
@@ -722,7 +722,7 @@ export default function AdminCustomisation() {
 							</table>
 						</div>
 						<div className="flex justify-end gap-3">
-							<button onClick={onResetAll} className="px-6 py-3 rounded-xl bg-white/20 text-white hover:bg-white/30 transition-all border border-white/30">Clear All</button>
+							<button onClick={onResetAll} className="px-6 py-3 rounded-xl bg-white/20 text-gray-900 hover:bg-white/30 transition-all border border-white/30">Clear All</button>
 							<button onClick={onSaveAll} className="px-6 py-3 rounded-xl bg-white/70 text-gray-900 hover:bg-white/80 transition-all shadow border border-white/40">Save</button>
 						</div>
 					</div>
@@ -731,18 +731,18 @@ export default function AdminCustomisation() {
 				{selectedChallengeSet && activeTab === 'Bulk Upload' && (
 					<div className="space-y-6">
 						<div className="glassmorphism rounded-2xl p-8">
-							<h3 className="text-2xl font-bold text-white mb-6">Bulk Upload Challenges</h3>
+							<h3 className="text-2xl font-bold text-gray-900 mb-6">Bulk Upload Challenges</h3>
 							
 							{/* File Upload Section */}
 							<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 								{/* CSV Upload */}
-								<div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6">
-									<h4 className="text-lg font-semibold text-white mb-4">1. Upload CSV File</h4>
+								<div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6">
+									<h4 className="text-lg font-semibold text-gray-900 mb-4">1. Upload CSV File</h4>
 									<input
 										type="file"
 										accept=".csv"
 										onChange={(e) => setBulkCsvFile(e.target.files[0])}
-										className="block w-full text-white/80 bg-white/10 border border-white/30 rounded-lg p-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-white/20 file:text-white hover:file:bg-white/30"
+										className="block w-full text-gray-900/80 bg-gray-50 border border-white/30 rounded-lg p-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-white/20 file:text-gray-900 hover:file:bg-white/30"
 									/>
 									{bulkCsvFile && (
 										<p className="text-green-400 text-sm mt-2">✅ {bulkCsvFile.name}</p>
@@ -750,13 +750,13 @@ export default function AdminCustomisation() {
 								</div>
 
 								{/* ZIP Upload */}
-								<div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6">
-									<h4 className="text-lg font-semibold text-white mb-4">2. Upload Images ZIP</h4>
+								<div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6">
+									<h4 className="text-lg font-semibold text-gray-900 mb-4">2. Upload Images ZIP</h4>
 									<input
 										type="file"
 										accept=".zip"
 										onChange={(e) => setBulkZipFile(e.target.files[0])}
-										className="block w-full text-white/80 bg-white/10 border border-white/30 rounded-lg p-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-white/20 file:text-white hover:file:bg-white/30"
+										className="block w-full text-gray-900/80 bg-gray-50 border border-white/30 rounded-lg p-3 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-white/20 file:text-gray-900 hover:file:bg-white/30"
 									/>
 									{bulkZipFile && (
 										<p className="text-green-400 text-sm mt-2">✅ {bulkZipFile.name}</p>
@@ -769,21 +769,21 @@ export default function AdminCustomisation() {
 								<button 
 									onClick={handleBulkUpload}
 									disabled={!bulkCsvFile || !bulkZipFile || bulkUploading}
-									className="px-6 py-3 rounded-xl bg-blue-500/80 text-white hover:bg-blue-500/90 transition-all shadow border border-blue-400/50 disabled:opacity-50 disabled:cursor-not-allowed"
+									className="px-6 py-3 rounded-xl bg-blue-500/80 text-gray-900 hover:bg-blue-500/90 transition-all shadow border border-blue-400/50 disabled:opacity-50 disabled:cursor-not-allowed"
 								>
 									{bulkUploading ? '⏳ Uploading...' : '🚀 Start Bulk Upload'}
 								</button>
 								
 								<button 
 									onClick={downloadSampleCSV}
-									className="px-6 py-3 rounded-xl bg-green-500/80 text-white hover:bg-green-500/90 transition-all shadow border border-green-400/50"
+									className="px-6 py-3 rounded-xl bg-green-500/80 text-gray-900 hover:bg-green-500/90 transition-all shadow border border-green-400/50"
 								>
 									📥 Download Sample CSV
 								</button>
 								
 								<button 
 									onClick={resetBulkUpload}
-									className="px-6 py-3 rounded-xl bg-gray-500/80 text-white hover:bg-gray-500/90 transition-all shadow border border-gray-400/50"
+									className="px-6 py-3 rounded-xl bg-gray-500/80 text-gray-900 hover:bg-gray-500/90 transition-all shadow border border-gray-400/50"
 								>
 									🔄 Reset
 								</button>
@@ -791,17 +791,17 @@ export default function AdminCustomisation() {
 
 							{/* Progress Section */}
 							{bulkProgress.length > 0 && (
-								<div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 mb-6">
-									<h4 className="text-lg font-semibold text-white mb-4">Upload Progress</h4>
+								<div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6 mb-6">
+									<h4 className="text-lg font-semibold text-gray-900 mb-4">Upload Progress</h4>
 									<div className="space-y-2 max-h-60 overflow-y-auto">
 										{bulkProgress.map((progress, index) => (
 											<div key={index} className="flex items-center justify-between bg-white/5 rounded-lg p-3">
 												<div className="flex-1">
-													<span className="text-white text-sm">
+													<span className="text-gray-900 text-sm">
 														Day {progress.current?.day_number}: {progress.current?.challenge_title}
 													</span>
 													{progress.step && (
-														<span className="text-white/60 text-xs ml-2">
+														<span className="text-gray-900/60 text-xs ml-2">
 															({progress.step})
 														</span>
 													)}
@@ -819,29 +819,29 @@ export default function AdminCustomisation() {
 
 							{/* Summary Section */}
 							{bulkSummary && (
-								<div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 mb-6">
-									<h4 className="text-lg font-semibold text-white mb-4">Upload Summary</h4>
+								<div className="bg-gray-50 backdrop-blur-sm border border-white/20 rounded-xl p-6 mb-6">
+									<h4 className="text-lg font-semibold text-gray-900 mb-4">Upload Summary</h4>
 									<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
 										<div className="text-center">
 											<div className="text-2xl font-bold text-green-400">{bulkSummary.successful}</div>
-											<div className="text-white/60 text-sm">Successful</div>
+											<div className="text-gray-900/60 text-sm">Successful</div>
 										</div>
 										<div className="text-center">
 											<div className="text-2xl font-bold text-red-400">{bulkSummary.failed}</div>
-											<div className="text-white/60 text-sm">Failed</div>
+											<div className="text-gray-900/60 text-sm">Failed</div>
 										</div>
 										<div className="text-center">
 											<div className="text-2xl font-bold text-blue-400">{bulkSummary.details.created}</div>
-											<div className="text-white/60 text-sm">Created</div>
+											<div className="text-gray-900/60 text-sm">Created</div>
 										</div>
 										<div className="text-center">
 											<div className="text-2xl font-bold text-yellow-400">{bulkSummary.details.updated}</div>
-											<div className="text-white/60 text-sm">Updated</div>
+											<div className="text-gray-900/60 text-sm">Updated</div>
 										</div>
 									</div>
 									<div className="text-center">
-										<div className="text-3xl font-bold text-white">{bulkSummary.successRate}%</div>
-										<div className="text-white/60">Success Rate</div>
+										<div className="text-3xl font-bold text-gray-900">{bulkSummary.successRate}%</div>
+										<div className="text-gray-900/60">Success Rate</div>
 									</div>
 								</div>
 							)}
@@ -879,16 +879,16 @@ export default function AdminCustomisation() {
 
 							{/* Instructions */}
 							<div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
-								<h4 className="text-lg font-semibold text-white mb-4">📋 Instructions</h4>
-								<div className="text-white/70 space-y-2 text-sm">
+								<h4 className="text-lg font-semibold text-gray-900 mb-4">📋 Instructions</h4>
+								<div className="text-gray-600 space-y-2 text-sm">
 									<p>• <strong>CSV Columns:</strong> cohort_name, day_number, challenge_title, challenge_description, video_url, image_file_name</p>
 									<p>• <strong>Images:</strong> Include all referenced images in a ZIP file with exact matching filenames</p>
 									<p>• <strong>Validation:</strong> Files are validated for format, size (max 5MB), and required data</p>
 									<p>• <strong>Storage:</strong> Images uploaded to Supabase Storage with organized folder structure</p>
 									<p>• <strong>Overwrite:</strong> Existing challenges for same cohort/day will be updated</p>
 								</div>
-								<div className="mt-4 p-4 bg-white/10 rounded-lg">
-									<p className="text-white/80 text-sm font-mono">
+								<div className="mt-4 p-4 bg-gray-50 rounded-lg">
+									<p className="text-gray-900/80 text-sm font-mono">
 										{getSampleFolderStructure()}
 									</p>
 								</div>
@@ -900,7 +900,7 @@ export default function AdminCustomisation() {
 {selectedChallengeSet && activeTab === 'Challenge Sets' && (
 	<div className="space-y-4">
 		{challengesForSet.length === 0 ? (
-			<div className="glassmorphism rounded-2xl p-8 text-white/90">
+			<div className="glassmorphism rounded-2xl p-8 text-gray-900/90">
 				No challenges yet for this set.
 			</div>
 		) : (
@@ -912,21 +912,21 @@ export default function AdminCustomisation() {
 							<div className="flex items-start justify-between gap-4">
 								<div className="flex-1">
 									<div className="flex items-center gap-3 mb-2">
-										<span className="px-3 py-1 rounded-full bg-white/20 text-white text-sm border border-white/30">
+										<span className="px-3 py-1 rounded-full bg-white/20 text-gray-900 text-sm border border-white/30">
 											Day {item.day}
 										</span>
-										<div className="text-white/80 text-sm">
+										<div className="text-gray-900/80 text-sm">
 								Reflection: {truncate(item.reflectionQuestion || item.reflection_question, 80) || '—'}
 										</div>
 									</div>
-									<div className="text-white mb-2">
+									<div className="text-gray-900 mb-2">
 										<strong>Challenge 1:</strong> {truncate(item.challenge1 || item.challenge_1)}
 									</div>
-									<div className="text-white/90 mb-2">
+									<div className="text-gray-900/90 mb-2">
 										<strong>Challenge 2:</strong> {truncate(item.challenge2 || item.challenge_2)}
 									</div>
 									{(item.video1Url || item.video_1_url || item.video2Url || item.video_2_url) && (
-										<div className="text-white/70 text-sm mb-2">
+										<div className="text-gray-600 text-sm mb-2">
 											Videos: {[item.video1Url || item.video_url_1, item.video2Url || item.video_url_2]
 												.filter(Boolean)
 												.map(v => truncate(v, 40))
@@ -1030,7 +1030,7 @@ export default function AdminCustomisation() {
 												setMessage('Delete failed: ' + err.message);
 											}
 										}}
-										className="px-4 py-2 rounded-lg bg-white/20 text-white hover:bg-white/30 transition-all border border-white/30 disabled:opacity-50"
+										className="px-4 py-2 rounded-lg bg-white/20 text-gray-900 hover:bg-white/30 transition-all border border-white/30 disabled:opacity-50"
 									>
 										Delete
 									</button>

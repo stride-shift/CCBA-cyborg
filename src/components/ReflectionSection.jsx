@@ -268,51 +268,50 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
     <div>
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white mb-4">Daily Reflection</h2>
-          <div className="glassmorphism px-6 py-3 rounded-full inline-block mb-6 border border-white/20">
-                            <span className="text-lg text-black">✨ Challenges completed! Time to reflect</span>
+          <h2 className="text-3xl font-bold text-[#C41E3A] mb-4">Daily Reflection</h2>
+          <div className="bg-gray-100 px-6 py-3 rounded-full inline-block mb-6 border border-gray-200">
+            <span className="text-lg text-gray-700">✨ Challenges completed! Time to reflect</span>
           </div>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 mb-8 border border-white/30">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4" style={{ textShadow: 'none' }}>Today's Question</h3>
+        <div className="bg-gray-50 rounded-2xl p-8 mb-8 border border-gray-200">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Today's Question</h3>
           <p className="text-gray-700 text-lg italic leading-relaxed">"{question}"</p>
         </div>
 
         {isSubmitted ? (
-          <div className="glassmorphism rounded-2xl p-8 border border-white/20">
+          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center">
-                <div className="glassmorphism p-2 rounded-full mr-3">
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <div className="bg-green-100 p-2 rounded-full mr-3">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <h4 className="text-xl font-semibold text-gray-800" style={{ textShadow: 'none' }}>Your Reflection</h4>
+                <h4 className="text-xl font-semibold text-gray-900">Your Reflection</h4>
               </div>
               <button
                 onClick={handleEdit}
-                className="glassmorphism px-4 py-2 rounded-full text-gray-800 hover:bg-white/20 transition-all text-sm"
-                style={{ textShadow: 'none' }}
+                className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full text-gray-700 transition-all text-sm border border-gray-200"
               >
                 Edit
               </button>
             </div>
-            <div className="glassmorphism rounded-xl p-6 border border-white/20">
+            <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
               <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
                 {existingReflection}
               </p>
             </div>
-            <div className="flex items-center text-white/70 text-sm mt-4">
-              <div className="w-2 h-2 bg-white/50 rounded-full mr-2"></div>
+            <div className="flex items-center text-green-600 text-sm mt-4">
+              <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
               Reflection saved and synced
             </div>
           </div>
         ) : (
-          <div className="glassmorphism rounded-2xl p-8 border border-white/10">
+          <div className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="reflection" className="block text-lg font-medium text-white mb-4">
+                <label htmlFor="reflection" className="block text-lg font-medium text-gray-900 mb-4">
                   Share your insights
                 </label>
                 <textarea
@@ -320,12 +319,12 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
                   value={reflection}
                   onChange={(e) => handleReflectionChange(e.target.value)}
                   placeholder="What did you discover today? How did these challenges change your perspective? What will you do differently going forward?"
-                  className="w-full h-48 px-6 py-4 glassmorphism rounded-xl text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-transparent resize-none transition-all border border-white/30"
+                  className="w-full h-48 px-6 py-4 bg-gray-50 rounded-xl text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C41E3A]/30 focus:border-[#C41E3A] resize-none transition-all border border-gray-200"
                   required
                 />
                 <div className="flex justify-between items-center mt-2">
                   <div className="flex items-center gap-2">
-                  <span className="text-gray-800 text-sm" style={{ textShadow: 'none' }}>Take your time to reflect thoughtfully</span>
+                    <span className="text-gray-500 text-sm">Take your time to reflect thoughtfully</span>
                     {isDraftSaved && (
                       <div className="flex items-center gap-1 text-green-600 text-xs">
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -335,7 +334,7 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
                       </div>
                     )}
                   </div>
-                  <span className="text-gray-800 text-sm" style={{ textShadow: 'none' }}>
+                  <span className="text-gray-500 text-sm">
                     {reflection.trim().split(/\s+/).filter(word => word.length > 0).length} words
                   </span>
                 </div>
@@ -347,14 +346,13 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
                   disabled={isSubmitting || !reflection.trim()}
                   className={`px-8 py-4 rounded-full font-medium transition-all duration-300 ${
                     isSubmitting || !reflection.trim()
-                      ? 'glassmorphism text-gray-400 cursor-not-allowed border border-white/10'
-                      : 'glassmorphism text-gray-800 hover:bg-white/20 transform hover:scale-105 border border-white/20'
+                      ? 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-200'
+                      : 'bg-[#C41E3A] text-white hover:bg-[#a01830] transform hover:scale-105'
                   }`}
-                  style={{ textShadow: 'none' }}
                 >
                   {isSubmitting ? (
                     <div className="flex items-center">
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white/60 mr-3"></div>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
                       Saving reflection...
                     </div>
                   ) : (
@@ -367,7 +365,7 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
         )}
 
         <div className="mt-6 text-center">
-          <p className="text-white/50 text-sm">
+          <p className="text-gray-500 text-sm">
             Your reflection becomes part of your personal growth journey
           </p>
         </div>

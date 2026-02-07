@@ -17,15 +17,15 @@ function HomePage() {
   return (
     <Layout>
       {/* Hero Section */}
-      <div className="relative z-10 container mx-auto px-6 py-8 h-full flex items-center">
-        <div className="grid md:grid-cols-2 gap-8 items-center w-full">
+      <div className="relative z-10 container mx-auto px-6 py-12 min-h-[calc(100vh-160px)] flex items-center">
+        <div className="grid md:grid-cols-2 gap-12 items-center w-full">
           {/* Left Content */}
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white text-shadow-dark leading-tight">
               Why Cyborg<br />Habits?
             </h1>
             
-            <p className="text-base mb-6 leading-relaxed text-white/80">
+            <p className="text-base md:text-lg mb-8 leading-relaxed text-white/90">
               Cyborg Habits is a behavior change program designed to
               transform how employees interact with AI in their daily
               work. Unlike traditional AI training that focuses on technical
@@ -35,7 +35,7 @@ function HomePage() {
             
             <a
               href="/challenges"
-              className="inline-flex items-center gap-2 glassmorphism px-8 py-3 rounded-full text-white font-semibold hover:bg-white/25 transition-all"
+              className="inline-flex items-center gap-2 bg-[#F40009] px-8 py-4 rounded-full text-white font-semibold hover:bg-[#d00008] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 border-2 border-white/20"
             >
               Get Started
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,33 +45,28 @@ function HomePage() {
           </div>
 
           {/* Right Content - Feature Cards */}
-          <div className="space-y-3">
-            <div className="glassmorphism rounded-2xl p-4">
-              <p className="text-white text-base">
+          <div className="space-y-4">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-5 shadow-lg border border-white/50">
+              <p className="text-gray-800 text-base leading-relaxed">
                 A behavior change platform designed to help people effectively
                 adopt AI in their workflow.
               </p>
             </div>
             
-            <div className="glassmorphism rounded-2xl p-4">
-              <p className="text-white text-base">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-5 shadow-lg border border-white/50">
+              <p className="text-gray-800 text-base leading-relaxed">
                 A self-paced program focused on creating habits for interacting
                 with AI rather than teaching technical skills.
               </p>
             </div>
             
-            <div className="glassmorphism rounded-2xl p-4">
-              <p className="text-white text-base">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-5 shadow-lg border border-white/50">
+              <p className="text-gray-800 text-base leading-relaxed">
                 Stay ahead in your field by mastering AI collaboration techniques.
               </p>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Bottom Circle Decoration */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-        <div className="w-96 h-96 rounded-full glassmorphism"></div>
       </div>
     </Layout>
   )

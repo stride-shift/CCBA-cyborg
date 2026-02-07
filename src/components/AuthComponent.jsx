@@ -189,114 +189,85 @@ function AuthComponent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 25%, #F40009 50%, #8B0000 75%, #1a1a1a 100%)' }}>
+      <div 
+        className="min-h-screen flex items-center justify-center"
+        style={{ 
+          background: '#E61A27',
+          backgroundImage: 'url(/Background.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white">Loading...</p>
+          <p className="text-white font-medium">Loading...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d0a0a 25%, #F40009 50%, #8B0000 75%, #1a1a1a 100%)' }}>
-      {/* Animated glass bubbles */}
+    <div 
+      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      style={{ 
+        background: '#E61A27',
+        backgroundImage: 'url(/Background.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      {/* Floating bubbles - matches Layout styling */}
       <style>{`
         @keyframes float-up {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-30px); }
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-40px) scale(1.05); }
         }
         @keyframes float-down {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(30px); }
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(40px) scale(0.95); }
         }
-        .bubble {
+        .auth-bubble {
           position: absolute;
           border-radius: 50%;
-          background: linear-gradient(145deg, rgba(244, 0, 9, 0.15), rgba(139, 0, 0, 0.1));
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1) 50%, transparent 70%);
           border: 1px solid rgba(255, 255, 255, 0.2);
-          box-shadow: inset 0 0 20px rgba(244, 0, 9, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
-          z-index: 0;
+          box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1);
+          z-index: 1;
         }
         .float-1 { animation: float-up 6s ease-in-out infinite; }
         .float-2 { animation: float-down 8s ease-in-out infinite; }
         .float-3 { animation: float-up 10s ease-in-out infinite; }
         .float-4 { animation: float-down 7s ease-in-out infinite; }
-        .float-5 { animation: float-up 9s ease-in-out infinite; }
-
-        
-        /* Glassmorphism for the sign-in box */
-        .glassmorphism {
-          background: rgba(0, 0, 0, 0.5);
-          backdrop-filter: blur(12px);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Custom OTP form styles */
-        .otp-form input {
-          background: #1a1a1a !important;
-          border: 1px solid #F40009 !important;
-          border-radius: 0.75rem !important;
-          padding: 0.75rem !important;
-          font-size: 1rem !important;
-          color: #ffffff !important;
-          width: 100% !important;
-        }
-        
-        .otp-form input:focus {
-          outline: none !important;
-          border-color: #F40009 !important;
-          box-shadow: 0 0 0 2px rgba(244, 0, 9, 0.3) !important;
-        }
-        
-        .otp-form button {
-          background-color: #F40009 !important;
-          border: 1px solid #F40009 !important;
-          border-radius: 0.75rem !important;
-          padding: 0.75rem 1.5rem !important;
-          color: #ffffff !important;
-          font-weight: 600 !important;
-          transition: all 0.3s ease !important;
-          backdrop-filter: blur(10px) !important;
-          -webkit-backdrop-filter: blur(10px) !important;
-          width: 100% !important;
-        }
-        
-        .otp-form button:hover:not(:disabled) {
-          background-color: #cc0008 !important;
-          color: white !important;
-          transform: translateY(-2px) !important;
-        }
-        
-        .otp-form button:disabled {
-          opacity: 0.6 !important;
-          cursor: not-allowed !important;
-        }
       `}</style>
       
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-        <div className="bubble float-1 -top-40 -left-40 w-80 h-80"></div>
-        <div className="bubble float-2 -bottom-40 -right-40 w-96 h-96"></div>
-        <div className="bubble float-3 top-1/4 right-1/3 w-64 h-64"></div>
-        <div className="bubble float-4 bottom-1/3 left-1/4 w-48 h-48"></div>
-        <div className="bubble float-5 top-1/2 left-1/2 w-72 h-72 -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="bubble float-1 top-20 right-20 w-32 h-32"></div>
-        <div className="bubble float-2 bottom-20 left-20 w-40 h-40"></div>
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="auth-bubble float-1 -top-40 -left-40 w-80 h-80"></div>
+        <div className="auth-bubble float-2 -bottom-40 -right-40 w-96 h-96"></div>
+        <div className="auth-bubble float-3 top-1/4 right-1/3 w-64 h-64"></div>
+        <div className="auth-bubble float-4 bottom-1/3 left-1/4 w-48 h-48"></div>
       </div>
       
       <div className="relative z-10 w-full max-w-xl mx-auto px-4">
         <div className="text-center mb-8">
-          <div className="flex flex-col items-center justify-center gap-3 mb-4">
-            {/* CCBA Logo */}
-            <div className="h-24 w-24 rounded-2xl overflow-hidden shadow-xl border-2 border-white/30">
-              <img src="/ccba-logo.png" alt="CCBA" className="h-full w-full object-cover" />
+          <div className="flex flex-col items-center justify-center gap-4 mb-4">
+            {/* Logo - matches Layout: Cyborg Habits + Coca-Cola branding */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5">
+                <div className="relative w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 border border-white/30">
+                  <div className="w-4 h-4 rounded-full bg-white"></div>
+                </div>
+                <span className="text-xl font-bold text-white tracking-wide drop-shadow-sm">Cyborg Habits</span>
+              </div>
+              <div className="h-10 w-px bg-white/30"></div>
+              <img 
+                src="/coca-cola-logo.png" 
+                alt="Coca-Cola Beverages Africa" 
+                className="h-14 w-auto object-contain"
+                style={{ filter: 'brightness(0)' }}
+              />
             </div>
-            <h1 className="text-4xl font-bold text-white">Cyborg Habits</h1>
           </div>
-          <h2 className="text-2xl text-white font-semibold mb-2">
+          <h2 className="text-2xl text-white font-semibold mb-2 drop-shadow-sm">
             {authView === 'sign_in' 
               ? 'Sign in to your account' 
               : otpStep === 'email' 
@@ -304,26 +275,26 @@ function AuthComponent() {
                 : 'Enter your OTP'
             }
           </h2>
-          <p className="text-white/80">
+          <p className="text-white/90">
             {authView === 'sign_in' 
               ? 'Enter your credentials to access your account' 
               : otpStep === 'email'
                 ? 'Enter your email to receive a one-time password'
-                : 'Check your email and enter the 6-digit code'
+                : 'Check your email and enter the code we sent you'
             }
           </p>
         </div>
         
-        <div className="glassmorphism rounded-2xl p-8">
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/50">
           {/* Shared Email Input */}
           <div className="mb-6">
-            <label className="block text-white font-medium mb-2">Email Address</label>
+            <label className="block text-gray-900 font-medium mb-2">Email Address</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="w-full p-3 rounded-lg border border-[#F40009]/50 bg-black/50 text-white placeholder-white/50 focus:outline-none focus:border-[#F40009] focus:ring-2 focus:ring-[#F40009]/30"
+              className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F40009] focus:border-transparent transition-all"
             />
           </div>
 
@@ -331,8 +302,8 @@ function AuthComponent() {
           {message && (
             <div className={`mb-6 p-4 rounded-xl ${
               message.includes('Error') 
-                ? 'bg-red-500/30 border border-red-500/50 text-white' 
-                : 'bg-green-500/30 border border-green-500/50 text-white'
+                ? 'bg-red-100 border border-red-200 text-red-800' 
+                : 'bg-green-100 border border-green-200 text-green-800'
             }`}>
               <p className="font-medium">{message}</p>
             </div>
@@ -343,7 +314,7 @@ function AuthComponent() {
               {/* Password Form */}
               <form onSubmit={handlePasswordLogin} className="space-y-6">
                 <div>
-                  <label className="block text-white font-medium mb-2">Password</label>
+                  <label className="block text-gray-900 font-medium mb-2">Password</label>
                   <input
                     type="password"
                     value={password}
@@ -351,14 +322,14 @@ function AuthComponent() {
                     placeholder="Enter your password"
                     required
                     disabled={passwordLoading}
-                    className="w-full p-3 rounded-lg border border-[#F40009]/50 bg-black/50 text-white placeholder-white/50 focus:outline-none focus:border-[#F40009] focus:ring-2 focus:ring-[#F40009]/30"
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F40009] focus:border-transparent transition-all"
                   />
                 </div>
                 
                 <button
                   type="submit"
                   disabled={passwordLoading || !email || !password}
-                  className="w-full p-3 rounded-lg font-semibold transition-all bg-[#F40009] border border-[#F40009] text-white hover:bg-[#cc0008] disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-3 rounded-xl font-semibold transition-all bg-[#F40009] text-white hover:bg-[#d00008] disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
                 >
                   {passwordLoading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -373,13 +344,14 @@ function AuthComponent() {
               
               <div className="text-center mt-6">
                 <button
+                  type="button"
                   onClick={() => {
                     setAuthView('otp')
                     setOtpStep('email')
                     setOtp('')
                     setMessage('')
                   }}
-                  className="text-sm text-white/70 hover:text-white underline font-medium"
+                  className="text-sm text-gray-600 hover:text-gray-900 underline font-medium"
                 >
                   Sign in with OTP instead
                 </button>
@@ -388,10 +360,11 @@ function AuthComponent() {
           ) : otpStep === 'email' ? (
             <>
               {/* OTP Email Step */}
-              <form onSubmit={handleSendOtp} className="otp-form space-y-6">                
+              <form onSubmit={handleSendOtp} className="space-y-6">
                 <button
                   type="submit"
                   disabled={otpLoading || !email}
+                  className="w-full px-4 py-3 rounded-xl font-semibold transition-all bg-[#F40009] text-white hover:bg-[#d00008] disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
                 >
                   {otpLoading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -406,12 +379,13 @@ function AuthComponent() {
               
               <div className="text-center mt-6">
                 <button
+                  type="button"
                   onClick={() => {
                     setAuthView('sign_in')
                     setPassword('')
                     setMessage('')
                   }}
-                  className="text-sm text-white/70 hover:text-white underline font-medium"
+                  className="text-sm text-gray-600 hover:text-gray-900 underline font-medium"
                 >
                   Sign in with password instead
                 </button>
@@ -420,24 +394,25 @@ function AuthComponent() {
           ) : (
             <>
               {/* OTP Verification Step */}
-              <form onSubmit={handleVerifyOtp} className="otp-form space-y-6">
+              <form onSubmit={handleVerifyOtp} className="space-y-6">
                 <div>
-                  <label className="block text-white font-medium mb-2">6-Digit OTP Code</label>
+                  <label className="block text-gray-900 font-medium mb-2">OTP Code</label>
                   <input
                     type="text"
                     value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    placeholder="Enter 6-digit code"
-                    maxLength="6"
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 8))}
+                    placeholder="Enter 8-digit code"
+                    maxLength="8"
                     required
                     disabled={otpLoading}
-                    className="text-center text-xl tracking-wider"
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 text-center text-xl tracking-widest placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F40009] focus:border-transparent transition-all"
                   />
                 </div>
                 
                 <button
                   type="submit"
-                  disabled={otpLoading || !otp || otp.length !== 6}
+                  disabled={otpLoading || !otp || otp.length < 6}
+                  className="w-full px-4 py-3 rounded-xl font-semibold transition-all bg-[#F40009] text-white hover:bg-[#d00008] disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
                 >
                   {otpLoading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -452,18 +427,20 @@ function AuthComponent() {
               
               <div className="text-center mt-6 space-y-2">
                 <button
+                  type="button"
                   onClick={() => resetOtpFlow()}
-                  className="text-sm text-gray-600 hover:text-gray-800 underline font-medium block w-full"
+                  className="text-sm text-gray-600 hover:text-gray-900 underline font-medium block w-full"
                 >
                   Resend OTP
                 </button>
                 <button
+                  type="button"
                   onClick={() => {
                     setAuthView('sign_in')
                     setPassword('')
                     setMessage('')
                   }}
-                  className="text-sm text-white/70 hover:text-white underline font-medium"
+                  className="text-sm text-gray-600 hover:text-gray-900 underline font-medium"
                 >
                   Sign in with password instead
                 </button>
