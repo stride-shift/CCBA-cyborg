@@ -601,7 +601,7 @@ function ProductsPage() {
           `}>
             <div 
               className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 md:p-6"
-              style={{ borderWidth: '2px', borderColor: '#4ade80', boxShadow: '0 0 15px rgba(74, 222, 128, 0.3)' }}
+              style={{ borderWidth: '2px', borderColor: '#C41E3A', boxShadow: '0 0 15px rgba(196, 30, 58, 0.3)' }}
             >
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
                 {['March', 'April', 'May', 'June', 'July'].includes(openMonth) && getMonthDays(openMonth).map((dayNumber) => renderDayButton(dayNumber, openMonth))}
@@ -625,7 +625,7 @@ function ProductsPage() {
           `}>
             <div 
               className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 md:p-6"
-              style={{ borderWidth: '2px', borderColor: '#4ade80', boxShadow: '0 0 15px rgba(74, 222, 128, 0.3)' }}
+              style={{ borderWidth: '2px', borderColor: '#C41E3A', boxShadow: '0 0 15px rgba(196, 30, 58, 0.3)' }}
             >
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
                 {['August', 'September', 'October', 'November', 'December'].includes(openMonth) && getMonthDays(openMonth).map((dayNumber) => renderDayButton(dayNumber, openMonth))}
