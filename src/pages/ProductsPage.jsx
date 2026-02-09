@@ -417,11 +417,11 @@ function ProductsPage() {
         onClick={() => setOpenMonth(isOpen ? null : monthName)}
         className={`
           w-full min-h-[140px] md:min-h-[160px] rounded-2xl flex flex-col items-center justify-center
-          transition-all duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer
-          relative p-4 md:p-6
+          transition-[transform,box-shadow,background-color,border-color] duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer
+          relative p-4 md:p-6 border-2
           ${isOpen 
-            ? 'bg-white/95 shadow-lg border-2 border-[#C41E3A]' 
-            : 'bg-white/90 border border-white/50 hover:bg-white/95'
+            ? 'bg-white/95 shadow-lg border-[#C41E3A]' 
+            : 'bg-white/90 border-white/50 hover:bg-white/95'
           }
         `}
         style={isOpen ? { boxShadow: '0 0 15px rgba(196, 30, 58, 0.3)' } : { boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}
@@ -452,7 +452,7 @@ function ProductsPage() {
           <div className={`
             rounded-full p-2
             border border-gray-300 bg-white/50
-            transition-all duration-300
+            transition-[transform,background-color] duration-300
             ${isOpen ? 'bg-gray-100 rotate-180' : 'hover:bg-gray-100'}
           `}>
             <svg 
