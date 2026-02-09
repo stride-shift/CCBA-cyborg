@@ -267,8 +267,8 @@ function Layout({ children }) {
               />
             </Link>
 
-            {/* Nav Links */}
-            <div className="hidden md:flex items-center gap-8 relative z-10">
+            {/* Nav Links - absolutely centered */}
+            <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2 z-10">
               <Link to="/" className="text-white hover:text-[#F40009] transition-colors font-medium">Home</Link>
               <Link to="/challenges" className="text-white hover:text-[#F40009] transition-colors font-medium">Challenges</Link>
               {user && (
