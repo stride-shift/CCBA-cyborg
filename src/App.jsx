@@ -26,11 +26,11 @@ function ProtectedRoute({ children }) {
     return (
       <div 
         className="min-h-screen flex items-center justify-center"
-        style={{ background: '#E61A27', backgroundImage: 'url(/Background.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+        style={{ background: '#e8e8e8', backgroundImage: 'url(/Background-new.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white font-medium">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F40009] mx-auto mb-4"></div>
+          <p className="text-black font-medium">Loading...</p>
         </div>
       </div>
     )
@@ -52,11 +52,11 @@ function App() {
     return (
       <div 
         className="min-h-screen flex items-center justify-center"
-        style={{ background: '#E61A27', backgroundImage: 'url(/Background.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+        style={{ background: '#e8e8e8', backgroundImage: 'url(/Background-new.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white font-medium">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F40009] mx-auto mb-4"></div>
+          <p className="text-black font-medium">Loading...</p>
         </div>
       </div>
     )

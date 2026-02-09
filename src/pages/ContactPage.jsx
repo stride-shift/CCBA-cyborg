@@ -37,7 +37,7 @@ function ContactPage() {
           {/* Get In Touch Badge */}
           <div className="mb-6">
             <div className="inline-block glassmorphism px-5 py-2 rounded-full">
-              <span className="text-white text-sm font-medium">Get In Touch</span>
+              <span className="text-[#C41E3A] text-sm font-medium">Get In Touch</span>
             </div>
           </div>
 

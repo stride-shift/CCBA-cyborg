@@ -162,14 +162,14 @@ function ProgressMapPage() {
       <div className="container mx-auto px-6 py-8 max-w-5xl">
         {/* Header */}
         <div className="mb-8">
-          <Link to="/challenges" className="inline-flex items-center text-white/80 hover:text-white transition-colors group mb-4">
+          <Link to="/challenges" className="inline-flex items-center text-black/60 hover:text-[#C41E3A] transition-colors group mb-4">
             <svg className="w-4 h-4 mr-1.5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             <span className="text-sm font-medium">Back to Challenges</span>
           </Link>
-          <h1 className="text-4xl md:text-5xl font-bold text-white text-shadow-dark mb-2">Habit Formation Progress</h1>
-          <p className="text-white/80 text-lg">Track evidence of your AI collaboration habits</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-black mb-2">Habit Formation Progress</h1>
+          <p className="text-black/70 text-lg">Track evidence of your AI collaboration habits</p>
         </div>
 
         {/* How Progress is Calculated */}

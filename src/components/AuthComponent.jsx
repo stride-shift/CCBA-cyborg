@@ -192,15 +192,15 @@ function AuthComponent() {
       <div 
         className="min-h-screen flex items-center justify-center"
         style={{ 
-          background: '#E61A27',
-          backgroundImage: 'url(/Background.png)',
+          background: '#e8e8e8',
+          backgroundImage: 'url(/Background-new.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white font-medium">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F40009] mx-auto mb-4"></div>
+          <p className="text-black font-medium">Loading...</p>
         </div>
       </div>
     )
@@ -210,13 +210,13 @@ function AuthComponent() {
     <div 
       className="min-h-screen flex items-center justify-center relative overflow-hidden"
       style={{ 
-        background: '#E61A27',
-        backgroundImage: 'url(/Background.png)',
+        background: '#e8e8e8',
+        backgroundImage: 'url(/Background-new.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
-      {/* Floating bubbles - matches Layout styling */}
+      {/* Floating red bubbles - matches Layout styling */}
       <style>{`
         @keyframes float-up {
           0%, 100% { transform: translateY(0px) scale(1); }
@@ -229,9 +229,9 @@ function AuthComponent() {
         .auth-bubble {
           position: absolute;
           border-radius: 50%;
-          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1);
+          background: radial-gradient(circle at 30% 30%, rgba(244, 0, 9, 0.25), rgba(244, 0, 9, 0.08) 50%, transparent 70%);
+          border: 1px solid rgba(244, 0, 9, 0.12);
+          box-shadow: inset 0 0 20px rgba(244, 0, 9, 0.06);
           z-index: 1;
         }
         .float-1 { animation: float-up 6s ease-in-out infinite; }
@@ -253,21 +253,20 @@ function AuthComponent() {
             {/* Logo - matches Layout: Cyborg Habits + Coca-Cola branding */}
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
-                <div className="relative w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 border border-white/30">
-                  <div className="w-4 h-4 rounded-full bg-white"></div>
+                <div className="relative w-8 h-8 rounded-full bg-[#F40009]/20 flex items-center justify-center flex-shrink-0 border border-[#F40009]/30">
+                  <div className="w-4 h-4 rounded-full bg-[#F40009]"></div>
                 </div>
-                <span className="text-xl font-bold text-white tracking-wide drop-shadow-sm">Cyborg Habits</span>
+                <span className="text-xl font-bold text-black tracking-wide">Cyborg Habits</span>
               </div>
-              <div className="h-10 w-px bg-white/30"></div>
+              <div className="h-10 w-px bg-black/20"></div>
               <img 
                 src="/coca-cola-logo.png" 
                 alt="Coca-Cola Beverages Africa" 
                 className="h-14 w-auto object-contain"
-                style={{ filter: 'brightness(0)' }}
               />
             </div>
           </div>
-          <h2 className="text-2xl text-white font-semibold mb-2 drop-shadow-sm">
+          <h2 className="text-2xl text-black font-semibold mb-2">
             {authView === 'sign_in' 
               ? 'Sign in to your account' 
               : otpStep === 'email' 
@@ -275,7 +274,7 @@ function AuthComponent() {
                 : 'Enter your OTP'
             }
           </h2>
-          <p className="text-white/90">
+          <p className="text-black/70">
             {authView === 'sign_in' 
               ? 'Enter your credentials to access your account' 
               : otpStep === 'email'

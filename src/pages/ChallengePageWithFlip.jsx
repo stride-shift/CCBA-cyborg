@@ -364,7 +364,7 @@ export default function ChallengePageWithFlip() {
         }
       `}</style>
       <div className="w-full max-w-6xl mx-auto px-4 pt-12 pb-24 z-10">
-        <Link to={`/habits/${habitId}`} className="inline-flex items-center text-white/80 hover:text-white mb-8 transition-colors group">
+        <Link to={`/habits/${habitId}`} className="inline-flex items-center text-black/60 hover:text-[#C41E3A] mb-8 transition-colors group">
           <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -374,9 +374,9 @@ export default function ChallengePageWithFlip() {
         <div className={(flipped ? 'flip-card flipped' : 'flip-card') + " w-full h-[420px] md:h-[360px] bg-transparent relative"} style={{maxWidth:'100%'}}>
           <div className="flip-card-inner w-full h-full">
             {/* Front Side */}
-            <div className="flip-card-front w-full h-full bg-white/20 backdrop-blur-lg rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden">
+            <div className="flip-card-front w-full h-full bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-[#F40009]/10">
               {/* Image Section */}
-              <div className="md:w-1/2 flex items-center justify-center bg-white/10 p-8">
+              <div className="md:w-1/2 flex items-center justify-center bg-gray-50 p-8">
                 <img
                   src={challenge.image}
                   alt={challenge.title}
@@ -387,24 +387,24 @@ export default function ChallengePageWithFlip() {
               {/* Content Section */}
               <div className="md:w-1/2 flex flex-col justify-center p-8">
                 <div className="mb-6">
-                  <h2 className="text-2xl md:text-3xl font-bold text-white/90">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
                     {challenge.title}
                   </h2>
                 </div>
                 <div className="mb-8">
-                  <p className="text-xl text-white/90 leading-relaxed">
+                  <p className="text-xl text-black/80 leading-relaxed">
                     {challenge.description}
                   </p>
                 </div>
-                <button onClick={() => setFlipped(true)} className="glassmorphism px-8 py-4 rounded-full text-white font-semibold hover:bg-white/25 transition-all mt-4">
+                <button onClick={() => setFlipped(true)} className="bg-[#F40009] px-8 py-4 rounded-full text-white font-semibold hover:bg-[#d00008] transition-all mt-4">
                   Next
                 </button>
               </div>
             </div>
             {/* Back Side */}
-            <div className="flip-card-back w-full h-full bg-white/20 backdrop-blur-lg rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden">
+            <div className="flip-card-back w-full h-full bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-[#F40009]/10">
               {/* Image Section */}
-              <div className="md:w-1/2 flex items-center justify-center bg-white/10 p-8">
+              <div className="md:w-1/2 flex items-center justify-center bg-gray-50 p-8">
                 <img
                   src={challenge.reflectionImage}
                   alt="Reflection"
@@ -415,27 +415,27 @@ export default function ChallengePageWithFlip() {
               {/* Content Section */}
               <div className="md:w-1/2 flex flex-col justify-center p-8">
                 <div className="mb-6">
-                  <h2 className="text-2xl md:text-3xl font-bold text-white/90">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
                     Reflection
                   </h2>
                 </div>
                 <div className="mb-8">
-                  <p className="text-xl text-white/90 leading-relaxed">
+                  <p className="text-xl text-black/80 leading-relaxed">
                     {challenge.reflectionPrompt}
                   </p>
                 </div>
                 <textarea
-                  className="w-full rounded-xl p-4 bg-white/60 text-gray-900 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-gray-500"
+                  className="w-full rounded-xl p-4 bg-gray-50 text-gray-900 mb-4 focus:outline-none focus:ring-2 focus:ring-[#F40009]/40 border border-gray-200 placeholder:text-gray-500"
                   rows={4}
                   placeholder="Type your reflection here..."
                   value={reflection}
                   onChange={e => setReflection(e.target.value)}
                 />
                 <div className="flex gap-4 w-full">
-                  <button onClick={() => setFlipped(false)} className="flex-1 glassmorphism px-6 py-3 rounded-full text-white font-semibold hover:bg-white/25 transition-all">
+                  <button onClick={() => setFlipped(false)} className="flex-1 bg-gray-100 px-6 py-3 rounded-full text-black font-semibold hover:bg-gray-200 transition-all border border-gray-200">
                     Flip Back
                   </button>
-                  <button className="flex-1 glassmorphism px-6 py-3 rounded-full text-white font-semibold hover:bg-white/25 transition-all">
+                  <button className="flex-1 bg-[#F40009] px-6 py-3 rounded-full text-white font-semibold hover:bg-[#d00008] transition-all">
                     Submit
                   </button>
                 </div>

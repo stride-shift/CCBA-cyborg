@@ -102,15 +102,15 @@ function ChallengePage() {
         <div className="mb-8">
           <div className="flex justify-between items-start">
             <div>
-              <Link to="/" className="text-white/80 hover:text-white mb-4 inline-block transition-colors">
+              <Link to="/" className="text-black/60 hover:text-[#C41E3A] mb-4 inline-block transition-colors">
                 ← Back to Home
               </Link>
-              <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white text-shadow-dark">15-Day Cyborg Habit Challenge</h1>
-              <p className="text-white/80 text-lg">Transform your AI collaboration skills</p>
+              <h1 className="text-4xl md:text-5xl font-bold mb-2 text-black">15-Day Cyborg Habit Challenge</h1>
+              <p className="text-black/70 text-lg">Transform your AI collaboration skills</p>
             </div>
             {user && (
               <div className="text-right">
-                <p className="text-white/90 mb-2">Welcome, {user.email}!</p>
+                <p className="text-black/80 mb-2">Welcome, {user.email}!</p>
                 <button
                   onClick={handleSignOut}
                   className="px-4 py-2 rounded-full bg-black/50 border border-white/30 text-white hover:bg-black/70 transition-all"
@@ -142,7 +142,7 @@ function ChallengePage() {
 
         {/* Days Grid */}
         <div>
-          <h2 className="text-2xl font-bold mb-6 text-white text-shadow-dark">Your Journey</h2>
+          <h2 className="text-2xl font-bold mb-6 text-black">Your Journey</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             {challenges.map((challenge) => (

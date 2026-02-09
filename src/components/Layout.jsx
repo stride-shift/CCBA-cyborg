@@ -39,12 +39,12 @@ function Layout({ children }) {
 
   return (
     <div className="min-h-screen relative">
-      {/* Fixed Coca-Cola red background with Background.png */}
+      {/* Fixed background with new Coca-Cola bottles image */}
       <div 
         className="fixed inset-0 overflow-hidden"
         style={{ 
-          background: '#E61A27',
-          backgroundImage: 'url(/Background.png)',
+          background: '#e8e8e8',
+          backgroundImage: 'url(/Background-new.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -55,6 +55,27 @@ function Layout({ children }) {
       <div className="relative z-10 min-h-screen flex flex-col">
       {/* Animated floating bubbles */}
       <style>{`
+        /* Rising bubble animation - floats upward and fades */
+        @keyframes rise {
+          0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+          10%  { opacity: 1; }
+          50%  { transform: translateY(-35vh) translateX(15px) scale(1.1); opacity: 0.8; }
+          90%  { opacity: 0.3; }
+          100% { transform: translateY(-70vh) translateX(-10px) scale(0.8); opacity: 0; }
+        }
+        @keyframes rise-slow {
+          0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+          10%  { opacity: 0.8; }
+          50%  { transform: translateY(-30vh) translateX(-20px) scale(1.15); opacity: 0.6; }
+          90%  { opacity: 0.2; }
+          100% { transform: translateY(-65vh) translateX(10px) scale(0.7); opacity: 0; }
+        }
+        @keyframes drift {
+          0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.5; }
+          25%  { transform: translateY(-20px) translateX(25px) scale(1.08); opacity: 0.7; }
+          50%  { transform: translateY(-45px) translateX(-15px) scale(1.12); opacity: 0.9; }
+          75%  { transform: translateY(-15px) translateX(20px) scale(1.05); opacity: 0.6; }
+        }
         @keyframes float-up {
           0%, 100% { transform: translateY(0px) scale(1); }
           50% { transform: translateY(-40px) scale(1.05); }
@@ -68,21 +89,33 @@ function Layout({ children }) {
           50% { transform: translateX(20px); }
         }
         @keyframes pulse-glow {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 0.6; }
+          0%, 100% { opacity: 0.25; }
+          50% { opacity: 0.55; }
+        }
+        @keyframes shimmer {
+          0%, 100% { opacity: 0.15; transform: scale(1); }
+          50% { opacity: 0.4; transform: scale(1.15); }
         }
         .bubble {
           position: absolute;
           border-radius: 50%;
-          background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1);
+          background: radial-gradient(circle at 30% 30%, rgba(244, 0, 9, 0.35), rgba(244, 0, 9, 0.12) 50%, transparent 70%);
+          border: 1px solid rgba(244, 0, 9, 0.18);
+          box-shadow: inset 0 0 20px rgba(244, 0, 9, 0.1), 0 0 8px rgba(244, 0, 9, 0.06);
           z-index: 1;
         }
         .bubble-solid {
           position: absolute;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.15);
+          background: rgba(244, 0, 9, 0.14);
+          z-index: 1;
+        }
+        .bubble-glass {
+          position: absolute;
+          border-radius: 50%;
+          background: radial-gradient(circle at 35% 35%, rgba(244, 0, 9, 0.25), rgba(196, 30, 58, 0.08) 60%, transparent 75%);
+          border: 1px solid rgba(244, 0, 9, 0.1);
+          box-shadow: inset 0 -4px 8px rgba(244, 0, 9, 0.06), 0 2px 12px rgba(244, 0, 9, 0.04);
           z-index: 1;
         }
         .float-1 { animation: float-up 8s ease-in-out infinite; }
@@ -91,14 +124,25 @@ function Layout({ children }) {
         .float-4 { animation: float-down 9s ease-in-out infinite; }
         .float-5 { animation: float-side 7s ease-in-out infinite; }
         .float-6 { animation: float-up 11s ease-in-out infinite; }
+        .rise-1 { animation: rise 14s ease-in-out infinite; }
+        .rise-2 { animation: rise-slow 18s ease-in-out infinite 2s; }
+        .rise-3 { animation: rise 16s ease-in-out infinite 5s; }
+        .rise-4 { animation: rise-slow 20s ease-in-out infinite 8s; }
+        .rise-5 { animation: rise 12s ease-in-out infinite 3s; }
+        .rise-6 { animation: rise-slow 22s ease-in-out infinite 10s; }
+        .rise-7 { animation: rise 15s ease-in-out infinite 7s; }
+        .drift-1 { animation: drift 10s ease-in-out infinite; }
+        .drift-2 { animation: drift 14s ease-in-out infinite 3s; }
+        .drift-3 { animation: drift 12s ease-in-out infinite 6s; }
         .pulse { animation: pulse-glow 4s ease-in-out infinite; }
+        .shimmer { animation: shimmer 6s ease-in-out infinite; }
         
-        /* Light red card - light red tint with dark text */
+        /* Light card with subtle red tint - dark text for readability */
         .glassmorphism {
-          background: rgba(255, 240, 240, 0.95);
+          background: rgba(255, 255, 255, 0.92);
           backdrop-filter: blur(16px);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-          border: 1px solid rgba(255, 200, 200, 0.5);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(244, 0, 9, 0.12);
         }
         .glassmorphism h1, .glassmorphism h2, .glassmorphism h3, .glassmorphism h4, .glassmorphism h5, .glassmorphism h6 {
           color: #1a1a1a !important;
@@ -120,16 +164,16 @@ function Layout({ children }) {
         
         /* Red card - Coca-Cola red themed */
         .glassmorphism-red {
-          background: rgba(196, 30, 58, 0.9);
+          background: rgba(244, 0, 9, 0.9);
           backdrop-filter: blur(16px);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 8px 32px rgba(244, 0, 9, 0.25);
           border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         /* Card styling */
         .card-white {
-          background: rgba(255, 240, 240, 0.95);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          background: rgba(255, 255, 255, 0.95);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           border-radius: 12px;
         }
         
@@ -166,12 +210,33 @@ function Layout({ children }) {
         }
       `}</style>
 
-      {/* Floating bubbles throughout the page */}
+      {/* Animated floating red bubbles throughout the page */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        {/* Small bubbles */}
-        <div className="bubble-solid float-3 pulse w-8 h-8" style={{ top: '20%', right: '15%' }}></div>
-        <div className="bubble-solid float-5 pulse w-6 h-6" style={{ bottom: '30%', left: '10%' }}></div>
-        <div className="bubble-solid float-1 pulse w-10 h-10" style={{ top: '60%', right: '25%' }}></div>
+        {/* Rising bubbles - float up from bottom */}
+        <div className="bubble rise-1 w-5 h-5" style={{ bottom: '5%', left: '8%' }}></div>
+        <div className="bubble rise-2 w-8 h-8" style={{ bottom: '2%', left: '22%' }}></div>
+        <div className="bubble rise-3 w-4 h-4" style={{ bottom: '8%', left: '45%' }}></div>
+        <div className="bubble rise-4 w-6 h-6" style={{ bottom: '3%', right: '30%' }}></div>
+        <div className="bubble rise-5 w-3 h-3" style={{ bottom: '10%', right: '15%' }}></div>
+        <div className="bubble rise-6 w-7 h-7" style={{ bottom: '1%', left: '65%' }}></div>
+        <div className="bubble rise-7 w-5 h-5" style={{ bottom: '6%', right: '8%' }}></div>
+
+        {/* Drifting bubbles - hover in place with gentle motion */}
+        <div className="bubble-glass drift-1 w-16 h-16" style={{ top: '15%', left: '5%' }}></div>
+        <div className="bubble-glass drift-2 w-12 h-12" style={{ top: '35%', right: '8%' }}></div>
+        <div className="bubble-glass drift-3 w-20 h-20" style={{ top: '65%', left: '12%' }}></div>
+
+        {/* Floating solid bubbles with pulse */}
+        <div className="bubble-solid float-1 pulse w-10 h-10" style={{ top: '20%', right: '18%' }}></div>
+        <div className="bubble-solid float-3 pulse w-6 h-6" style={{ top: '45%', left: '3%' }}></div>
+        <div className="bubble-solid float-5 shimmer w-8 h-8" style={{ bottom: '25%', left: '18%' }}></div>
+        <div className="bubble-solid float-2 pulse w-5 h-5" style={{ top: '75%', right: '22%' }}></div>
+        <div className="bubble-solid float-4 shimmer w-14 h-14" style={{ top: '10%', left: '40%' }}></div>
+        <div className="bubble-solid float-6 pulse w-4 h-4" style={{ top: '55%', right: '5%' }}></div>
+
+        {/* Large ambient glass bubbles */}
+        <div className="bubble-glass float-3 shimmer w-28 h-28" style={{ top: '8%', right: '3%', opacity: 0.3 }}></div>
+        <div className="bubble-glass float-6 shimmer w-24 h-24" style={{ bottom: '15%', right: '35%', opacity: 0.25 }}></div>
       </div>
 
       {/* Navigation - Solid black */}

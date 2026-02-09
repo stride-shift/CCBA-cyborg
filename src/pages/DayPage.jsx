@@ -480,7 +480,7 @@ function DayPage() {
         </div>
 
         {/* Today's Challenges Header */}
-        <h2 className="text-2xl md:text-3xl font-bold text-white text-shadow-dark mb-6">Today's Challenges</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-black mb-6">Today's Challenges</h2>
         
         {/* Challenges Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -629,8 +629,8 @@ function DayPage() {
             {parseInt(dayNumber) < 17 && (
               <Link
                 to={`/day/${parseInt(dayNumber) + 1}`}
-                className="bg-[#8B0000] hover:bg-[#660000] px-8 py-3 rounded-full transition-all ml-auto inline-flex items-center gap-2 text-base font-bold shadow-xl hover:shadow-2xl border-2 border-white/30"
-                style={{ color: '#ffffff', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
+                className="bg-[#F40009] hover:bg-[#d00008] px-8 py-3 rounded-full transition-all ml-auto inline-flex items-center gap-2 text-base font-bold shadow-xl hover:shadow-2xl border-2 border-[#F40009]/30"
+                style={{ color: '#ffffff' }}
               >
                 Next Day
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -100,7 +100,7 @@ function SurveyDayPage() {
         {/* Back Navigation */}
         <Link
           to="/challenges"
-          className="inline-flex items-center text-white/80 hover:text-white mb-8 transition-colors group"
+          className="inline-flex items-center text-black/60 hover:text-[#C41E3A] mb-8 transition-colors group"
         >
           <svg className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -110,13 +110,13 @@ function SurveyDayPage() {
 
         {/* Day Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-white text-shadow-dark mb-4">
+          <h1 className="text-5xl md:text-6xl font-bold text-black mb-4">
             Day {dayNumber}
           </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold text-white text-shadow-dark mb-4">
+          <h2 className="text-2xl md:text-3xl font-semibold text-[#C41E3A] mb-4">
             {isPreSurvey ? 'Pre-Program Survey' : 'Post-Program Survey'}
           </h2>
-          <p className="text-lg text-white/90 max-w-2xl mx-auto">
+          <p className="text-lg text-black/80 max-w-2xl mx-auto">
             {isPreSurvey 
               ? 'Before we begin your Cyborg Habits journey, help us understand your current AI usage patterns.'
               : 'Congratulations on completing the Cyborg Habits program! Tell us about your experience and current AI usage.'
