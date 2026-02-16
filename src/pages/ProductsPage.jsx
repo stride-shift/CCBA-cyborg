@@ -585,50 +585,24 @@ function ProductsPage() {
             </div>
           </div>
 
-          {/* Row 1: March to July */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-5 w-full">
+          {/* Month Cards - Limited to 3 for presentation */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 md:gap-5 w-full">
             {renderMonthCard('March')}
             {renderMonthCard('April')}
             {renderMonthCard('May')}
-            {renderMonthCard('June')}
-            {renderMonthCard('July')}
           </div>
 
-          {/* Dropdown for Row 1 */}
+          {/* Dropdown for visible months */}
           <div className={`
             mt-4 transition-all duration-500 overflow-hidden
-            ${['March', 'April', 'May', 'June', 'July'].includes(openMonth) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}
+            ${['March', 'April', 'May'].includes(openMonth) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}
           `}>
-            <div 
+            <div
               className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 md:p-6"
               style={{ borderWidth: '2px', borderColor: '#C41E3A', boxShadow: '0 0 15px rgba(196, 30, 58, 0.3)' }}
             >
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
-                {['March', 'April', 'May', 'June', 'July'].includes(openMonth) && getMonthDays(openMonth).map((dayNumber) => renderDayButton(dayNumber, openMonth))}
-              </div>
-            </div>
-          </div>
-
-          {/* Row 2: August to December */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-5 w-full mt-6">
-            {renderMonthCard('August')}
-            {renderMonthCard('September')}
-            {renderMonthCard('October')}
-            {renderMonthCard('November')}
-            {renderMonthCard('December')}
-          </div>
-
-          {/* Dropdown for Row 2 */}
-          <div className={`
-            mt-4 transition-all duration-500 overflow-hidden
-            ${['August', 'September', 'October', 'November', 'December'].includes(openMonth) ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'}
-          `}>
-            <div 
-              className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 md:p-6"
-              style={{ borderWidth: '2px', borderColor: '#C41E3A', boxShadow: '0 0 15px rgba(196, 30, 58, 0.3)' }}
-            >
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
-                {['August', 'September', 'October', 'November', 'December'].includes(openMonth) && getMonthDays(openMonth).map((dayNumber) => renderDayButton(dayNumber, openMonth))}
+                {['March', 'April', 'May'].includes(openMonth) && getMonthDays(openMonth).map((dayNumber) => renderDayButton(dayNumber, openMonth))}
               </div>
             </div>
           </div>
