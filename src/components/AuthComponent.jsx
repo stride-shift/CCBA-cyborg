@@ -258,11 +258,12 @@ function AuthComponent() {
                 </div>
                 <span className="text-xl font-bold text-black tracking-wide">Cyborg Habits</span>
               </div>
-              <div className="h-10 w-px bg-black/20"></div>
-              <img 
-                src="/coca-cola-logo.png" 
-                alt="Coca-Cola Beverages Africa" 
-                className="h-14 w-auto object-contain"
+              <div className="h-8 w-px bg-black/20"></div>
+              <img
+                src="/ascendlogo.png"
+                alt="Ascend"
+                className="h-7 w-auto object-contain"
+                style={{ filter: 'brightness(0)' }}
               />
             </div>
           </div>

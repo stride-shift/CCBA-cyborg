@@ -259,11 +259,11 @@ function Layout({ children }) {
               </div>
               {/* Divider */}
               <div className="h-8 w-px bg-white/30"></div>
-              {/* Coca-Cola Beverages Africa Logo - original red */}
-              <img 
-                src="/coca-cola-logo.png" 
-                alt="Coca-Cola Beverages Africa" 
-                className="h-12 w-auto object-contain"
+              {/* Ascend Logo */}
+              <img
+                src="/ascendlogo.png"
+                alt="Ascend"
+                className="h-7 w-auto object-contain"
               />
             </Link>
 
