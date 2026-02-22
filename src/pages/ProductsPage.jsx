@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { useAuth } from '../hooks/useAuth'
@@ -14,6 +14,7 @@ function ProductsPage() {
   const [introVideo, setIntroVideo] = useState(null)
   const [isVideoLoading, setIsVideoLoading] = useState(true)
   const [openMonth, setOpenMonth] = useState(null) // Track which month is expanded
+  const [openWeek, setOpenWeek] = useState(null) // Track which week is expanded within April/May
   const showAdditionalChallenges = false // Set to true to re-enable Additional Challenges section
 
   const challenges = [
@@ -224,8 +225,8 @@ function ProductsPage() {
     setIsVideoLoading(false)
   }
 
-  const totalDays = 53 // March (17 days) + 9 months × 4 days = 53 total
-  const totalDaysWithSurveys = 55 // pre-survey + 53 days + post-survey
+  const totalDays = 25 // March (17 days) + April (4 weeks) + May (4 weeks) = 25 total
+  const totalDaysWithSurveys = 27 // pre-survey + 25 days + post-survey
   const progressPercentage = (completedDays.size / totalDaysWithSurveys) * 100
 
 
@@ -311,12 +312,11 @@ function ProductsPage() {
           w-full h-24 md:h-28 px-4 py-3 rounded-xl flex items-center justify-center
           transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer
           relative
-          ${isCompleted 
-            ? 'bg-[#C41E3A] border-2 border-red-400 shadow-lg' 
+          ${isCompleted
+            ? 'bg-[#C41E3A] border-2 border-red-400 shadow-lg'
             : 'bg-white/90 border border-white/50 hover:bg-white shadow-md'
           }
         `}>
-          {/* Checkmark for completed */}
           {isCompleted && (
             <div className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center border-2 border-white shadow-lg">
               <svg className="w-4 h-4 text-[#C41E3A]" fill="currentColor" viewBox="0 0 20 20">
@@ -324,7 +324,7 @@ function ProductsPage() {
               </svg>
             </div>
           )}
-          
+
           <span className={`font-semibold text-xs md:text-sm text-center leading-tight ${isCompleted ? 'text-white' : 'text-gray-800'}`}>
             {challengeName}
           </span>
@@ -358,43 +358,15 @@ function ProductsPage() {
     if (monthName === 'March' && marchChallenges[dayNumber]) {
       return marchChallenges[dayNumber]
     }
-    // For other months, show relative day number (1-4) instead of absolute
-    const monthStartDays = {
-      'April': 18,
-      'May': 22,
-      'June': 26,
-      'July': 30,
-      'August': 34,
-      'September': 38,
-      'October': 42,
-      'November': 46,
-      'December': 50
-    }
-    const startDay = monthStartDays[monthName]
-    if (startDay) {
-      const relativeDayNumber = dayNumber - startDay + 1
-      return `Day ${relativeDayNumber}`
-    }
     return `Day ${dayNumber}`
   }
 
   const getMonthDays = (monthName) => {
-    // Each month has unique sequential day numbers
-    // March: days 1-17 (17 challenges)
-    // April-December: 4 days each, continuing the sequence
     const monthRanges = {
-      'March': { start: 1, count: 17 },      // Days 1-17
-      'April': { start: 18, count: 4 },      // Days 18-21
-      'May': { start: 22, count: 4 },        // Days 22-25
-      'June': { start: 26, count: 4 },       // Days 26-29
-      'July': { start: 30, count: 4 },       // Days 30-33
-      'August': { start: 34, count: 4 },     // Days 34-37
-      'September': { start: 38, count: 4 },  // Days 38-41
-      'October': { start: 42, count: 4 },    // Days 42-45
-      'November': { start: 46, count: 4 },   // Days 46-49
-      'December': { start: 50, count: 4 }    // Days 50-53
+      'March': { start: 1, count: 17 },
+      'April': { start: 18, count: 4 },
+      'May': { start: 22, count: 4 }
     }
-    
     const range = monthRanges[monthName]
     if (range) {
       return Array.from({ length: range.count }, (_, i) => range.start + i)
@@ -402,11 +374,128 @@ function ProductsPage() {
     return []
   }
 
+  // Week data for April and May (last/Friday topic per week from programme calendar)
+  const monthWeekData = {
+    'April': [
+      {
+        week: 1,
+        group1: 'Student to Professional 8: Cross-cultural Communication across African Markets',
+        group2: 'Student to Professional 8: Cross-cultural Communication across African Markets'
+      },
+      {
+        week: 2,
+        group1: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools',
+        group2: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools'
+      },
+      {
+        week: 3,
+        group1: 'Leading the Business: CCBA Strategy & Operating Model',
+        group2: 'Leading the Business: CCBA Strategy & Operating Model'
+      },
+      {
+        week: 4,
+        group1: 'Leading the Business: Commercial Strategy',
+        group2: 'Leading the Business: Commercial Strategy'
+      }
+    ],
+    'May': [
+      {
+        week: 1,
+        group1: 'Customer Insight Presentation to CMT Prep',
+        group2: 'Customer Insight Presentation to CMT Prep'
+      },
+      {
+        week: 2,
+        group1: 'Final Phase 1 Insights',
+        group2: 'Final Phase 1 Insights'
+      },
+      {
+        week: 3,
+        group1: 'Leading Self: Confident Communication & Personal Presence',
+        group2: 'Leading Self: Confident Communication & Personal Presence'
+      },
+      {
+        week: 4,
+        group1: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era',
+        group2: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era'
+      }
+    ]
+  }
+
+  const renderWeekTile = (weekInfo, monthName) => {
+    const isOpen = openWeek === `${monthName}-${weekInfo.week}`
+
+    return (
+      <div
+        key={weekInfo.week}
+        onClick={(e) => {
+          e.stopPropagation()
+          setOpenWeek(isOpen ? null : `${monthName}-${weekInfo.week}`)
+        }}
+        className={`
+          w-full h-24 md:h-28 px-4 py-3 rounded-xl flex items-center justify-center
+          transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer
+          relative
+          ${isOpen
+            ? 'bg-white border-2 border-[#C41E3A] shadow-lg'
+            : 'bg-white/90 border border-white/50 hover:bg-white shadow-md'
+          }
+        `}
+      >
+        <span className="font-semibold text-sm md:text-base text-gray-800">
+          Week {weekInfo.week}
+        </span>
+        {/* Dropdown Arrow */}
+        <div className="absolute bottom-2 right-2">
+          <svg
+            className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </div>
+    )
+  }
+
+  const getDayForWeek = (monthName, weekNumber) => {
+    const monthStarts = { 'April': 18, 'May': 22 }
+    return (monthStarts[monthName] || 0) + weekNumber - 1
+  }
+
+  const renderGroupTopics = (weekInfo, monthName) => {
+    const weekKey = `${monthName}-${weekInfo.week}`
+    if (openWeek !== weekKey) return null
+
+    const dayNumber = getDayForWeek(monthName, weekInfo.week)
+
+    return (
+      <div key={`${weekKey}-topics`} className="col-span-full mt-2">
+        <Link
+          to={`/day/${dayNumber}`}
+          className="block"
+        >
+          <div className="w-full h-24 md:h-28 px-4 py-3 rounded-xl flex items-center justify-center
+            bg-white/90 border border-white/50 hover:bg-white shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer">
+            <span className="font-semibold text-xs md:text-sm text-center leading-tight text-gray-800">
+              {weekInfo.group1}
+            </span>
+          </div>
+        </Link>
+      </div>
+    )
+  }
+
   const renderMonthCard = (monthName) => {
     const isOpen = openMonth === monthName
-    const daysInMonth = getMonthDays(monthName)
-    
-    // Calculate completed days in this month
+    const isWeekBased = monthName === 'April' || monthName === 'May'
+
+    // For March: use days, for April/May: use weeks
+    const daysInMonth = !isWeekBased ? getMonthDays(monthName) : []
+    const weeksInMonth = isWeekBased ? (monthWeekData[monthName] || []) : []
+
     const completedDaysInMonth = daysInMonth.filter(day => completedDays.has(day)).length
     const totalDaysInMonth = daysInMonth.length
     const monthProgress = totalDaysInMonth > 0 ? (completedDaysInMonth / totalDaysInMonth) * 100 : 0
@@ -414,13 +503,16 @@ function ProductsPage() {
     return (
       <div
         key={monthName}
-        onClick={() => setOpenMonth(isOpen ? null : monthName)}
+        onClick={() => {
+          setOpenMonth(isOpen ? null : monthName)
+          if (isOpen) setOpenWeek(null) // Close any open week when closing month
+        }}
         className={`
           w-full min-h-[140px] md:min-h-[160px] rounded-2xl flex flex-col items-center justify-center
           transition-[transform,box-shadow,background-color,border-color] duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer
           relative p-4 md:p-6 border-2
-          ${isOpen 
-            ? 'bg-white/95 shadow-lg border-[#C41E3A]' 
+          ${isOpen
+            ? 'bg-white/95 shadow-lg border-[#C41E3A]'
             : 'bg-white/90 border-white/50 hover:bg-white/95'
           }
         `}
@@ -430,23 +522,31 @@ function ProductsPage() {
           <span className="font-bold text-[#C41E3A] text-2xl md:text-3xl block mb-2" style={{ textShadow: 'none' }}>
             {monthName}
           </span>
-          
+
           {/* Progress indicator */}
           <div className="mt-2">
             <div className="flex items-center justify-center gap-1.5 text-gray-600 text-xs md:text-sm">
-              <span>{completedDaysInMonth}/{totalDaysInMonth} days</span>
-              <span>•</span>
-              <span>{Math.round(monthProgress)}%</span>
+              {isWeekBased ? (
+                <span>{weeksInMonth.length} weeks</span>
+              ) : (
+                <>
+                  <span>{completedDaysInMonth}/{totalDaysInMonth} days</span>
+                  <span>•</span>
+                  <span>{Math.round(monthProgress)}%</span>
+                </>
+              )}
             </div>
-            <div className="mt-1.5 w-full max-w-[120px] mx-auto bg-gray-200 rounded-full h-1.5 overflow-hidden">
-              <div 
-                className="bg-gradient-to-r from-[#C41E3A] to-[#E85D6F] h-full transition-all duration-500"
-                style={{ width: `${monthProgress}%` }}
-              ></div>
-            </div>
+            {!isWeekBased && (
+              <div className="mt-1.5 w-full max-w-[120px] mx-auto bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                <div
+                  className="bg-gradient-to-r from-[#C41E3A] to-[#E85D6F] h-full transition-all duration-500"
+                  style={{ width: `${monthProgress}%` }}
+                ></div>
+              </div>
+            )}
           </div>
         </div>
-        
+
         {/* Dropdown Arrow */}
         <div className="absolute top-3 right-3 md:top-4 md:right-4">
           <div className={`
@@ -455,10 +555,10 @@ function ProductsPage() {
             transition-[transform,background-color] duration-300
             ${isOpen ? 'bg-gray-100 rotate-180' : 'hover:bg-gray-100'}
           `}>
-            <svg 
+            <svg
               className="w-4 h-4 text-gray-600 transition-transform duration-300"
-              fill="none" 
-              stroke="currentColor" 
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
@@ -595,15 +695,34 @@ function ProductsPage() {
           {/* Dropdown for visible months */}
           <div className={`
             mt-4 transition-all duration-500 overflow-hidden
-            ${['March', 'April', 'May'].includes(openMonth) ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}
+            ${['March', 'April', 'May'].includes(openMonth) ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}
           `}>
             <div
               className="bg-black/30 backdrop-blur-sm rounded-2xl p-4 md:p-6"
               style={{ borderWidth: '2px', borderColor: '#C41E3A', boxShadow: '0 0 15px rgba(196, 30, 58, 0.3)' }}
             >
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
-                {['March', 'April', 'May'].includes(openMonth) && getMonthDays(openMonth).map((dayNumber) => renderDayButton(dayNumber, openMonth))}
-              </div>
+              {/* March: Day buttons */}
+              {openMonth === 'March' && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+                  {getMonthDays('March').map((dayNumber) => renderDayButton(dayNumber, 'March'))}
+                </div>
+              )}
+
+              {/* April & May: Week tiles with topic below */}
+              {(openMonth === 'April' || openMonth === 'May') && (
+                <>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
+                    {(monthWeekData[openMonth] || []).map((weekInfo) => (
+                      <Fragment key={weekInfo.week}>
+                        {renderWeekTile(weekInfo, openMonth)}
+                      </Fragment>
+                    ))}
+                  </div>
+                  {(monthWeekData[openMonth] || []).map((weekInfo) =>
+                    renderGroupTopics(weekInfo, openMonth)
+                  )}
+                </>
+              )}
             </div>
           </div>
 

@@ -369,9 +369,9 @@ function DayPage() {
       <div className="container mx-auto px-6 py-8">
         {/* How This Works Modal */}
         {showHowItWorks && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowHowItWorks(false)}>
-            <div className="glassmorphism-dark rounded-2xl p-8 max-w-lg w-full relative" onClick={(e) => e.stopPropagation()}>
-              <button 
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4" onClick={() => setShowHowItWorks(false)}>
+            <div className="glassmorphism-dark rounded-2xl p-6 max-w-lg w-full relative" onClick={(e) => e.stopPropagation()}>
+              <button
                 onClick={() => setShowHowItWorks(false)}
                 className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
               >
@@ -379,39 +379,39 @@ function DayPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              
+
               <h2 className="text-2xl font-bold text-white mb-1">Day {dayNumber}</h2>
-              <p className="text-white/70 mb-6">How This Program Works</p>
-              
-              <div className="space-y-6">
+              <p className="text-white/70 mb-4">How This Program Works</p>
+
+              <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Experience habits in the flow of work</h3>
-                  <p className="text-white/80 text-sm">
+                  <h3 className="text-lg font-semibold text-white mb-1">Experience habits in the flow of work</h3>
+                  <p className="text-white/80 text-sm leading-relaxed">
                     These challenges are designed to help you develop sustainable AI habits through practical application. You'll learn by doing, not by reading about theory.
                   </p>
                 </div>
-                
+
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Two challenges that combine</h3>
-                  <p className="text-white/80 text-sm">
+                  <h3 className="text-lg font-semibold text-white mb-1">Two challenges that combine</h3>
+                  <p className="text-white/80 text-sm leading-relaxed">
                     Each day presents two connected challenges. The second builds on the first, demonstrating how different AI habits work together to create compounding value in your workflow.
                   </p>
                 </div>
-                
+
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Reflection is where change happens</h3>
-                  <p className="text-white/80 text-sm">
+                  <h3 className="text-lg font-semibold text-white mb-1">Reflection is where change happens</h3>
+                  <p className="text-white/80 text-sm leading-relaxed">
                     After completing both challenges, you'll be prompted to reflect on what you discovered. This step is critical—it's where temporary actions become lasting behavioral change.
                   </p>
-                  <p className="text-white font-medium text-sm mt-2">
+                  <p className="text-white font-medium text-sm mt-1.5">
                     Don't skip your reflection. It converts experience into habit.
                   </p>
                 </div>
               </div>
-              
-              <button 
+
+              <button
                 onClick={() => setShowHowItWorks(false)}
-                className="w-full mt-8 bg-[#C41E3A] hover:bg-[#a01830] px-6 py-3 rounded-full text-white font-medium transition-all"
+                className="w-full mt-6 bg-[#C41E3A] hover:bg-[#a01830] px-6 py-3 rounded-full text-white font-medium transition-all"
               >
                 Begin
               </button>
