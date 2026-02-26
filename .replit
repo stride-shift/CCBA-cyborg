@@ -1,15 +1,19 @@
 modules = ["nodejs-20", "web", "bash"]
 run = "npm run dev"
+entrypoint = "index.html"
 
 [nix]
-channel = "stable-25_05"
+channel = "stable-24_05"
+
+[env]
+PATH = "/home/runner/$REPL_SLUG/node_modules/.bin:$PATH"
 
 [deployment]
 deploymentTarget = "static"
 publicDir = "dist"
+build = ["sh", "-c", "npm install && npm run build"]
 run = ["sh", "-c", ""]
-build = ["sh", "-c", "npm run build"]
 
 [[ports]]
-localPort = 5000
+localPort = 5173
 externalPort = 80

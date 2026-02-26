@@ -15,13 +15,16 @@ export default defineConfig({
   },
   // Ensure proper SPA routing in development
   server: {
-    port: 5000,
-    open: true,
+    port: 5173,
+    host: "0.0.0.0",
+    open: false,
   },
   // Configure for static deployment - use absolute path
   base: "/",
   // Add SPA fallback for production builds
   preview: {
     port: 3000,
+    host: "0.0.0.0",
+    allowedHosts: ["all"],
   },
 });
