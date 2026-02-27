@@ -70,7 +70,7 @@ function ChallengePage() {
 
   const generateMockChallenges = () => {
     const mockChallenges = []
-    for (let i = 1; i <= 15; i++) {
+    for (let i = 1; i <= 33; i++) {
       mockChallenges.push({
         id: `mock-${i}`,
         order_index: i,
@@ -105,7 +105,7 @@ function ChallengePage() {
               <Link to="/" className="text-black/60 hover:text-[#C41E3A] mb-4 inline-block transition-colors">
                 ← Back to Home
               </Link>
-              <h1 className="text-4xl md:text-5xl font-bold mb-2 text-black">15-Day Cyborg Habit Challenge</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-2 text-black">Cyborg Habit Challenge</h1>
               <p className="text-black/70 text-lg">Transform your AI collaboration skills</p>
             </div>
             {user && (

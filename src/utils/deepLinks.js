@@ -50,7 +50,7 @@ export function generateChallengesLink(options = {}) {
 
 /**
  * Generate a deep link to a survey day
- * @param {number} dayNumber - Survey day (0 for pre-survey, 16 for post-survey)
+ * @param {number} dayNumber - Survey day (0 for pre-survey, 34 for post-survey)
  * @param {object} options - Additional options
  * @returns {string} Complete URL with protocol
  */
@@ -109,7 +109,7 @@ export async function copyDayLinkToClipboard(dayNumber, options = {}) {
  */
 export function getDayDisplayName(dayNumber) {
   if (dayNumber === 0) return 'Pre-Program Survey'
-  if (dayNumber === 16) return 'Post-Program Survey'
+  if (dayNumber === 34) return 'Post-Program Survey'
   return `Day ${dayNumber} Challenge`
 }
 

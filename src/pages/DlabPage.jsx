@@ -91,15 +91,15 @@ function DlabPage() {
       const completed = []
       if (challengeData) completed.push(...challengeData.map(i => i.challenges.order_index))
       if (preSurvey) completed.push(0)
-      if (postSurvey) completed.push(16)
+      if (postSurvey) completed.push(34)
       setCompletedDays(new Set(completed))
     } catch (e) {
       console.error('Error loading completed days', e)
     }
   }
 
-  const totalDays = 15
-  const totalDaysWithSurveys = 17
+  const totalDays = 33
+  const totalDaysWithSurveys = 35
   const progressPercentage = (completedDays.size / totalDaysWithSurveys) * 100
 
   const scrollLeft = () => {
@@ -116,7 +116,7 @@ function DlabPage() {
 
   const renderDayTile = (dayNumber) => {
     const isCompleted = completedDays.has(dayNumber)
-    const isSurveyDay = dayNumber === 0 || dayNumber === 16
+    const isSurveyDay = dayNumber === 0 || dayNumber === 34
     const isPreSurvey = dayNumber === 0
     return (
       <Link key={dayNumber} to={`/day/${dayNumber}`} className="snap-start flex-shrink-0">

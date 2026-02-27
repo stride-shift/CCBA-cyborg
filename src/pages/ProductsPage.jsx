@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { useAuth } from '../hooks/useAuth'
@@ -187,7 +187,7 @@ function ProductsPage() {
       }
       
       if (postSurveyData && !postSurveyError) {
-        completedDayNumbers.push(51) // Day 51 (post-survey)
+        completedDayNumbers.push(34) // Day 34 (post-survey)
         console.log('✅ Post-survey completed')
       }
 
@@ -225,16 +225,67 @@ function ProductsPage() {
     setIsVideoLoading(false)
   }
 
-  const totalDays = 25 // March (17 days) + April (4 weeks) + May (4 weeks) = 25 total
-  const totalDaysWithSurveys = 27 // pre-survey + 25 days + post-survey
+  const totalDays = 23 // March (15 days) + April (4 weeks) + May (4 weeks) = 23 total
+  const totalDaysWithSurveys = 25 // pre-survey + 23 days + post-survey
+
+  // Week data for April and May - each week has 2 topic choices, student picks 1
+  const monthWeekData = {
+    'April': [
+      { week: 1, options: [
+        { orderIndex: 16, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 17, name: 'Student to Professional 8: Cross-cultural Communication across African Markets' },
+        { orderIndex: 18, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 19, name: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools' }
+      ]},
+      { week: 2, options: [
+        { orderIndex: 20, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 21, name: 'Leading the Business: CCBA Strategy & Operating Model' }
+      ]},
+      { week: 3, options: [
+        { orderIndex: 22, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 23, name: 'Leading the Business: Commercial Strategy' }
+      ]},
+      { week: 4, options: [
+        { orderIndex: 24, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 25, name: 'Commercial Immersion Reflection' }
+      ]}
+    ],
+    'May': [
+      { week: 1, options: [
+        { orderIndex: 26, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 27, name: 'Customer Insight Presentation to CMT Prep' }
+      ]},
+      { week: 2, options: [
+        { orderIndex: 28, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 29, name: 'Final Phase 1 Insights' }
+      ]},
+      { week: 3, options: [
+        { orderIndex: 30, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 31, name: 'Leading Self: Confident Communication & Personal Presence' }
+      ]},
+      { week: 4, options: [
+        { orderIndex: 32, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 33, name: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era' }
+      ]}
+    ]
+  }
+
+  // Count completed weeks for a month (a week is complete if any of its options are completed)
+  const getCompletedWeeks = (monthName) => {
+    const weeks = monthWeekData[monthName] || []
+    return weeks.filter(week =>
+      week.options.some(opt => completedDays.has(opt.orderIndex))
+    ).length
+  }
+
   const progressPercentage = (completedDays.size / totalDaysWithSurveys) * 100
 
 
   const renderDayTile = (dayNumber) => {
     const isCompleted = completedDays.has(dayNumber)
-    const isSurveyDay = dayNumber === 0 || dayNumber === 51
+    const isSurveyDay = dayNumber === 0 || dayNumber === 34
     const isPreSurvey = dayNumber === 0
-    const isPostSurvey = dayNumber === 51
+    const isPostSurvey = dayNumber === 34
 
     return (
       <Link
@@ -333,39 +384,58 @@ function ProductsPage() {
     )
   }
 
-  // Challenge names for March
-  const marchChallenges = {
+  // Challenge names by order_index
+  const challengeNames = {
+    // March (1-15)
     1: 'Student to Professional 1: Intro to Cyborg Habits & Augmented Working',
     2: 'Student to Professional 2: Technology Proficiency for the Future of Work',
     3: 'Student to Professional 3: Storytelling & Professional Communication',
     4: 'Student to Professional 4: Crafting Your Personal Brand in CCBA, Workplace Etiquette & Meeting Discipline',
     5: 'Student to Professional 5: Personal Finance',
-    6: 'CH Challenge 1',
-    7: 'CH Challenge 2',
-    8: 'CH Challenge 3',
-    9: 'CH Challenge 4',
-    10: 'Student to Professional 6: Digital Identity, LinkedIn & Internal Visibility',
-    11: 'In-Trade Learning 1',
-    12: 'In-Trade Learning 2',
-    13: 'In-Trade Learning 3',
-    14: 'In-Trade Learning 4',
-    15: 'Student to Professional 7: Productivity Systems & Task Management (with AI)',
-    16: 'In-Trade Learning 5',
-    17: 'In-Trade Learning 6'
+    6: 'Leading the Business: CCBA Strategy & Operating Model',
+    7: 'Leading the Business: Commercial Strategy',
+    8: 'Leading the Business: Manufacturing, Quality & Supply Planning',
+    9: 'Leading the Business: ESG, Sustainability & Circular Packaging',
+    10: 'Commercial Immersion Orientation (Group Session)',
+    11: 'Commercial Immersion Orientation (Country Capability Team)',
+    12: 'In-Trade Learning with Area Sales Managers',
+    13: 'In-Trade Learning with Area Sales Managers',
+    14: 'Student to Professional 7: Productivity Systems & Task Management (with AI)',
+    15: 'In-Trade Learning with Area Sales Managers',
+    // April (16-25)
+    16: 'In-Trade Learning with Area Sales Managers',
+    17: 'Student to Professional 8: Cross-cultural Communication across African Markets',
+    18: 'In-Trade Learning with Area Sales Managers',
+    19: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools',
+    20: 'In-Trade Learning with Area Sales Managers',
+    21: 'Leading the Business: CCBA Strategy & Operating Model',
+    22: 'In-Trade Learning with Area Sales Managers',
+    23: 'Leading the Business: Commercial Strategy',
+    24: 'In-Trade Learning with Area Sales Managers',
+    25: 'Commercial Immersion Reflection',
+    // May (26-33)
+    26: 'In-Trade Learning with Area Sales Managers',
+    27: 'Customer Insight Presentation to CMT Prep',
+    28: 'In-Trade Learning with Area Sales Managers',
+    29: 'Final Phase 1 Insights',
+    30: 'In-Trade Learning with Area Sales Managers',
+    31: 'Leading Self: Confident Communication & Personal Presence',
+    32: 'In-Trade Learning with Area Sales Managers',
+    33: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era',
   }
 
   const getChallengeName = (monthName, dayNumber) => {
-    if (monthName === 'March' && marchChallenges[dayNumber]) {
-      return marchChallenges[dayNumber]
+    if (challengeNames[dayNumber]) {
+      return challengeNames[dayNumber]
     }
     return `Day ${dayNumber}`
   }
 
   const getMonthDays = (monthName) => {
     const monthRanges = {
-      'March': { start: 1, count: 17 },
-      'April': { start: 18, count: 4 },
-      'May': { start: 22, count: 4 }
+      'March': { start: 1, count: 15 },
+      'April': { start: 16, count: 10 },
+      'May': { start: 26, count: 8 }
     }
     const range = monthRanges[monthName]
     if (range) {
@@ -374,138 +444,32 @@ function ProductsPage() {
     return []
   }
 
-  // Week data for April and May (last/Friday topic per week from programme calendar)
-  const monthWeekData = {
-    'April': [
-      {
-        week: 1,
-        group1: 'Student to Professional 8: Cross-cultural Communication across African Markets',
-        group2: 'Student to Professional 8: Cross-cultural Communication across African Markets'
-      },
-      {
-        week: 2,
-        group1: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools',
-        group2: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools'
-      },
-      {
-        week: 3,
-        group1: 'Leading the Business: CCBA Strategy & Operating Model',
-        group2: 'Leading the Business: CCBA Strategy & Operating Model'
-      },
-      {
-        week: 4,
-        group1: 'Leading the Business: Commercial Strategy',
-        group2: 'Leading the Business: Commercial Strategy'
-      }
-    ],
-    'May': [
-      {
-        week: 1,
-        group1: 'Customer Insight Presentation to CMT Prep',
-        group2: 'Customer Insight Presentation to CMT Prep'
-      },
-      {
-        week: 2,
-        group1: 'Final Phase 1 Insights',
-        group2: 'Final Phase 1 Insights'
-      },
-      {
-        week: 3,
-        group1: 'Leading Self: Confident Communication & Personal Presence',
-        group2: 'Leading Self: Confident Communication & Personal Presence'
-      },
-      {
-        week: 4,
-        group1: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era',
-        group2: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era'
-      }
-    ]
-  }
-
-  const renderWeekTile = (weekInfo, monthName) => {
-    const isOpen = openWeek === `${monthName}-${weekInfo.week}`
-
-    return (
-      <div
-        key={weekInfo.week}
-        onClick={(e) => {
-          e.stopPropagation()
-          setOpenWeek(isOpen ? null : `${monthName}-${weekInfo.week}`)
-        }}
-        className={`
-          w-full h-24 md:h-28 px-4 py-3 rounded-xl flex items-center justify-center
-          transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer
-          relative
-          ${isOpen
-            ? 'bg-white border-2 border-[#C41E3A] shadow-lg'
-            : 'bg-white/90 border border-white/50 hover:bg-white shadow-md'
-          }
-        `}
-      >
-        <span className="font-semibold text-sm md:text-base text-gray-800">
-          Week {weekInfo.week}
-        </span>
-        {/* Dropdown Arrow */}
-        <div className="absolute bottom-2 right-2">
-          <svg
-            className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-      </div>
-    )
-  }
-
-  const getDayForWeek = (monthName, weekNumber) => {
-    const monthStarts = { 'April': 18, 'May': 22 }
-    return (monthStarts[monthName] || 0) + weekNumber - 1
-  }
-
-  const renderGroupTopics = (weekInfo, monthName) => {
-    const weekKey = `${monthName}-${weekInfo.week}`
-    if (openWeek !== weekKey) return null
-
-    const dayNumber = getDayForWeek(monthName, weekInfo.week)
-
-    return (
-      <div key={`${weekKey}-topics`} className="col-span-full mt-2">
-        <Link
-          to={`/day/${dayNumber}`}
-          className="block"
-        >
-          <div className="w-full h-24 md:h-28 px-4 py-3 rounded-xl flex items-center justify-center
-            bg-white/90 border border-white/50 hover:bg-white shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer">
-            <span className="font-semibold text-xs md:text-sm text-center leading-tight text-gray-800">
-              {weekInfo.group1}
-            </span>
-          </div>
-        </Link>
-      </div>
-    )
-  }
+  const isWeekBased = (monthName) => monthName === 'April' || monthName === 'May'
 
   const renderMonthCard = (monthName) => {
     const isOpen = openMonth === monthName
-    const isWeekBased = monthName === 'April' || monthName === 'May'
+    const weekBased = isWeekBased(monthName)
 
-    // For March: use days, for April/May: use weeks
-    const daysInMonth = !isWeekBased ? getMonthDays(monthName) : []
-    const weeksInMonth = isWeekBased ? (monthWeekData[monthName] || []) : []
-
-    const completedDaysInMonth = daysInMonth.filter(day => completedDays.has(day)).length
-    const totalDaysInMonth = daysInMonth.length
-    const monthProgress = totalDaysInMonth > 0 ? (completedDaysInMonth / totalDaysInMonth) * 100 : 0
+    // For week-based months, count completed weeks (any option in the week done = week done)
+    // For day-based months, count completed days
+    let completed, total, progress
+    if (weekBased) {
+      completed = getCompletedWeeks(monthName)
+      total = 4
+      progress = (completed / total) * 100
+    } else {
+      const daysInMonth = getMonthDays(monthName)
+      completed = daysInMonth.filter(day => completedDays.has(day)).length
+      total = daysInMonth.length
+      progress = total > 0 ? (completed / total) * 100 : 0
+    }
 
     return (
       <div
         key={monthName}
         onClick={() => {
           setOpenMonth(isOpen ? null : monthName)
-          if (isOpen) setOpenWeek(null) // Close any open week when closing month
+          if (isOpen) setOpenWeek(null)
         }}
         className={`
           w-full min-h-[140px] md:min-h-[160px] rounded-2xl flex flex-col items-center justify-center
@@ -526,24 +490,16 @@ function ProductsPage() {
           {/* Progress indicator */}
           <div className="mt-2">
             <div className="flex items-center justify-center gap-1.5 text-gray-600 text-xs md:text-sm">
-              {isWeekBased ? (
-                <span>{weeksInMonth.length} weeks</span>
-              ) : (
-                <>
-                  <span>{completedDaysInMonth}/{totalDaysInMonth} days</span>
-                  <span>•</span>
-                  <span>{Math.round(monthProgress)}%</span>
-                </>
-              )}
+              <span>{completed}/{total} days</span>
+              <span>&bull;</span>
+              <span>{Math.round(progress)}%</span>
             </div>
-            {!isWeekBased && (
-              <div className="mt-1.5 w-full max-w-[120px] mx-auto bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                <div
-                  className="bg-gradient-to-r from-[#C41E3A] to-[#E85D6F] h-full transition-all duration-500"
-                  style={{ width: `${monthProgress}%` }}
-                ></div>
-              </div>
-            )}
+            <div className="mt-1.5 w-full max-w-[120px] mx-auto bg-gray-200 rounded-full h-1.5 overflow-hidden">
+              <div
+                className="bg-gradient-to-r from-[#C41E3A] to-[#E85D6F] h-full transition-all duration-500"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
           </div>
         </div>
 
@@ -708,20 +664,102 @@ function ProductsPage() {
                 </div>
               )}
 
-              {/* April & May: Week tiles with topic below */}
+              {/* April & May: Week tiles with 2 topic options each */}
               {(openMonth === 'April' || openMonth === 'May') && (
-                <>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
-                    {(monthWeekData[openMonth] || []).map((weekInfo) => (
-                      <Fragment key={weekInfo.week}>
-                        {renderWeekTile(weekInfo, openMonth)}
-                      </Fragment>
-                    ))}
-                  </div>
-                  {(monthWeekData[openMonth] || []).map((weekInfo) =>
-                    renderGroupTopics(weekInfo, openMonth)
-                  )}
-                </>
+                <div className="space-y-3">
+                  {(monthWeekData[openMonth] || []).map((weekInfo) => {
+                    const weekKey = `${openMonth}-${weekInfo.week}`
+                    const isWeekOpen = openWeek === weekKey
+                    const weekCompleted = weekInfo.options.some(opt => completedDays.has(opt.orderIndex))
+
+                    return (
+                      <div key={weekInfo.week}>
+                        {/* Week header tile */}
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setOpenWeek(isWeekOpen ? null : weekKey)
+                          }}
+                          className={`
+                            w-full px-5 py-4 rounded-xl flex items-center justify-between
+                            transition-all duration-300 hover:scale-[1.01] hover:shadow-lg cursor-pointer
+                            ${weekCompleted
+                              ? 'bg-[#C41E3A] border-2 border-red-400 shadow-lg'
+                              : isWeekOpen
+                                ? 'bg-white border-2 border-[#C41E3A] shadow-lg'
+                                : 'bg-white/90 border border-white/50 hover:bg-white shadow-md'
+                            }
+                          `}
+                        >
+                          <div className="flex items-center gap-3">
+                            {weekCompleted && (
+                              <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center border-2 border-white shadow-lg">
+                                <svg className="w-4 h-4 text-[#C41E3A]" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                              </div>
+                            )}
+                            <span className={`font-semibold text-base ${weekCompleted ? 'text-white' : 'text-gray-800'}`}>
+                              Week {weekInfo.week}
+                            </span>
+                            <span className={`text-xs ${weekCompleted ? 'text-white/70' : 'text-gray-500'}`}>
+                              Choose 1 of {weekInfo.options.length} topics
+                            </span>
+                          </div>
+                          <svg
+                            className={`w-5 h-5 transition-transform duration-300 ${weekCompleted ? 'text-white/70' : 'text-gray-500'} ${isWeekOpen ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+
+                        {/* Topic options (shown when week is expanded) */}
+                        <div className={`
+                          transition-all duration-300 overflow-hidden
+                          ${isWeekOpen ? 'max-h-[500px] opacity-100 mt-2' : 'max-h-0 opacity-0'}
+                        `}>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-4">
+                            {weekInfo.options.map((option) => {
+                              const optCompleted = completedDays.has(option.orderIndex)
+                              return (
+                                <Link
+                                  key={option.orderIndex}
+                                  to={`/day/${option.orderIndex}`}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="block"
+                                >
+                                  <div className={`
+                                    w-full px-4 py-3 rounded-xl flex items-center
+                                    transition-all duration-300 hover:scale-[1.02] hover:shadow-lg cursor-pointer
+                                    relative
+                                    ${optCompleted
+                                      ? 'bg-[#C41E3A] border-2 border-red-400 shadow-lg'
+                                      : 'bg-white/90 border border-white/50 hover:bg-white shadow-md'
+                                    }
+                                  `}>
+                                    {optCompleted && (
+                                      <div className="absolute top-2 right-2 w-5 h-5 bg-white rounded-full flex items-center justify-center border border-white shadow">
+                                        <svg className="w-3 h-3 text-[#C41E3A]" fill="currentColor" viewBox="0 0 20 20">
+                                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                        </svg>
+                                      </div>
+                                    )}
+                                    <span className={`font-medium text-xs md:text-sm leading-tight pr-6 ${optCompleted ? 'text-white' : 'text-gray-800'}`}>
+                                      {option.name}
+                                    </span>
+                                  </div>
+                                </Link>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
               )}
             </div>
           </div>

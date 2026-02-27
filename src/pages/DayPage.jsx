@@ -20,9 +20,9 @@ function DayPage() {
   const [videosExpanded, setVideosExpanded] = useState(false)
   const reflectionSectionRef = useRef(null)
 
-  // Redirect survey days (Day 0 and Day 16) to SurveyDayPage
+  // Redirect survey days (Day 0 and Day 34) to SurveyDayPage
   const dayNum = parseInt(dayNumber, 10)
-  if (dayNum === 0 || dayNum === 16) {
+  if (dayNum === 0 || dayNum === 34) {
     return <Navigate to={`/survey/${dayNumber}`} replace />
   }
 
@@ -312,6 +312,43 @@ function DayPage() {
     }
   }
 
+  // Challenge short names from the Excel "Challenge Name" column
+  const challengeShortNames = {
+    1: 'First Impressions',
+    2: 'Tech Clarity Check',
+    3: 'Narrative Roadmap',
+    4: 'Brand Navigator',
+    5: 'Financial Growth Path',
+    6: 'Model Navigator',
+    7: 'Strategy Compass',
+    8: 'Manufacturing Roadmap',
+    9: 'Circular Clarity',
+    10: 'Orientation Boost',
+    11: 'Orientation Innovation',
+    12: 'Learning Launchpad',
+    13: 'Learning Launchpad',
+    14: 'Workflow Navigator',
+    15: 'Sales Clarity',
+    16: 'Learning Roadmap',
+    17: 'Decode & Navigate',
+    18: 'Learning Rx',
+    19: 'Tool Navigator',
+    20: 'ASM Breakthrough',
+    21: 'Strategic Moves',
+    22: 'ASM Onboarding',
+    23: 'Strategy Sketch',
+    24: 'Sales Navigator',
+    25: 'Immersion Navigator',
+    26: 'Learning Leap',
+    27: 'Insight Clarity',
+    28: 'Learning Launchpad',
+    29: 'Clarity Roadmap',
+    30: 'Learning Clarity',
+    31: 'Presence Amplifier',
+    32: 'Coaching Blindspots',
+    33: 'Attention Upgrade',
+  }
+
   const allChallengesCompleted = completedChallenges.has(1) && completedChallenges.has(2)
 
   if (loading) {
@@ -352,16 +389,26 @@ function DayPage() {
   // Helper function to extract challenge name and instruction
   const parseChallenge = (challengeText) => {
     if (!challengeText) return { name: 'Challenge', instruction: '' }
-    
+
+    // Challenge text format: "Name\nInstruction text..."
+    const newlineIndex = challengeText.indexOf('\n')
+    if (newlineIndex !== -1) {
+      return {
+        name: challengeText.substring(0, newlineIndex).trim(),
+        instruction: challengeText.substring(newlineIndex + 1).trim()
+      }
+    }
+
+    // Fallback: try colon separator
     const colonIndex = challengeText.indexOf(':')
-    if (colonIndex === -1) {
-      return { name: 'Challenge', instruction: challengeText }
+    if (colonIndex !== -1 && colonIndex < 50) {
+      return {
+        name: challengeText.substring(0, colonIndex).trim(),
+        instruction: challengeText.substring(colonIndex + 1).trim()
+      }
     }
-    
-    return {
-      name: challengeText.substring(0, colonIndex).trim(),
-      instruction: challengeText.substring(colonIndex + 1).trim()
-    }
+
+    return { name: 'Challenge', instruction: challengeText }
   }
 
   return (
@@ -444,7 +491,10 @@ function DayPage() {
           {/* Title and Day Number */}
           <div className="flex items-start justify-between mb-6">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-[#C41E3A] mb-2">{challengeData?.title || `Day ${dayNumber}: Challenge`}</h1>
+              {challengeShortNames[dayNum] && (
+                <h1 className="text-3xl md:text-4xl font-bold text-[#C41E3A] mb-1">{challengeShortNames[dayNum]}</h1>
+              )}
+              <p className="text-gray-700 text-sm md:text-base font-medium mb-2">{challengeData?.title || `Day ${dayNumber}: Challenge`}</p>
               <p className="text-gray-600">
                 Complete both challenges to unlock your reflection
               </p>
@@ -626,7 +676,7 @@ function DayPage() {
                 Previous Day
               </Link>
             )}
-            {parseInt(dayNumber) < 17 && (
+            {parseInt(dayNumber) < 33 && (
               <Link
                 to={`/day/${parseInt(dayNumber) + 1}`}
                 className="bg-[#F40009] hover:bg-[#d00008] px-8 py-3 rounded-full transition-all ml-auto inline-flex items-center gap-2 text-base font-bold shadow-xl hover:shadow-2xl border-2 border-[#F40009]/30"
