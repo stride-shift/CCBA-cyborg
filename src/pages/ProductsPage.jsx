@@ -225,25 +225,23 @@ function ProductsPage() {
     setIsVideoLoading(false)
   }
 
-  const totalDays = 23 // March (15 days) + April (4 weeks) + May (4 weeks) = 23 total
-  const totalDaysWithSurveys = 25 // pre-survey + 23 days + post-survey
+  const totalDays = 26 // March (17 days) + April (4 weeks) + May (5 weeks) = 26 total
+  const totalDaysWithSurveys = 28 // pre-survey + 26 days + post-survey
 
   // Week data for April and May - each week has 2 topic choices, student picks 1
   const monthWeekData = {
     'April': [
       { week: 1, options: [
-        { orderIndex: 16, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 17, name: 'Student to Professional 8: Cross-cultural Communication across African Markets' },
         { orderIndex: 18, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 19, name: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools' }
+        { orderIndex: 19, name: 'Student to Professional 8: Cross-cultural Communication across African Markets' }
       ]},
       { week: 2, options: [
         { orderIndex: 20, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 21, name: 'Leading the Business: CCBA Strategy & Operating Model' }
+        { orderIndex: 21, name: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools' }
       ]},
       { week: 3, options: [
         { orderIndex: 22, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 23, name: 'Leading the Business: Commercial Strategy' }
+        { orderIndex: 23, name: 'In-Trade Learning with Area Sales Managers' }
       ]},
       { week: 4, options: [
         { orderIndex: 24, name: 'In-Trade Learning with Area Sales Managers' },
@@ -253,7 +251,7 @@ function ProductsPage() {
     'May': [
       { week: 1, options: [
         { orderIndex: 26, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 27, name: 'Customer Insight Presentation to CMT Prep' }
+        { orderIndex: 27, name: 'Leading Self: Self-Awareness & Enneagram Insights' }
       ]},
       { week: 2, options: [
         { orderIndex: 28, name: 'In-Trade Learning with Area Sales Managers' },
@@ -266,6 +264,10 @@ function ProductsPage() {
       { week: 4, options: [
         { orderIndex: 32, name: 'In-Trade Learning with Area Sales Managers' },
         { orderIndex: 33, name: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era' }
+      ]},
+      { week: 5, options: [
+        { orderIndex: 34, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 35, name: 'Commercial Immersion Reflection' }
       ]}
     ]
   }
@@ -386,42 +388,44 @@ function ProductsPage() {
 
   // Challenge names by order_index
   const challengeNames = {
-    // March (1-15)
+    // March (1-17)
     1: 'Student to Professional 1: Intro to Cyborg Habits & Augmented Working',
     2: 'Student to Professional 2: Technology Proficiency for the Future of Work',
     3: 'Student to Professional 3: Storytelling & Professional Communication',
     4: 'Student to Professional 4: Crafting Your Personal Brand in CCBA, Workplace Etiquette & Meeting Discipline',
     5: 'Student to Professional 5: Personal Finance',
-    6: 'Leading the Business: CCBA Strategy & Operating Model',
-    7: 'Leading the Business: Commercial Strategy',
-    8: 'Leading the Business: Manufacturing, Quality & Supply Planning',
-    9: 'Leading the Business: ESG, Sustainability & Circular Packaging',
-    10: 'Commercial Immersion Orientation (Group Session)',
-    11: 'Commercial Immersion Orientation (Country Capability Team)',
+    6: 'CH Challenge',
+    7: 'CH Challenge',
+    8: 'CH Challenge',
+    9: 'CH Challenge',
+    10: 'Student to Professional 6: Digital Identity, LinkedIn & Internal Visibility',
+    11: 'In-Trade Learning with Area Sales Managers',
     12: 'In-Trade Learning with Area Sales Managers',
     13: 'In-Trade Learning with Area Sales Managers',
-    14: 'Student to Professional 7: Productivity Systems & Task Management (with AI)',
-    15: 'In-Trade Learning with Area Sales Managers',
-    // April (16-25)
+    14: 'In-Trade Learning with Area Sales Managers',
+    15: 'Student to Professional 7: Productivity Systems & Task Management (with AI)',
     16: 'In-Trade Learning with Area Sales Managers',
-    17: 'Student to Professional 8: Cross-cultural Communication across African Markets',
+    17: 'In-Trade Learning with Area Sales Managers',
+    // April (18-25)
     18: 'In-Trade Learning with Area Sales Managers',
-    19: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools',
+    19: 'Student to Professional 8: Cross-cultural Communication across African Markets',
     20: 'In-Trade Learning with Area Sales Managers',
-    21: 'Leading the Business: CCBA Strategy & Operating Model',
+    21: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools',
     22: 'In-Trade Learning with Area Sales Managers',
-    23: 'Leading the Business: Commercial Strategy',
+    23: 'In-Trade Learning with Area Sales Managers',
     24: 'In-Trade Learning with Area Sales Managers',
     25: 'Commercial Immersion Reflection',
-    // May (26-33)
+    // May (26-35)
     26: 'In-Trade Learning with Area Sales Managers',
-    27: 'Customer Insight Presentation to CMT Prep',
+    27: 'Leading Self: Self-Awareness & Enneagram Insights',
     28: 'In-Trade Learning with Area Sales Managers',
     29: 'Final Phase 1 Insights',
     30: 'In-Trade Learning with Area Sales Managers',
     31: 'Leading Self: Confident Communication & Personal Presence',
     32: 'In-Trade Learning with Area Sales Managers',
     33: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era',
+    34: 'In-Trade Learning with Area Sales Managers',
+    35: 'Commercial Immersion Reflection',
   }
 
   const getChallengeName = (monthName, dayNumber) => {
@@ -433,9 +437,9 @@ function ProductsPage() {
 
   const getMonthDays = (monthName) => {
     const monthRanges = {
-      'March': { start: 1, count: 15 },
-      'April': { start: 16, count: 10 },
-      'May': { start: 26, count: 8 }
+      'March': { start: 1, count: 17 },
+      'April': { start: 18, count: 8 },
+      'May': { start: 26, count: 10 }
     }
     const range = monthRanges[monthName]
     if (range) {
@@ -455,7 +459,7 @@ function ProductsPage() {
     let completed, total, progress
     if (weekBased) {
       completed = getCompletedWeeks(monthName)
-      total = 4
+      total = (monthWeekData[monthName] || []).length
       progress = (completed / total) * 100
     } else {
       const daysInMonth = getMonthDays(monthName)
