@@ -55,7 +55,11 @@ function CohortManagement() {
     end_date: '',
     max_participants: '',
     challenge_set_id: '',
-    is_active: true
+    is_active: true,
+    email_automation_enabled: false,
+    email_timezone: 'Africa/Johannesburg',
+    email_send_time: '07:30',
+    email_start_date: ''
   })
 
   // Persisted modal state
@@ -147,28 +151,49 @@ function CohortManagement() {
         end_date: cohortForm.end_date || null,
         max_participants: cohortForm.max_participants ? parseInt(cohortForm.max_participants) : null,
         challenge_set_id: cohortForm.challenge_set_id || null,
-        is_active: cohortForm.is_active
+        is_active: cohortForm.is_active,
+        email_automation_enabled: cohortForm.email_automation_enabled
       }
 
+      let cohortId = editingCohort?.id
+
       if (editingCohort) {
-        // Update existing cohort
         const { error } = await supabase
           .from('cohorts')
           .update(cohortData)
           .eq('id', editingCohort.id)
-
         if (error) throw error
-        setMessage(`Cohort "${cohortForm.name}" updated successfully!`)
       } else {
-        // Create new cohort
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('cohorts')
           .insert([cohortData])
-
+          .select('id')
+          .single()
         if (error) throw error
-        setMessage(`Cohort "${cohortForm.name}" created successfully!`)
+        cohortId = data.id
       }
 
+      // Save email automation config
+      if (cohortId) {
+        const automationConfig = {
+          cohort_id: cohortId,
+          is_enabled: cohortForm.email_automation_enabled,
+          timezone: cohortForm.email_timezone,
+          send_time: cohortForm.email_send_time + ':00',
+          email_start_date: cohortForm.email_start_date || null,
+          platform_url: 'https://ccba-cyborg.vercel.app/'
+        }
+
+        const { error: configError } = await supabase
+          .from('simple_automation_config')
+          .upsert(automationConfig, { onConflict: 'cohort_id' })
+
+        if (configError) {
+          console.error('Error saving automation config:', configError)
+        }
+      }
+
+      setMessage(`Cohort "${cohortForm.name}" ${editingCohort ? 'updated' : 'created'} successfully!`)
       closePersistedModal()
       resetCohortForm()
       loadCohorts()
@@ -180,9 +205,22 @@ function CohortManagement() {
     }
   }
 
-  const openModal = (cohort = null) => {
+  const openModal = async (cohort = null) => {
     if (cohort) {
-      // Update form with cohort data
+      // Fetch email automation config
+      let emailConfig = null
+      try {
+        const { data } = await supabase
+          .from('simple_automation_config')
+          .select('*')
+          .eq('cohort_id', cohort.id)
+          .maybeSingle()
+        emailConfig = data
+      } catch (err) {
+        console.warn('Could not load email config:', err)
+      }
+
+      // Update form with cohort data + email config
       setCohortForm({
         name: cohort.name || '',
         description: cohort.description || '',
@@ -191,7 +229,11 @@ function CohortManagement() {
         end_date: cohort.end_date || '',
         max_participants: cohort.max_participants?.toString() || '',
         challenge_set_id: cohort.challenge_set_id || '',
-        is_active: cohort.is_active !== false
+        is_active: cohort.is_active !== false,
+        email_automation_enabled: cohort.email_automation_enabled || false,
+        email_timezone: emailConfig?.timezone || 'Africa/Johannesburg',
+        email_send_time: emailConfig?.send_time?.substring(0, 5) || '07:30',
+        email_start_date: emailConfig?.email_start_date || ''
       })
       // Open modal with editing cohort
       openPersistedModal(cohort)
@@ -520,6 +562,79 @@ function CohortManagement() {
                 rows="3"
               />
             </div>
+          </div>
+
+          {/* Email Automation Section */}
+          <div className="border-t border-gray-200 pt-6">
+            <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Email Automation
+            </h4>
+
+            <div className="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id="email_automation_enabled"
+                checked={cohortForm.email_automation_enabled}
+                onChange={(e) => setCohortFormField('email_automation_enabled', e.target.checked)}
+                className="w-4 h-4 rounded border-white/30 bg-white/20 text-[#C41E3A] focus:ring-[#C41E3A]/50"
+              />
+              <label htmlFor="email_automation_enabled" className="ml-3 text-gray-900 font-medium">
+                Enable Automated Emails
+              </label>
+            </div>
+
+            <p className="text-gray-500 text-sm mb-4">
+              When enabled, users will automatically receive weekday-only emails at the specified time in their timezone
+            </p>
+
+            {cohortForm.email_automation_enabled && (
+              <div className="bg-white/30 border border-white/20 rounded-xl p-4 space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-gray-900 font-medium mb-2 text-sm">Timezone</label>
+                    <select
+                      value={cohortForm.email_timezone}
+                      onChange={(e) => setCohortFormField('email_timezone', e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all text-sm"
+                    >
+                      <option value="Africa/Johannesburg">South Africa (SAST - UTC+2)</option>
+                      <option value="Africa/Lagos">West Africa (WAT - UTC+1)</option>
+                      <option value="Africa/Nairobi">East Africa (EAT - UTC+3)</option>
+                      <option value="Europe/London">UK (GMT/BST)</option>
+                      <option value="UTC">UTC</option>
+                    </select>
+                    <p className="text-gray-500 text-xs mt-1">Timezone for email delivery (emails skip weekends)</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-900 font-medium mb-2 text-sm">Send Time</label>
+                    <input
+                      type="time"
+                      value={cohortForm.email_send_time}
+                      onChange={(e) => setCohortFormField('email_send_time', e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all text-sm"
+                    />
+                    <p className="text-gray-500 text-xs mt-1">Local time for daily email delivery (default 06:30 AM)</p>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-gray-900 font-medium mb-2 text-sm">
+                    Email Start Date <span className="text-gray-400 font-normal">(Optional)</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={cohortForm.email_start_date}
+                    onChange={(e) => setCohortFormField('email_start_date', e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all text-sm"
+                  />
+                  <p className="text-gray-500 text-xs mt-1">Date when first email should be sent. Leave empty to use cohort start date.</p>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center">
