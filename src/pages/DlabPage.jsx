@@ -91,7 +91,7 @@ function DlabPage() {
       const completed = []
       if (challengeData) completed.push(...challengeData.map(i => i.challenges.order_index))
       if (preSurvey) completed.push(0)
-      if (postSurvey) completed.push(34)
+      if (postSurvey) completed.push(36)
       setCompletedDays(new Set(completed))
     } catch (e) {
       console.error('Error loading completed days', e)
@@ -116,7 +116,7 @@ function DlabPage() {
 
   const renderDayTile = (dayNumber) => {
     const isCompleted = completedDays.has(dayNumber)
-    const isSurveyDay = dayNumber === 0 || dayNumber === 34
+    const isSurveyDay = dayNumber === 0 || dayNumber === 36
     const isPreSurvey = dayNumber === 0
     return (
       <Link key={dayNumber} to={`/day/${dayNumber}`} className="snap-start flex-shrink-0">
