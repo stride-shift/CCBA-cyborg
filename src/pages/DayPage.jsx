@@ -20,9 +20,9 @@ function DayPage() {
   const [videosExpanded, setVideosExpanded] = useState(false)
   const reflectionSectionRef = useRef(null)
 
-  // Redirect survey days (Day 0 and Day 34) to SurveyDayPage
+  // Redirect survey days (Day 0 and Day 36) to SurveyDayPage
   const dayNum = parseInt(dayNumber, 10)
-  if (dayNum === 0 || dayNum === 34) {
+  if (dayNum === 0 || dayNum === 36) {
     return <Navigate to={`/survey/${dayNumber}`} replace />
   }
 
@@ -669,7 +669,7 @@ function DayPage() {
           <div className="flex justify-between items-center">
             {parseInt(dayNumber) > 1 && (
               <Link
-                to={`/day/${parseInt(dayNumber) === 35 ? 33 : parseInt(dayNumber) - 1}`}
+                to={`/day/${parseInt(dayNumber) - 1}`}
                 className="bg-white hover:bg-gray-100 px-6 py-3 rounded-full text-gray-700 transition-all inline-flex items-center gap-2 text-sm font-semibold border border-gray-300 shadow-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -680,7 +680,7 @@ function DayPage() {
             )}
             {parseInt(dayNumber) < 35 && (
               <Link
-                to={`/day/${parseInt(dayNumber) === 33 ? 35 : parseInt(dayNumber) + 1}`}
+                to={`/day/${parseInt(dayNumber) + 1}`}
                 className="bg-[#F40009] hover:bg-[#d00008] px-8 py-3 rounded-full transition-all ml-auto inline-flex items-center gap-2 text-base font-bold shadow-xl hover:shadow-2xl border-2 border-[#F40009]/30"
                 style={{ color: '#ffffff' }}
               >

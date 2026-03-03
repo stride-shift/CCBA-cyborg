@@ -187,7 +187,7 @@ function ProductsPage() {
       }
       
       if (postSurveyData && !postSurveyError) {
-        completedDayNumbers.push(34) // Day 34 (post-survey)
+        completedDayNumbers.push(36) // Day 36 (post-survey)
         console.log('✅ Post-survey completed')
       }
 
@@ -225,8 +225,8 @@ function ProductsPage() {
     setIsVideoLoading(false)
   }
 
-  const totalDays = 26 // March (17 days) + April (4 weeks) + May (5 weeks) = 26 total
-  const totalDaysWithSurveys = 28 // pre-survey + 26 days + post-survey
+  const totalDays = 27 // March (17 days) + April (4 weeks) + May (5 weeks) + Day 34 = 27 total
+  const totalDaysWithSurveys = 29 // pre-survey + 27 days + post-survey
 
   // Week data for April and May - each week has 2 topic choices, student picks 1
   const monthWeekData = {
@@ -285,9 +285,9 @@ function ProductsPage() {
 
   const renderDayTile = (dayNumber) => {
     const isCompleted = completedDays.has(dayNumber)
-    const isSurveyDay = dayNumber === 0 || dayNumber === 34
+    const isSurveyDay = dayNumber === 0 || dayNumber === 36
     const isPreSurvey = dayNumber === 0
-    const isPostSurvey = dayNumber === 34
+    const isPostSurvey = dayNumber === 36
 
     return (
       <Link

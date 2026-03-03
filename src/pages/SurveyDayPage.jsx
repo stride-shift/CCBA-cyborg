@@ -19,7 +19,7 @@ function SurveyDayPage() {
   const dayNum = parseInt(dayNumber, 10)
   
   const isPreSurvey = dayStr === '0' || dayNum === 0
-  const isPostSurvey = dayStr === '34' || dayNum === 34
+  const isPostSurvey = dayStr === '36' || dayNum === 36
   const surveyType = isPreSurvey ? 'pre' : 'post'
 
   useEffect(() => {
