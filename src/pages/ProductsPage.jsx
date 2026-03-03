@@ -232,42 +232,42 @@ function ProductsPage() {
   const monthWeekData = {
     'April': [
       { week: 1, options: [
-        { orderIndex: 18, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 19, name: 'Student to Professional 8: Cross-cultural Communication across African Markets' }
+        { orderIndex: 18, name: 'Student to Professional 8: Cross-cultural Communication across African Markets' },
+        { orderIndex: 19, name: 'In-Trade Learning with Area Sales Managers' }
       ]},
       { week: 2, options: [
-        { orderIndex: 20, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 21, name: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools' }
+        { orderIndex: 20, name: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools' },
+        { orderIndex: 21, name: 'In-Trade Learning with Area Sales Managers' }
       ]},
       { week: 3, options: [
-        { orderIndex: 22, name: 'In-Trade Learning with Area Sales Managers' },
+        { orderIndex: 22, name: 'Leading the Business: CCBA Strategy & Operating Model' },
         { orderIndex: 23, name: 'In-Trade Learning with Area Sales Managers' }
       ]},
       { week: 4, options: [
-        { orderIndex: 24, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 25, name: 'Commercial Immersion Reflection' }
+        { orderIndex: 24, name: 'Leading the Business: Commercial Strategy' },
+        { orderIndex: 25, name: 'In-Trade Learning with Area Sales Managers' }
       ]}
     ],
     'May': [
       { week: 1, options: [
         { orderIndex: 26, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 27, name: 'Leading Self: Self-Awareness & Enneagram Insights' }
+        { orderIndex: 27, name: 'Commercial Immersion Reflection' }
       ]},
       { week: 2, options: [
         { orderIndex: 28, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 29, name: 'Final Phase 1 Insights' }
+        { orderIndex: 29, name: 'Customer Insight Presentation to CMT Prep' }
       ]},
       { week: 3, options: [
         { orderIndex: 30, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 31, name: 'Leading Self: Confident Communication & Personal Presence' }
+        { orderIndex: 31, name: 'Final Phase 1 Insights' }
       ]},
       { week: 4, options: [
         { orderIndex: 32, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 33, name: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era' }
+        { orderIndex: 33, name: 'Leading Self: Confident Communication & Personal Presence' }
       ]},
       { week: 5, options: [
         { orderIndex: 34, name: 'In-Trade Learning with Area Sales Managers' },
-        { orderIndex: 35, name: 'Commercial Immersion Reflection' }
+        { orderIndex: 35, name: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era' }
       ]}
     ]
   }
@@ -394,38 +394,38 @@ function ProductsPage() {
     3: 'Student to Professional 3: Storytelling & Professional Communication',
     4: 'Student to Professional 4: Crafting Your Personal Brand in CCBA, Workplace Etiquette & Meeting Discipline',
     5: 'Student to Professional 5: Personal Finance',
-    6: 'CH Challenge',
-    7: 'CH Challenge',
-    8: 'CH Challenge',
-    9: 'CH Challenge',
+    6: 'Leading the Business: CCBA Strategy & Operating Model',
+    7: 'Leading the Business: Commercial Strategy',
+    8: 'Leading the Business: Manufacturing, Quality & Supply Planning',
+    9: 'Leading the Business: ESG, Sustainability & Circular Packaging',
     10: 'Student to Professional 6: Digital Identity, LinkedIn & Internal Visibility',
-    11: 'In-Trade Learning with Area Sales Managers',
-    12: 'In-Trade Learning with Area Sales Managers',
+    11: 'Commercial Immersion Orientation (Group Session)',
+    12: 'Commercial Immersion Orientation (Country Capability Team)',
     13: 'In-Trade Learning with Area Sales Managers',
     14: 'In-Trade Learning with Area Sales Managers',
     15: 'Student to Professional 7: Productivity Systems & Task Management (with AI)',
     16: 'In-Trade Learning with Area Sales Managers',
     17: 'In-Trade Learning with Area Sales Managers',
     // April (18-25)
-    18: 'In-Trade Learning with Area Sales Managers',
-    19: 'Student to Professional 8: Cross-cultural Communication across African Markets',
-    20: 'In-Trade Learning with Area Sales Managers',
-    21: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools',
-    22: 'In-Trade Learning with Area Sales Managers',
+    18: 'Student to Professional 8: Cross-cultural Communication across African Markets',
+    19: 'In-Trade Learning with Area Sales Managers',
+    20: 'Student to Professional 9: Navigating Hybrid & Remote Collaboration Tools',
+    21: 'In-Trade Learning with Area Sales Managers',
+    22: 'Leading the Business: CCBA Strategy & Operating Model',
     23: 'In-Trade Learning with Area Sales Managers',
-    24: 'In-Trade Learning with Area Sales Managers',
-    25: 'Commercial Immersion Reflection',
+    24: 'Leading the Business: Commercial Strategy',
+    25: 'In-Trade Learning with Area Sales Managers',
     // May (26-35)
     26: 'In-Trade Learning with Area Sales Managers',
-    27: 'Leading Self: Self-Awareness & Enneagram Insights',
+    27: 'Commercial Immersion Reflection',
     28: 'In-Trade Learning with Area Sales Managers',
-    29: 'Final Phase 1 Insights',
+    29: 'Customer Insight Presentation to CMT Prep',
     30: 'In-Trade Learning with Area Sales Managers',
-    31: 'Leading Self: Confident Communication & Personal Presence',
+    31: 'Final Phase 1 Insights',
     32: 'In-Trade Learning with Area Sales Managers',
-    33: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era',
+    33: 'Leading Self: Confident Communication & Personal Presence',
     34: 'In-Trade Learning with Area Sales Managers',
-    35: 'Commercial Immersion Reflection',
+    35: 'Leading Self: Focus, Attention & Digital Wellbeing in an AI Era',
   }
 
   const getChallengeName = (monthName, dayNumber) => {

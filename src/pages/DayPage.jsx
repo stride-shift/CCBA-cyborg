@@ -314,39 +314,41 @@ function DayPage() {
 
   // Challenge short names from the Excel "Challenge Name" column
   const challengeShortNames = {
-    1: 'First Impressions',
-    2: 'Tech Clarity Check',
-    3: 'Narrative Roadmap',
-    4: 'Brand Navigator',
-    5: 'Financial Growth Path',
+    1: 'Career Roadmap',
+    2: 'Tech Roadmap',
+    3: 'Narrative Navigator',
+    4: 'Brand Amplifier',
+    5: 'Financial Roadmap',
     6: 'Model Navigator',
     7: 'Strategy Compass',
     8: 'Manufacturing Roadmap',
     9: 'Circular Clarity',
-    10: 'Orientation Boost',
-    11: 'Orientation Innovation',
-    12: 'Learning Launchpad',
-    13: 'Learning Launchpad',
-    14: 'Workflow Navigator',
-    15: 'Sales Clarity',
+    10: 'Visibility Blueprint',
+    11: 'Orientation Boost',
+    12: 'Orientation Innovation',
+    13: 'Field Guide',
+    14: 'Learning Boost',
+    15: 'Productive Paths',
     16: 'Learning Roadmap',
-    17: 'Decode & Navigate',
-    18: 'Learning Rx',
-    19: 'Tool Navigator',
-    20: 'ASM Breakthrough',
-    21: 'Strategic Moves',
-    22: 'ASM Onboarding',
-    23: 'Strategy Sketch',
-    24: 'Sales Navigator',
-    25: 'Immersion Navigator',
-    26: 'Learning Leap',
-    27: 'Insight Clarity',
-    28: 'Learning Launchpad',
-    29: 'Clarity Roadmap',
-    30: 'Learning Clarity',
-    31: 'Presence Amplifier',
-    32: 'Coaching Blindspots',
-    33: 'Attention Upgrade',
+    17: 'Learning Edge',
+    18: 'Cultural Compass',
+    19: 'Learning Accelerator',
+    20: 'Tech Navigator',
+    21: 'Sales Boost',
+    22: 'Strategic Moves',
+    23: 'Field-Ready Feedback',
+    24: 'Strategy Sketch',
+    25: 'Sales Navigator',
+    26: 'Field Focus',
+    27: 'Immersion Compass',
+    28: 'Field Tactics',
+    29: 'Insight Clarity',
+    30: 'Learning Amplifier',
+    31: 'Insights Amplifier',
+    32: 'Field Vision',
+    33: 'Presence Amplifier',
+    34: 'Learning Blueprint',
+    35: 'Digital Clarity',
   }
 
   const allChallengesCompleted = completedChallenges.has(1) && completedChallenges.has(2)
@@ -667,7 +669,7 @@ function DayPage() {
           <div className="flex justify-between items-center">
             {parseInt(dayNumber) > 1 && (
               <Link
-                to={`/day/${parseInt(dayNumber) - 1}`}
+                to={`/day/${parseInt(dayNumber) === 35 ? 33 : parseInt(dayNumber) - 1}`}
                 className="bg-white hover:bg-gray-100 px-6 py-3 rounded-full text-gray-700 transition-all inline-flex items-center gap-2 text-sm font-semibold border border-gray-300 shadow-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -676,9 +678,9 @@ function DayPage() {
                 Previous Day
               </Link>
             )}
-            {parseInt(dayNumber) < 33 && (
+            {parseInt(dayNumber) < 35 && (
               <Link
-                to={`/day/${parseInt(dayNumber) + 1}`}
+                to={`/day/${parseInt(dayNumber) === 33 ? 35 : parseInt(dayNumber) + 1}`}
                 className="bg-[#F40009] hover:bg-[#d00008] px-8 py-3 rounded-full transition-all ml-auto inline-flex items-center gap-2 text-base font-bold shadow-xl hover:shadow-2xl border-2 border-[#F40009]/30"
                 style={{ color: '#ffffff' }}
               >

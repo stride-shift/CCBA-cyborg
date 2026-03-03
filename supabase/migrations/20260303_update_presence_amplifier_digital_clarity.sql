@@ -1,0 +1,3 @@
+-- This migration is superseded by 20260303_update_challenges_from_bulk_v2.sql
+-- which does a full DELETE + INSERT of all 36 challenges with correct data.
+-- Kept as empty migration to avoid migration sequence issues.

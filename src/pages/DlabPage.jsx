@@ -98,8 +98,8 @@ function DlabPage() {
     }
   }
 
-  const totalDays = 33
-  const totalDaysWithSurveys = 35
+  const totalDays = 35
+  const totalDaysWithSurveys = 37
   const progressPercentage = (completedDays.size / totalDaysWithSurveys) * 100
 
   const scrollLeft = () => {
@@ -212,7 +212,6 @@ function DlabPage() {
                 {renderDayTile(0)}
               </div>
               {[...Array(totalDays)].map((_, idx) => renderDayTile(idx + 1))}
-              {renderDayTile(16)}
             </div>
             <div className="absolute -left-2 top-1/2 -translate-y-1/2">
               <button onClick={scrollLeft} className="glassmorphism p-3 rounded-full hover:bg-white/30 hover:scale-110 transition-all duration-200">
