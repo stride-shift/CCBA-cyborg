@@ -488,6 +488,7 @@ function SuperAdminManagement() {
     email: '',
     password: '',
     reset_password: '',
+    new_email: '',
     first_name: '',
     last_name: '',
     organization_name: '',
@@ -518,6 +519,10 @@ function SuperAdminManagement() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [adminAssignments, setAdminAssignments] = useState([])
+  const [emailChangeSearch, setEmailChangeSearch] = useState('')
+  const [emailChangeNewEmail, setEmailChangeNewEmail] = useState('')
+  const [emailChangeSelectedUser, setEmailChangeSelectedUser] = useState(null)
+  const [emailChangeMessage, setEmailChangeMessage] = useState('')
   const [selectedUsers, setSelectedUsers] = useState(new Set())
 
   // Load initial data
@@ -822,6 +827,67 @@ function SuperAdminManagement() {
     }
   }
 
+  const handleEmailChange = async () => {
+    if (!editingUser || !userForm.new_email.trim()) {
+      setMessage('Please enter a new email address')
+      return
+    }
+
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const response = await supabase.functions.invoke('change-user-email', {
+        body: {
+          user_id: editingUser.user_id,
+          new_email: userForm.new_email.trim()
+        }
+      })
+
+      // Handle different error scenarios
+      if (response.error) {
+        console.error('Function call error:', response.error)
+        throw new Error(`Function call failed: ${response.error.message || 'Unknown error'}`)
+      }
+
+      let { data } = response
+
+      // Parse the data if it's a string
+      if (typeof data === 'string') {
+        try {
+          data = JSON.parse(data)
+        } catch (parseError) {
+          console.error('Failed to parse response:', parseError)
+          throw new Error('Invalid response format from function')
+        }
+      }
+
+      if (!data) {
+        throw new Error('No response data received from function')
+      }
+
+      if (data.error) {
+        console.error('Function returned error:', data.error)
+        throw new Error(data.error)
+      }
+
+      if (!data.success) {
+        console.error('Function response:', data)
+        throw new Error(data.error || 'Email change failed')
+      }
+
+      setMessage(`Email successfully changed for ${editingUser.first_name} ${editingUser.last_name}: ${data.old_email} → ${data.new_email}`)
+      setUserFormField('new_email', '')
+      setUserFormField('email', data.new_email)
+      loadUsers() // Refresh the user list
+    } catch (err) {
+      console.error('Error changing email:', err)
+      setMessage('Error changing email: ' + err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleCohortAssignmentChange = (selectedCohorts) => {
     setUserFormField('assign_cohorts', selectedCohorts)
   }
@@ -982,6 +1048,18 @@ function SuperAdminManagement() {
           >
             Manage Challenges
           </button>
+          {isSuperAdmin() && (
+            <button
+              onClick={() => setActiveTab('email_change')}
+              className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                activeTab === 'email_change'
+                  ? 'bg-cyan-500/30 text-gray-900 border border-cyan-500/50'
+                  : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              Change Email
+            </button>
+          )}
           {isSuperAdmin() && (
           <Link
             to="/admin-customisation"
@@ -1189,6 +1267,151 @@ function SuperAdminManagement() {
         <ChallengeManagement />
       )}
 
+      {/* Email Change Tab */}
+      {activeTab === 'email_change' && isSuperAdmin() && (
+        <div className="glassmorphism rounded-2xl p-6 space-y-6">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-1">Change User Email</h2>
+            <p className="text-gray-600">Search for a user, then update their login email. All progress and scheduled emails will be preserved.</p>
+          </div>
+
+          {emailChangeMessage && (
+            <div className={`p-4 rounded-xl text-sm font-medium ${
+              emailChangeMessage.startsWith('Error')
+                ? 'bg-red-100 text-red-700 border border-red-200'
+                : 'bg-green-100 text-green-700 border border-green-200'
+            }`}>
+              {emailChangeMessage}
+            </div>
+          )}
+
+          {/* Search */}
+          <div>
+            <label className="block text-gray-900 font-medium mb-2">Search User</label>
+            <input
+              type="text"
+              value={emailChangeSearch}
+              onChange={(e) => {
+                setEmailChangeSearch(e.target.value)
+                setEmailChangeSelectedUser(null)
+                setEmailChangeNewEmail('')
+                setEmailChangeMessage('')
+              }}
+              className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all"
+              placeholder="Type a name or email to search..."
+            />
+          </div>
+
+          {/* Search Results */}
+          {emailChangeSearch.trim().length >= 2 && !emailChangeSelectedUser && (
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {users
+                .filter(u => {
+                  const q = emailChangeSearch.toLowerCase()
+                  return (
+                    u.email?.toLowerCase().includes(q) ||
+                    u.first_name?.toLowerCase().includes(q) ||
+                    u.last_name?.toLowerCase().includes(q)
+                  )
+                })
+                .slice(0, 10)
+                .map(u => (
+                  <button
+                    key={u.user_id}
+                    onClick={() => {
+                      setEmailChangeSelectedUser(u)
+                      setEmailChangeSearch('')
+                      setEmailChangeMessage('')
+                    }}
+                    className="w-full text-left p-4 rounded-xl bg-white/60 hover:bg-cyan-50 border border-white/30 hover:border-cyan-300 transition-all"
+                  >
+                    <div className="font-medium text-gray-900">{u.first_name} {u.last_name}</div>
+                    <div className="text-gray-500 text-sm">{u.email}</div>
+                    {u.cohort_name && <div className="text-gray-400 text-xs mt-1">Cohort: {u.cohort_name}</div>}
+                  </button>
+                ))}
+              {users.filter(u => {
+                const q = emailChangeSearch.toLowerCase()
+                return u.email?.toLowerCase().includes(q) || u.first_name?.toLowerCase().includes(q) || u.last_name?.toLowerCase().includes(q)
+              }).length === 0 && (
+                <p className="text-gray-500 text-sm p-4">No users found matching "{emailChangeSearch}"</p>
+              )}
+            </div>
+          )}
+
+          {/* Selected User + New Email */}
+          {emailChangeSelectedUser && (
+            <div className="space-y-4">
+              <div className="p-4 rounded-xl bg-cyan-50 border border-cyan-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="font-medium text-gray-900">{emailChangeSelectedUser.first_name} {emailChangeSelectedUser.last_name}</div>
+                    <div className="text-gray-600 text-sm">Current email: <span className="font-mono">{emailChangeSelectedUser.email}</span></div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setEmailChangeSelectedUser(null)
+                      setEmailChangeNewEmail('')
+                      setEmailChangeMessage('')
+                    }}
+                    className="text-gray-400 hover:text-gray-600 text-sm"
+                  >
+                    Change
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-gray-900 font-medium mb-2">New Email Address</label>
+                <input
+                  type="email"
+                  value={emailChangeNewEmail}
+                  onChange={(e) => setEmailChangeNewEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-transparent transition-all"
+                  placeholder="Enter new email address"
+                />
+              </div>
+
+              <button
+                onClick={async () => {
+                  if (!emailChangeNewEmail.trim()) return
+                  setLoading(true)
+                  setEmailChangeMessage('')
+                  try {
+                    const response = await supabase.functions.invoke('change-user-email', {
+                      body: {
+                        user_id: emailChangeSelectedUser.user_id,
+                        new_email: emailChangeNewEmail.trim()
+                      }
+                    })
+                    let { data } = response
+                    if (response.error) throw new Error(response.error.message || 'Function call failed')
+                    if (typeof data === 'string') data = JSON.parse(data)
+                    if (!data?.success) throw new Error(data?.error || 'Email change failed')
+
+                    setEmailChangeMessage(`Email changed: ${data.old_email} → ${data.new_email}`)
+                    setEmailChangeSelectedUser({ ...emailChangeSelectedUser, email: data.new_email })
+                    setEmailChangeNewEmail('')
+                    loadUsers()
+                  } catch (err) {
+                    setEmailChangeMessage('Error: ' + err.message)
+                  } finally {
+                    setLoading(false)
+                  }
+                }}
+                disabled={loading || !emailChangeNewEmail.trim()}
+                className="px-6 py-3 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {loading && (
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                )}
+                Change Email
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* User Create/Edit Modal */}
       <Modal isOpen={showUserModal} onClose={closeUserModal}>
         <div className="flex items-center justify-between mb-6">
@@ -1216,10 +1439,10 @@ function SuperAdminManagement() {
                     className="w-full px-4 py-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 placeholder-gray-400 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
                     placeholder="user@example.com"
                     required
-                    disabled={editingUser} // Can't edit email once created
+                    disabled={editingUser} // Use the Change Email section below
                   />
                   {editingUser && (
-                    <p className="text-gray-500 text-xs mt-1">Email cannot be changed after creation</p>
+                    <p className="text-gray-500 text-xs mt-1">Use the "Change Email" tab to update this</p>
                   )}
                 </div>
 
