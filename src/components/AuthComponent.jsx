@@ -114,7 +114,11 @@ function AuthComponent() {
       })
 
       if (error) {
-        setMessage(`Error: ${error.message}`)
+        if (error.message?.toLowerCase().includes('rate limit')) {
+          setMessage('Too many login attempts. Please wait a few minutes and try again, or use password login instead.')
+        } else {
+          setMessage(`Error: ${error.message}`)
+        }
       } else {
         setMessage('OTP sent to your email!')
         setOtpStep('verify')
