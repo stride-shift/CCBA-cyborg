@@ -22,7 +22,7 @@ function YouTubeVideo({ videoId, videoUrl, title, description, challengeType }) 
   const normalizedType = challengeType?.toLowerCase().replace(/\s+/g, '_')
   const selfHostedUrl = videoUrl || (normalizedType && SELF_HOSTED_VIDEOS[normalizedType]) || null
 
-  if (!videoId && !selfHostedUrl) {
+  if (!selfHostedUrl) {
     return (
       <div className="p-4 text-center">
         <div className="text-gray-900/40 mb-3">
@@ -47,29 +47,17 @@ function YouTubeVideo({ videoId, videoUrl, title, description, challengeType }) 
             <div className="text-gray-400 text-sm">Loading video...</div>
           </div>
         )}
-        {selfHostedUrl ? (
-          <video
-            ref={videoRef}
-            src={selfHostedUrl}
-            title={title}
-            className="w-full h-full"
-            controls
-            controlsList="nodownload"
-            playsInline
-            preload="metadata"
-            onLoadedData={() => setIsLoaded(true)}
-          />
-        ) : (
-          <iframe
-            src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=1&fs=1&iv_load_policy=3`}
-            title={title}
-            className="w-full h-full"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            onLoad={() => setIsLoaded(true)}
-          />
-        )}
+        <video
+          ref={videoRef}
+          src={selfHostedUrl}
+          title={title}
+          className="w-full h-full"
+          controls
+          controlsList="nodownload"
+          playsInline
+          preload="metadata"
+          onLoadedData={() => setIsLoaded(true)}
+        />
       </div>
       {(title || description) && (
         <div className="px-3 py-2">

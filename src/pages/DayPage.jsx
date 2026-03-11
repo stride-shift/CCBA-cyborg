@@ -636,8 +636,7 @@ function DayPage() {
                     .sort((a, b) => a.sequence - b.sequence)
                     .map((video) => (
                       <div key={video.id} className="rounded-xl overflow-hidden border border-gray-200 bg-white">
-                        <YouTubeVideo 
-                          videoId={video.youtube_video_id} 
+                        <YouTubeVideo
                           title={video.title}
                           description={video.description}
                           challengeType={video.challenge_type}

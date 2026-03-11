@@ -546,15 +546,16 @@ function ProductsPage() {
                   <div className="text-white text-lg">Loading video...</div>
                 </div>
               ) : introVideo ? (
-                <iframe
-                  src={`https://www.youtube.com/embed/${introVideo.youtube_video_id}?rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=1&fs=1&iv_load_policy=3`}
+                <video
+                  src="https://mkvczghwutluguygixhx.supabase.co/storage/v1/object/public/videos/cyborg-habits-introduction-1.mp4"
                   title={introVideo.title || "Introduction To Cyborg Habits"}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
+                  controls
+                  controlsList="nodownload"
+                  playsInline
+                  preload="metadata"
                   className="w-full h-full"
                   style={{ minHeight: '500px' }}
-                ></iframe>
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gray-800" style={{ minHeight: '500px' }}>
                   <div className="text-center text-white">
