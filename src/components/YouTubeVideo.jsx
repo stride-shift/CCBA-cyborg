@@ -1,9 +1,28 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
-function YouTubeVideo({ videoId, title, description, challengeType }) {
+const SUPABASE_VIDEO_BASE = 'https://mkvczghwutluguygixhx.supabase.co/storage/v1/object/public/videos'
+
+// Map habit types and video scopes to self-hosted MP4 filenames
+const SELF_HOSTED_VIDEOS = {
+  'imagine_it': `${SUPABASE_VIDEO_BASE}/imagine-it.mp4`,
+  'explain_it': `${SUPABASE_VIDEO_BASE}/explain-it.mp4`,
+  'suggest_it': `${SUPABASE_VIDEO_BASE}/suggest-it.mp4`,
+  'improve_it': `${SUPABASE_VIDEO_BASE}/improve-it.mp4`,
+  'critique_it': `${SUPABASE_VIDEO_BASE}/critique-it.mp4`,
+  'plan_it': `${SUPABASE_VIDEO_BASE}/plan-it.mp4`,
+  'guide_it': `${SUPABASE_VIDEO_BASE}/guide-it.mp4`,
+  'intro': `${SUPABASE_VIDEO_BASE}/cyborg-habits-introduction-1.mp4`,
+}
+
+function YouTubeVideo({ videoId, videoUrl, title, description, challengeType }) {
   const [isLoaded, setIsLoaded] = useState(false)
+  const videoRef = useRef(null)
 
-  if (!videoId) {
+  // Normalize challengeType: "Explain It" → "explain_it"
+  const normalizedType = challengeType?.toLowerCase().replace(/\s+/g, '_')
+  const selfHostedUrl = videoUrl || (normalizedType && SELF_HOSTED_VIDEOS[normalizedType]) || null
+
+  if (!videoId && !selfHostedUrl) {
     return (
       <div className="p-4 text-center">
         <div className="text-gray-900/40 mb-3">
@@ -28,15 +47,29 @@ function YouTubeVideo({ videoId, title, description, challengeType }) {
             <div className="text-gray-400 text-sm">Loading video...</div>
           </div>
         )}
-        <iframe
-          src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=1&fs=1&iv_load_policy=3`}
-          title={title}
-          className="w-full h-full"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          onLoad={() => setIsLoaded(true)}
-        />
+        {selfHostedUrl ? (
+          <video
+            ref={videoRef}
+            src={selfHostedUrl}
+            title={title}
+            className="w-full h-full"
+            controls
+            controlsList="nodownload"
+            playsInline
+            preload="metadata"
+            onLoadedData={() => setIsLoaded(true)}
+          />
+        ) : (
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=1&fs=1&iv_load_policy=3`}
+            title={title}
+            className="w-full h-full"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            onLoad={() => setIsLoaded(true)}
+          />
+        )}
       </div>
       {(title || description) && (
         <div className="px-3 py-2">
@@ -50,4 +83,4 @@ function YouTubeVideo({ videoId, title, description, challengeType }) {
   )
 }
 
-export default YouTubeVideo 
+export default YouTubeVideo

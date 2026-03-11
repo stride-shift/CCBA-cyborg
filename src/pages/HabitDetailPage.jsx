@@ -11,7 +11,7 @@ function HabitDetailPage() {
       name: 'Explain It',
       title: 'Explain It Habit',
       description: 'Learn to clearly communicate complex ideas with AI assistance. Master the techniques to break down abstract concepts, translate technical jargon, and explain difficult topics to any audience.',
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video
+      videoUrl: 'https://mkvczghwutluguygixhx.supabase.co/storage/v1/object/public/videos/explain-it.mp4',
       gradient: 'from-blue-500/70 to-blue-600/70',
       challenges: [
         { id: 1, title: 'Explain It', image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop' },
@@ -25,7 +25,7 @@ function HabitDetailPage() {
       name: 'Guide It',
       title: 'Guide It Habit',
       description: 'Use AI to provide step-by-step guidance, making even the most complex tasks feel simple and manageable.',
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video
+      videoUrl: 'https://mkvczghwutluguygixhx.supabase.co/storage/v1/object/public/videos/guide-it.mp4',
       gradient: 'from-teal-500/70 to-teal-600/70',
       challenges: [
         { id: 1, title: 'Step Navigator', image: 'https://images.unsplash.com/photo-1506818144585-74b29c980d4b?w=400&h=300&fit=crop' },
@@ -39,7 +39,7 @@ function HabitDetailPage() {
       name: 'Suggest It',
       title: 'Suggest It Habit',
       description: 'With this habit, you will use AI to provide well-reasoned options with pros and cons, helping you make faster, smarter decisions—without the stress.',
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video
+      videoUrl: 'https://mkvczghwutluguygixhx.supabase.co/storage/v1/object/public/videos/suggest-it.mp4',
       gradient: 'from-pink-500/70 to-pink-600/70',
       challenges: [
         { id: 1, title: 'Option Explorer', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop' },
@@ -53,7 +53,7 @@ function HabitDetailPage() {
       name: 'Critique It',
       title: 'Critique It Habit',
       description: 'You will use AI to help you challenge assumptions, spot risks, and uncover blind spots—so every idea is stronger before it\'s put into action.',
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video
+      videoUrl: 'https://mkvczghwutluguygixhx.supabase.co/storage/v1/object/public/videos/critique-it.mp4',
       gradient: 'from-orange-500/70 to-orange-600/70',
       challenges: [
         { id: 1, title: 'Risk Spotter', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop' },
@@ -67,7 +67,7 @@ function HabitDetailPage() {
       name: 'Plan It',
       title: 'Plan It Habit',
       description: 'You\'ll use AI to help you create detailed, multi-step strategies tailored to your needs, ensuring nothing gets missed and every step is optimized.',
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video
+      videoUrl: 'https://mkvczghwutluguygixhx.supabase.co/storage/v1/object/public/videos/plan-it.mp4',
       gradient: 'from-indigo-500/70 to-indigo-600/70',
       challenges: [
         { id: 1, title: 'Strategy Builder', image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=300&fit=crop' },
@@ -81,7 +81,7 @@ function HabitDetailPage() {
       name: 'Imagine It',
       title: 'Imagine It Habit',
       description: 'This AI habit helps you explore possibilities, test scenarios, and uncover innovative solutions—turning ideas into real opportunities.',
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video
+      videoUrl: 'https://mkvczghwutluguygixhx.supabase.co/storage/v1/object/public/videos/imagine-it.mp4',
       gradient: 'from-purple-500/70 to-purple-600/70',
       challenges: [
         { id: 1, title: 'Possibility Explorer', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=300&fit=crop' },
@@ -95,7 +95,7 @@ function HabitDetailPage() {
       name: 'Improve It',
       title: 'Improve It Habit',
       description: 'You\'ll use AI to catch weak spots, strengthen arguments, and make clearer, more confident decisions.',
-      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Replace with actual video
+      videoUrl: 'https://mkvczghwutluguygixhx.supabase.co/storage/v1/object/public/videos/improve-it.mp4',
       gradient: 'from-green-500/70 to-green-600/70',
       challenges: [
         { id: 1, title: 'Weakness Finder', image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop' },
@@ -162,15 +162,16 @@ function HabitDetailPage() {
           <div className="relative">
             <div className="rounded-3xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
               <div className="aspect-w-16 aspect-h-9 glassmorphism">
-                <iframe
-                  src={`${habitData.videoUrl}?rel=0&modestbranding=1&showinfo=0&controls=1&disablekb=1&fs=1&iv_load_policy=3`}
+                <video
+                  src={habitData.videoUrl}
                   title={`${habitData.name} Introduction`}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
+                  controls
+                  controlsList="nodownload"
+                  playsInline
+                  preload="metadata"
                   className="w-full h-full"
                   style={{ minHeight: '400px' }}
-                ></iframe>
+                />
               </div>
             </div>
             
