@@ -54,109 +54,47 @@ function CohortUserDashboard() {
       setLoading(true)
       setError(null)
 
-      // Get users in the cohort
-      const { data: users, error: usersError } = await supabase
-        .from('user_profiles')
-        .select('user_id, first_name, last_name, role, created_at')
-        .eq('cohort_id', selectedCohortId)
-        .order('first_name')
+      // Use the server-side RPC which correctly counts all challenges (no 1000-row limit)
+      const { data: rpcUsers, error: rpcError } = await supabase
+        .rpc('get_cohort_users_with_stats', { target_cohort_id: selectedCohortId })
 
-      if (usersError) throw usersError
+      if (rpcError) throw rpcError
 
-      if (!users || users.length === 0) {
+      if (!rpcUsers || rpcUsers.length === 0) {
         setCohortUsers([])
         return
       }
 
-      // Get emails from auth.users
-      const userIds = users.map(u => u.user_id)
-      const { data: authUsers, error: authError } = await supabase
-        .from('auth.users')
-        .select('id, email')
-        .in('id', userIds)
+      // Get survey data (small result sets, no limit issue)
+      const userIds = rpcUsers.map(u => u.user_id)
+      const [
+        { data: preSurveyStats },
+        { data: postSurveyStats }
+      ] = await Promise.all([
+        supabase.from('pre_survey_responses').select('user_id').in('user_id', userIds),
+        supabase.from('post_survey_responses').select('user_id').in('user_id', userIds)
+      ])
 
-      if (authError) {
-        console.warn('Could not fetch emails:', authError)
-      }
-
-      // Get challenge completions count for each user
-      const { data: challengeStats, error: challengeError } = await supabase
-        .from('user_challenge_completions')
-        .select('user_id')
-        .in('user_id', userIds)
-
-      if (challengeError) {
-        console.warn('Could not fetch challenge stats:', challengeError)
-      }
-
-      // Get reflection submissions count for each user
-      const { data: reflectionStats, error: reflectionError } = await supabase
-        .from('user_reflections')
-        .select('user_id')
-        .in('user_id', userIds)
-
-      if (reflectionError) {
-        console.warn('Could not fetch reflection stats:', reflectionError)
-      }
-
-      // Get day completions count for each user
-      const { data: dayStats, error: dayError } = await supabase
-        .from('user_day_completions')
-        .select('user_id, both_challenges_completed, reflection_submitted')
-        .in('user_id', userIds)
-
-      if (dayError) {
-        console.warn('Could not fetch day stats:', dayError)
-      }
-
-      // Get survey completions count for each user
-      const { data: preSurveyStats, error: preSurveyError } = await supabase
-        .from('pre_survey_responses')
-        .select('user_id')
-        .in('user_id', userIds)
-
-      if (preSurveyError) {
-        console.warn('Could not fetch pre-survey stats:', preSurveyError)
-      }
-
-      const { data: postSurveyStats, error: postSurveyError } = await supabase
-        .from('post_survey_responses')
-        .select('user_id')
-        .in('user_id', userIds)
-
-      if (postSurveyError) {
-        console.warn('Could not fetch post-survey stats:', postSurveyError)
-      }
-
-      // Combine all data
-      const enrichedUsers = users.map(user => {
-        const authUser = authUsers?.find(au => au.id === user.user_id)
-        const challengeCount = challengeStats?.filter(c => c.user_id === user.user_id).length || 0
-        const reflectionCount = reflectionStats?.filter(r => r.user_id === user.user_id).length || 0
-        
-        // Count challenge days completed (both challenges done, reflection optional)
-        const challengeDaysCompleted = dayStats?.filter(d => 
-          d.user_id === user.user_id && 
-          d.both_challenges_completed
-          // Note: reflection_submitted is NOT required for day completion
-        ).length || 0
-        
+      const enrichedUsers = rpcUsers.map(user => {
         const preSurveyCompleted = preSurveyStats?.some(s => s.user_id === user.user_id) || false
         const postSurveyCompleted = postSurveyStats?.some(s => s.user_id === user.user_id) || false
         const totalSurveys = (preSurveyCompleted ? 1 : 0) + (postSurveyCompleted ? 1 : 0)
-        
-        // Total days completed = challenge days + survey completions
-        const completedDays = challengeDaysCompleted + totalSurveys
+        const missingReflections = Math.max(0, Number(user.total_days_completed) - Number(user.total_reflections_submitted))
 
         return {
-          ...user,
-          email: authUser?.email || 'No email',
-          challenge_completions: challengeCount,
-          reflection_submissions: reflectionCount,
-          completed_days: completedDays,
+          user_id: user.user_id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          role: user.role,
+          created_at: user.created_at,
+          email: user.email || 'No email',
+          challenge_completions: Number(user.total_challenges_completed),
+          reflection_submissions: Number(user.total_reflections_submitted),
+          completed_days: Number(user.total_days_completed),
           pre_survey_completed: preSurveyCompleted,
           post_survey_completed: postSurveyCompleted,
-          surveys_completed: totalSurveys
+          surveys_completed: totalSurveys,
+          missing_reflections: missingReflections
         }
       })
 
@@ -265,6 +203,7 @@ function CohortUserDashboard() {
                     <th className="text-center py-3 px-4 font-semibold">Challenge Completions</th>
                     <th className="text-center py-3 px-4 font-semibold">Reflections Shared</th>
                     <th className="text-center py-3 px-4 font-semibold">Surveys Completed</th>
+                    <th className="text-center py-3 px-4 font-semibold">Missing Reflections</th>
                     <th className="text-left py-3 px-4 font-semibold">Joined</th>
                   </tr>
                 </thead>
@@ -308,6 +247,18 @@ function CohortUserDashboard() {
                           {user.pre_survey_completed && user.post_survey_completed ? 'both surveys' :
                            user.pre_survey_completed ? 'pre only' :
                            user.post_survey_completed ? 'post only' : 'surveys'}
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        {user.missing_reflections > 0 ? (
+                          <div className="text-xl font-bold text-red-400">
+                            {user.missing_reflections}
+                          </div>
+                        ) : (
+                          <div className="text-xl font-bold text-green-400">0</div>
+                        )}
+                        <div className="text-xs text-gray-600">
+                          {user.missing_reflections > 0 ? 'missing' : 'up to date'}
                         </div>
                       </td>
                       <td className="py-4 px-4">

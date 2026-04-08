@@ -51,28 +51,31 @@ function DashboardMetrics() {
   }
 
   const getUserStats = async () => {
-    // Get users with profiles (we'll use this as total users since auth.users isn't accessible)
+    // Get participant users only (exclude admins)
     const { count: totalUsers, error: totalError } = await supabase
       .from('user_profiles')
       .select('*', { count: 'exact', head: true })
+      .eq('role', 'user')
 
     if (totalError) throw totalError
 
-    // Get users with profiles in cohorts (active users)  
+    // Get participant users with cohorts (active users)
     const { count: activeUsers, error: activeError } = await supabase
       .from('user_profiles')
       .select('*', { count: 'exact', head: true })
+      .eq('role', 'user')
       .not('cohort_id', 'is', null)
 
     if (activeError) throw activeError
 
-    // Get new users this week from user_profiles (created_at)
+    // Get new participant users this week
     const oneWeekAgo = new Date()
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-    
+
     const { count: newUsers, error: newError } = await supabase
       .from('user_profiles')
       .select('*', { count: 'exact', head: true })
+      .eq('role', 'user')
       .gte('created_at', oneWeekAgo.toISOString())
 
     if (newError) throw newError
@@ -97,7 +100,6 @@ function DashboardMetrics() {
       .from('cohorts')
       .select('*', { count: 'exact', head: true })
       .eq('is_active', true)
-      .eq('status', 'active')
 
     if (activeError) throw activeError
 

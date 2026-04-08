@@ -513,10 +513,15 @@ function IndividualUserDashboard({ selectedUser, onBack }) {
                           </p>
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right flex flex-col items-end gap-1">
                         <div className="text-blue-600 text-sm bg-blue-500/20 px-2 py-1 rounded">
                           {reflection.word_count || 0} words
                         </div>
+                        {(reflection.word_count || 0) < 10 && (
+                          <div className="text-red-600 text-xs bg-red-100 px-2 py-1 rounded font-medium">
+                            Low quality
+                          </div>
+                        )}
                       </div>
                     </div>
                     

@@ -136,10 +136,22 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
     }
   }, [])
 
+  const MIN_WORD_COUNT = 10
+
+  const getWordCount = (text) => {
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     if (!reflection.trim()) {
+      return
+    }
+
+    const wordCount = getWordCount(reflection)
+    if (wordCount < MIN_WORD_COUNT) {
+      alert(`Please write at least ${MIN_WORD_COUNT} words for your reflection. You currently have ${wordCount} word${wordCount === 1 ? '' : 's'}. Take a moment to share your genuine thoughts.`)
       return
     }
 
@@ -163,7 +175,7 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
           .from('user_reflections')
           .update({
             reflection_text: reflection.trim(),
-            word_count: reflection.trim().split(/\s+/).length,
+            word_count: getWordCount(reflection),
             updated_at: new Date().toISOString()
           })
           .eq('user_id', user.id)
@@ -334,8 +346,8 @@ function ReflectionSection({ dayNumber, question, challengeId }) {
                       </div>
                     )}
                   </div>
-                  <span className="text-gray-500 text-sm">
-                    {reflection.trim().split(/\s+/).filter(word => word.length > 0).length} words
+                  <span className={`text-sm ${getWordCount(reflection) < MIN_WORD_COUNT ? 'text-red-500' : 'text-green-600'}`}>
+                    {getWordCount(reflection)} / {MIN_WORD_COUNT} words min
                   </span>
                 </div>
               </div>
